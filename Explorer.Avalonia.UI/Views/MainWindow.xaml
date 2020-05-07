@@ -1,0 +1,19 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:Explorer.Avalonia.UI.ViewModels;assembly=Explorer.Avalonia.UI"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Explorer.Avalonia.UI.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen"           >
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+          <TextBlock Text="{Binding MainDiskName}"></TextBlock>
+    
+</Window>
