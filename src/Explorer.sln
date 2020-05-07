@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{53C1023C-357
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Explorer.WPF.UI", "WPF\Explorer.WPF.UI\Explorer.WPF.UI.csproj", "{FDB3DD3F-96F9-4DAB-A459-60FB33BF6A1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Explorer.Avalonia.UI", "Explorer.Avalonia.UI\Explorer.Avalonia.UI.csproj", "{91D936CB-351E-49C4-9416-97EEF47BE21A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Explorer.Avalonia.UI", "AvaloniaUI\Explorer.Avalonia.UI\Explorer.Avalonia.UI.csproj", "{91D936CB-351E-49C4-9416-97EEF47BE21A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Explorer.Shared.ViewModels", "Core\Explorer.Shared.ViewModels\Explorer.Shared.ViewModels.csproj", "{838ABDAE-E691-4EEF-BDD4-66485379DC34}"
 EndProject
