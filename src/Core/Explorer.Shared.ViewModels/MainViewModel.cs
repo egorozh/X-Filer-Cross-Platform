@@ -1,20 +1,29 @@
-﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using System.Collections.ObjectModel;
+using System.IO;
+using System.Windows.Input;
 
 namespace Explorer.Shared.ViewModels
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : BaseViewModel
     {
         #region Public Properties
 
-        public string MainDiskName { get; set; }
+        public string FilePath { get; set; }
+
+        public ObservableCollection<FileEntityViewModel> DirectoriesAndFiles { get; set; } =
+            new ObservableCollection<FileEntityViewModel>();
+
+        public FileEntityViewModel SelectedFileEntity { get; set; }
 
         #endregion
-        
-        #region Events
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        #region Commands
+
+        public ICommand OpenCommand { get; }
+
+        #endregion
+
+        #region Events
 
         #endregion
 
@@ -22,16 +31,42 @@ namespace Explorer.Shared.ViewModels
 
         public MainViewModel()
         {
-            MainDiskName = Environment.SystemDirectory;
+            OpenCommand = new DelegateCommand(Open);
+
+            foreach (var logicalDrive in Directory.GetLogicalDrives())
+                DirectoriesAndFiles.Add(new DirectoryViewModel(logicalDrive));
+               
         }
 
         #endregion
 
         #region Protected Methods
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        #endregion
+
+        #region Commands Methods
+
+        private void Open(object parameter)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            if (parameter is DirectoryViewModel directoryViewModel)
+            {
+                FilePath = directoryViewModel.FullName;
+
+                DirectoriesAndFiles.Clear();
+
+                var directoryInfo = new DirectoryInfo(FilePath);
+
+                foreach (var directory in directoryInfo.GetDirectories())
+                {
+                    DirectoriesAndFiles.Add(new DirectoryViewModel(directory));
+                }
+
+                foreach (var fileInfo in directoryInfo.GetFiles())
+                {
+                    DirectoriesAndFiles.Add(new FileViewModel(fileInfo));
+                }
+            }
+
         }
 
         #endregion
