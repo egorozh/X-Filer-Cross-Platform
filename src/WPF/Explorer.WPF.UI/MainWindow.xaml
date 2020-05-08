@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:ui="clr-namespace:Explorer.WPF.UI"
         mc:Ignorable="d"
 
         WindowState="Maximized"
@@ -11,32 +12,98 @@
 
     <Grid>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        <TabControl ItemsSource="{Binding DirectoryTabItems}"
+                    SelectedItem="{Binding CurrentDirectoryTabItem}">
+            <TabControl.Template>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                    <Grid x:Name="templateRoot" ClipToBounds="true" SnapsToDevicePixels="true"
+                          KeyboardNavigation.TabNavigation="Local">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="ColumnDefinition0" />
+                            <ColumnDefinition x:Name="ColumnDefinition1" Width="0" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition x:Name="RowDefinition0" Height="Auto" />
+                            <RowDefinition x:Name="RowDefinition1" Height="*" />
+                        </Grid.RowDefinitions>
 
-        <TextBox Text="{Binding FilePath}" />
+                        <StackPanel Grid.Column="0" Grid.Row="0"
+                                    Orientation="Horizontal">
+                            <TabPanel x:Name="headerPanel"
+                                      Background="Transparent"
+                                      IsItemsHost="true"
+                                      Margin="2,2,2,0"
+                                      KeyboardNavigation.TabIndex="1"
+                                      Panel.ZIndex="1" />
+                            <Button Margin="2"
+                                    Command="{Binding AddTabItemCommand}"
+                                    Content="+"
+                                    Width="{Binding ActualHeight,RelativeSource={RelativeSource Self}}" />
+                        </StackPanel>
 
-        <ListBox Grid.Row="1"
-                 ItemsSource="{Binding DirectoriesAndFiles}"
-                 SelectedItem="{Binding SelectedFileEntity}">
 
-            <b:Interaction.Triggers>
-                <b:EventTrigger EventName="MouseDoubleClick">
-                    <b:InvokeCommandAction
-                        Command="{Binding OpenCommand}"
-                        CommandParameter="{Binding SelectedFileEntity}"/>
-                </b:EventTrigger>
-            </b:Interaction.Triggers>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid Background="Transparent">
-                        <TextBlock Text="{Binding Name}" />
+                        <Border x:Name="contentPanel" Background="{TemplateBinding Background}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}" Grid.Column="0"
+                                KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1"
+                                KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.TabIndex="2">
+                            <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent"
+                                              Margin="{TemplateBinding Padding}"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="TabStripPlacement" Value="Bottom">
+                            <Setter Property="Grid.Row" TargetName="headerPanel" Value="1" />
+                            <Setter Property="Grid.Row" TargetName="contentPanel" Value="0" />
+                            <Setter Property="Height" TargetName="RowDefinition0" Value="*" />
+                            <Setter Property="Height" TargetName="RowDefinition1" Value="Auto" />
+                            <Setter Property="Margin" TargetName="headerPanel" Value="2,0,2,2" />
+                        </Trigger>
+                        <Trigger Property="TabStripPlacement" Value="Left">
+                            <Setter Property="Grid.Row" TargetName="headerPanel" Value="0" />
+                            <Setter Property="Grid.Row" TargetName="contentPanel" Value="0" />
+                            <Setter Property="Grid.Column" TargetName="headerPanel" Value="0" />
+                            <Setter Property="Grid.Column" TargetName="contentPanel" Value="1" />
+                            <Setter Property="Width" TargetName="ColumnDefinition0" Value="Auto" />
+                            <Setter Property="Width" TargetName="ColumnDefinition1" Value="*" />
+                            <Setter Property="Height" TargetName="RowDefinition0" Value="*" />
+                            <Setter Property="Height" TargetName="RowDefinition1" Value="0" />
+                            <Setter Property="Margin" TargetName="headerPanel" Value="2,2,0,2" />
+                        </Trigger>
+                        <Trigger Property="TabStripPlacement" Value="Right">
+                            <Setter Property="Grid.Row" TargetName="headerPanel" Value="0" />
+                            <Setter Property="Grid.Row" TargetName="contentPanel" Value="0" />
+                            <Setter Property="Grid.Column" TargetName="headerPanel" Value="1" />
+                            <Setter Property="Grid.Column" TargetName="contentPanel" Value="0" />
+                            <Setter Property="Width" TargetName="ColumnDefinition0" Value="*" />
+                            <Setter Property="Width" TargetName="ColumnDefinition1" Value="Auto" />
+                            <Setter Property="Height" TargetName="RowDefinition0" Value="*" />
+                            <Setter Property="Height" TargetName="RowDefinition1" Value="0" />
+                            <Setter Property="Margin" TargetName="headerPanel" Value="0,2,2,2" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="TextElement.Foreground" TargetName="templateRoot"
+                                    Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </TabControl.Template>
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}" />
+                        <Button Command="{Binding CloseCommand}">X</Button>
+                    </StackPanel>
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <ui:DirectoryTabItem />
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+
 
     </Grid>
 
