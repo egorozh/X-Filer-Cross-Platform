@@ -14,11 +14,14 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.9.9" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.9.9" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.9" />
+    <PackageReference Include="Avalonia" Version="0.9.10" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.9.10" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.10" />
+    <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.9.9" />
+    <PackageReference Include="Avalonia.Xaml.Interactions" Version="0.9.9" />
+    <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.9.9" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Explorer.Shared.ViewModels\Explorer.Shared.ViewModels.csproj" />
+    <ProjectReference Include="..\..\Core\Explorer.Shared.ViewModels\Explorer.Shared.ViewModels.csproj" />
   </ItemGroup>
 </Project>
