@@ -12,6 +12,8 @@
       <SubType>Designer</SubType>
     </AvaloniaResource>
     <AvaloniaResource Include="Assets\**" />
+    <AvaloniaResource Remove="Controls\DirectoryTabItem.xaml" />
+    <None Remove="Controls\DirectoryTabItem.xaml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.10" />
@@ -20,6 +22,11 @@
     <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.9.9" />
     <PackageReference Include="Avalonia.Xaml.Interactions" Version="0.9.9" />
     <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.9.9" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\DirectoryTabItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Explorer.Shared.ViewModels\Explorer.Shared.ViewModels.csproj" />

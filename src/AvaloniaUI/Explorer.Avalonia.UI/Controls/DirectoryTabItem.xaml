@@ -1,0 +1,43 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             
+               xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+        xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+        
+             
+             x:Class="Explorer.Avalonia.UI.DirectoryTabItem">
+
+
+  <Grid>
+
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition />
+    </Grid.RowDefinitions>
+
+    <TextBox Text="{Binding FilePath}"/>
+
+    <ListBox Grid.Row="1"
+             Items="{Binding DirectoriesAndFiles}"
+             SelectedItem="{Binding SelectedFileEntity}"              >
+
+      <i:Interaction.Behaviors>
+        <ia:EventTriggerBehavior EventName="DoubleTapped">
+          <ia:InvokeCommandAction  Command="{Binding OpenCommand}"
+                                   CommandParameter="{Binding SelectedFileEntity}"/>
+        </ia:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Grid Background="Transparent">
+            <TextBlock Text="{Binding Name}" />
+          </Grid>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+
+  </Grid>
+</UserControl>

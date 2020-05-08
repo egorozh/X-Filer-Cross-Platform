@@ -17,6 +17,10 @@ namespace Explorer.Avalonia.UI.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
+
+            //var button = new Button();
+
+            //button.Bounds.Height
         }
     }
 }

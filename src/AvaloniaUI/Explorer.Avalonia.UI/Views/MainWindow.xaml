@@ -10,44 +10,69 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Explorer.Avalonia.UI.Views.MainWindow"
         
-        
+        xmlns:local="clr-namespace:Explorer.Avalonia.UI;assembly=Explorer.Avalonia.UI"
         
         Icon="/Assets/avalonia-logo.ico"
         
         WindowState="Maximized"
         WindowStartupLocation="CenterScreen"           >
-
-    <Design.DataContext>
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+ 
 
   <Grid>
 
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition />
-    </Grid.RowDefinitions>
+    <TabControl Items="{Binding DirectoryTabItems}"
+                SelectedItem="{Binding CurrentDirectoryTabItem}"                >
+      <TabControl.Template>
+        <ControlTemplate>
+          <Border
+              Margin="{TemplateBinding Margin}"
+              BorderBrush="{TemplateBinding BorderBrush}"
+              BorderThickness="{TemplateBinding BorderThickness}"
+              Background="{TemplateBinding Background}"
+              HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+              VerticalAlignment="{TemplateBinding VerticalAlignment}">
+            <StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <ItemsPresenter
+                 Name="PART_ItemsPresenter"
+                 Items="{TemplateBinding Items}"
+                 ItemsPanel="{TemplateBinding ItemsPanel}"
+                 ItemTemplate="{TemplateBinding ItemTemplate}">
+                </ItemsPresenter>
 
-    <TextBox Text="{Binding FilePath}"/>
-
-    <ListBox Grid.Row="1"
-             Items="{Binding DirectoriesAndFiles}"
-             SelectedItem="{Binding SelectedFileEntity}"              >
-
-      <i:Interaction.Behaviors>
-        <ia:EventTriggerBehavior EventName="DoubleTapped">
-          <ia:InvokeCommandAction  Command="{Binding OpenCommand}"
-                                   CommandParameter="{Binding SelectedFileEntity}"/>
-        </ia:EventTriggerBehavior>      
-    </i:Interaction.Behaviors>
-      <ListBox.ItemTemplate>
+                <Button Margin="2"
+                        Command="{Binding AddTabItemCommand}"
+                        Content="+"
+                        Width="{Binding $self.Bounds.Height}" />
+              </StackPanel>
+              <ContentPresenter
+                  Name="PART_SelectedContentHost"
+                  Margin="{TemplateBinding Padding}"
+                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                  Content="{TemplateBinding SelectedContent}"
+                  ContentTemplate="{TemplateBinding SelectedContentTemplate}">
+              </ContentPresenter>
+            </StackPanel>
+          </Border>
+        </ControlTemplate>
+      </TabControl.Template>
+      <TabControl.ItemTemplate>
         <DataTemplate>
-          <Grid Background="Transparent">
+          <StackPanel Orientation="Horizontal">
             <TextBlock Text="{Binding Name}" />
-          </Grid>
+            <Button Command="{Binding CloseCommand}"
+                    Width="{Binding $self.Bounds.Height}">X</Button>
+          </StackPanel>
         </DataTemplate>
-      </ListBox.ItemTemplate>
-    </ListBox>
+      </TabControl.ItemTemplate>
+
+      <TabControl.ContentTemplate>
+        <DataTemplate>
+          <local:DirectoryTabItem/>          
+        </DataTemplate>
+      </TabControl.ContentTemplate>
+    </TabControl>
     
   </Grid>
         
