@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Mime;
 
 namespace Explorer.Shared.ViewModels
 {
@@ -35,7 +36,12 @@ namespace Explorer.Shared.ViewModels
 
         #endregion
 
-        #region Protected Methods
+        #region Public Methods
+
+        public void ApplicationClosing()
+        {
+            
+        }
 
         #endregion
 
