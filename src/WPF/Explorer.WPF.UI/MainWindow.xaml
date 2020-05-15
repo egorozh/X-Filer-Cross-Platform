@@ -12,7 +12,9 @@
 
         WindowStyle="None"
 
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+
+        x:Name="Window">
 
     <Window.Resources>
         <Style TargetType="{x:Type Window}"
@@ -25,6 +27,9 @@
                                 <Grid.RowDefinitions>
 
                                     <!--Title Bar-->
+                                    <RowDefinition Height="40" />
+
+                                    <!--Search TextBox-->
                                     <RowDefinition Height="40" />
 
                                     <!-- BookMarks-->
@@ -55,7 +60,9 @@
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock Text="{Binding Name}" />
-                                                    <Button Command="{Binding CloseCommand}">X</Button>
+                                                    <Button Content="X"
+                                                            Command="{Binding DataContext.CloseCommand, ElementName=Window}" 
+                                                            CommandParameter="{Binding}"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
@@ -73,10 +80,14 @@
                                                 Orientation="Horizontal">
                                         <Button Width="44"
                                                 Height="30"
-                                                Click="CollapseButton_OnClick">_</Button>
+                                                Click="CollapseButton_OnClick">
+                                            _
+                                        </Button>
                                         <Button Width="44"
                                                 Height="30"
-                                                Click="ExpandButton_OnClick">P</Button>
+                                                Click="ExpandButton_OnClick">
+                                            P
+                                        </Button>
                                         <Button Width="44"
                                                 Height="30"
                                                 Click="CloseButton_OnClick">
@@ -86,14 +97,42 @@
 
                                 </Grid>
 
-                                <StackPanel Grid.Row="1"
+                                <Grid Grid.Row="1">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button Content="&lt;-"
+                                            Margin="2"
+                                            Command="{Binding CurrentDirectoryTabItem.MoveBackCommand}"
+                                            Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" />
+                                    <Button Grid.Column="1"
+                                            Content="-&gt;"
+                                            Margin="2"
+                                            Command="{Binding CurrentDirectoryTabItem.MoveForwardCommand}"
+                                            Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" />
+                                    <Button Grid.Column="2"
+                                            Content="o"
+                                            Margin="2"
+                                            Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" />
+                                    <TextBox Grid.Column="3"
+                                             VerticalAlignment="Center"
+                                             FontSize="16"
+                                             Text="{Binding CurrentDirectoryTabItem.FilePath}" />
+                                </Grid>
+
+                                <StackPanel Grid.Row="2"
                                             Background="#FF353535">
                                     <Menu>
                                         <MenuItem Header="Games" />
                                     </Menu>
                                 </StackPanel>
 
-                                <ContentControl Grid.Row="2"
+                                <ContentControl Grid.Row="3"
                                                 Content="{Binding CurrentDirectoryTabItem}">
                                     <ContentControl.ContentTemplate>
                                         <DataTemplate>
