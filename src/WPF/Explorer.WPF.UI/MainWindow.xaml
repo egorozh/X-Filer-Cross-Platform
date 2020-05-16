@@ -14,7 +14,10 @@
 
         ResizeMode="NoResize"
 
-        x:Name="Window">
+        x:Name="Window"
+        
+        Width="1024"
+        Height="720">
 
     <Window.Resources>
         <Style TargetType="{x:Type Window}"
