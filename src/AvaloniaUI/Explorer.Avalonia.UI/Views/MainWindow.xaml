@@ -18,7 +18,9 @@
            
         WindowStartupLocation="CenterScreen"       
         
-        HasSystemDecorations="False">
+        HasSystemDecorations="False"
+        
+        Name="Window">
 
   <Window.Styles>
     <Style Selector="Window">
@@ -32,6 +34,9 @@
               <Grid.RowDefinitions>
 
                 <!--Title Bar-->
+                <RowDefinition Height="40" />
+
+                <!--Search TextBox-->
                 <RowDefinition Height="40" />
 
                 <!-- BookMarks-->
@@ -62,8 +67,9 @@
                     <DataTemplate>
                       <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Name}" />
-                        <Button Command="{Binding CloseCommand}"
-                                Width="{Binding $self.Bounds.Height}">X</Button>
+                        <Button Width="{Binding $self.Bounds.Height}"
+                                Command="{Binding DataContext.CloseCommand, ElementName=Window}" 
+                                CommandParameter="{Binding}">X</Button>
                       </StackPanel>
                     </DataTemplate>
                   </ListBox.ItemTemplate>
@@ -95,14 +101,43 @@
 
               </Grid>
 
-              <StackPanel Grid.Row="1"
+              <!--Search TextBox-->
+              <Grid Grid.Row="1">
+
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button Content="&lt;-"
+                        Margin="2"
+                        Command="{Binding CurrentDirectoryTabItem.MoveBackCommand}"
+                        Width="{Binding $self.Bounds.Height}" />
+                <Button Grid.Column="1"
+                        Content="-&gt;"
+                        Margin="2"
+                        Command="{Binding CurrentDirectoryTabItem.MoveForwardCommand}"
+                        Width="{Binding $self.Bounds.Height}" />
+                <Button Grid.Column="2"
+                        Content="o"
+                        Margin="2"
+                        Width="{Binding $self.Bounds.Height}" />
+                <TextBox Grid.Column="3"
+                         VerticalAlignment="Center"
+                         FontSize="16"
+                         Text="{Binding CurrentDirectoryTabItem.FilePath}" />
+              </Grid>
+              
+              <StackPanel Grid.Row="2"
                           Background="#FF353535">
                 <Menu>
                   <MenuItem Header="Games" />
                 </Menu>
               </StackPanel>
 
-              <ContentControl Grid.Row="2"
+              <ContentControl Grid.Row="3"
                               Content="{Binding CurrentDirectoryTabItem}">
                 <ContentControl.ContentTemplate>
                   <DataTemplate>

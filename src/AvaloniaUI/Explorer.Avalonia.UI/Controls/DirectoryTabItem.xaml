@@ -17,9 +17,7 @@
       <RowDefinition Height="Auto"/>
       <RowDefinition />
     </Grid.RowDefinitions>
-
-    <TextBox Text="{Binding FilePath}"/>
-
+   
     <ListBox Grid.Row="1"
              Items="{Binding DirectoriesAndFiles}"
              SelectedItem="{Binding SelectedFileEntity}"              >
