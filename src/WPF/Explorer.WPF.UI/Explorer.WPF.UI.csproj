@@ -14,4 +14,8 @@
     <ProjectReference Include="..\..\Core\Explorer.Shared.ViewModels\Explorer.Shared.ViewModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Resource Include="Assets\folder_background.png" />
+  </ItemGroup>
+
 </Project>

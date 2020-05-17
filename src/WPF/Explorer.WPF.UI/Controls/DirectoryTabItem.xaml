@@ -6,13 +6,12 @@
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:ui="clr-namespace:Explorer.WPF.UI"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignHeight="450" d:DesignWidth="800">
 
-             Background="DimGray">
     <UserControl.Resources>
-      
 
-        <ui:FileEntityToImageConverter x:Key="ToImageConverter"></ui:FileEntityToImageConverter>
+
+        <ui:FileEntityToImageConverter x:Key="ToImageConverter" />
     </UserControl.Resources>
 
     <Grid>
@@ -27,12 +26,14 @@
                  ItemsSource="{Binding DirectoriesAndFiles}"
                  SelectedItem="{Binding SelectedFileEntity}"
                  Background="Transparent"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 HorizontalContentAlignment="Center"
+                 VerticalContentAlignment="Center">
 
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">
                     <Setter Property="SnapsToDevicePixels" Value="True" />
-                    <Setter Property="Padding" Value="4,1" />
+                    <Setter Property="Padding" Value="4" />
                     <Setter Property="HorizontalContentAlignment"
                             Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
                     <Setter Property="VerticalContentAlignment"
@@ -40,32 +41,42 @@
                     <Setter Property="Background" Value="Transparent" />
                     <Setter Property="BorderBrush" Value="Transparent" />
                     <Setter Property="BorderThickness" Value="1" />
-                    <Setter Property="Width" Value="100" />
-                    <Setter Property="Height" Value="100" />
+                    <Setter Property="Width" Value="140" />
+                    <Setter Property="Height" Value="140" />
 
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                <Border x:Name="Bd"
-                                        Background="{TemplateBinding Background}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        Padding="{TemplateBinding Padding}"
-                                        SnapsToDevicePixels="true">
+
+                                <Grid>
+
+                                    <Border x:Name="Bd"
+                                            Margin="10"
+                                            CornerRadius="5"
+                                            Background="{TemplateBinding Background}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            Padding="{TemplateBinding Padding}"
+                                            SnapsToDevicePixels="true">
 
 
-                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                        <ContentPresenter
+                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 
 
-                                </Border>
+                                    </Border>
+
+                                </Grid>
+                              
                                 <ControlTemplate.Triggers>
                                     <MultiTrigger>
                                         <MultiTrigger.Conditions>
                                             <Condition Property="IsMouseOver" Value="True" />
                                         </MultiTrigger.Conditions>
 
+                                        <Setter TargetName="Bd" Property="Background" Value="#55A9A9A9"></Setter>
                                     </MultiTrigger>
                                     <MultiTrigger>
                                         <MultiTrigger.Conditions>
@@ -79,6 +90,8 @@
                                             <Condition Property="Selector.IsSelectionActive" Value="True" />
                                             <Condition Property="IsSelected" Value="True" />
                                         </MultiTrigger.Conditions>
+
+                                        <Setter TargetName="Bd" Property="Background" Value="#AAA9A9A9"></Setter>
                                     </MultiTrigger>
                                     <Trigger Property="IsEnabled" Value="False">
                                         <Setter Property="TextElement.Foreground" TargetName="Bd"
@@ -117,6 +130,8 @@
                         <Image Source="{Binding ., Converter={StaticResource ToImageConverter}}" />
 
                         <TextBlock Grid.Row="1"
+                                   HorizontalAlignment="Center"
+                                   Foreground="White"
                                    Text="{Binding Name}" />
                     </Grid>
                 </DataTemplate>
