@@ -141,7 +141,12 @@
                               Content="{Binding CurrentDirectoryTabItem}">
                 <ContentControl.ContentTemplate>
                   <DataTemplate>
-                    <local:DirectoryTabItem/>
+                    <local:DirectoryTabItem>
+                      <local:DirectoryTabItem.Background>
+                        <ImageBrush Source="avares://Explorer.Avalonia.UI/Assets/folder_background.png"
+                                     Stretch="None"/>
+                      </local:DirectoryTabItem.Background>
+                    </local:DirectoryTabItem>
                   </DataTemplate>
                 </ContentControl.ContentTemplate>
               </ContentControl>

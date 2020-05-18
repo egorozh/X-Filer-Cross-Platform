@@ -11,16 +11,19 @@
       <SubType>Designer</SubType>
     </AvaloniaResource>
     <AvaloniaResource Include="Assets\**" />
-    <AvaloniaResource Remove="Controls\DirectoryTabItem.xaml" />
-    <None Remove="Controls\DirectoryTabItem.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\folder_background.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.10" />
     <PackageReference Include="Avalonia.Desktop" Version="0.9.10" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.10" />
+    <PackageReference Include="Avalonia.Skia" Version="0.9.10" />
     <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.9.9" />
     <PackageReference Include="Avalonia.Xaml.Interactions" Version="0.9.9" />
     <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.9.9" />
+    <PackageReference Include="Svg.Skia" Version="0.3.0" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\DirectoryTabItem.xaml">

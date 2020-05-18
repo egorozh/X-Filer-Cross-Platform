@@ -132,7 +132,8 @@
                         <TextBlock Grid.Row="1"
                                    HorizontalAlignment="Center"
                                    Foreground="White"
-                                   Text="{Binding Name}" />
+                                   Text="{Binding Name}"
+                                   TextTrimming="CharacterEllipsis"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
