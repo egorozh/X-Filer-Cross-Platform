@@ -11,7 +11,7 @@
 
         WindowStyle="None"
 
-        ResizeMode="NoResize"
+        ResizeMode="CanResizeWithGrip"
 
         x:Name="Window"
 
@@ -19,8 +19,55 @@
         Height="720">
 
     <Window.Resources>
+        <Style TargetType="{x:Type ListBox}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+            <Setter Property="ScrollViewer.PanningMode" Value="Both" />
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBox}">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                SnapsToDevicePixels="true">
+                            <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}">
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </ScrollViewer>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsGrouping" Value="true" />
+                                    <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style TargetType="{x:Type Window}"
                x:Key="MainWindowStyle">
+
+            <Setter Property="WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <WindowChrome
+                        CaptionHeight="{Binding WindowState, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}} ,Converter={ui:WindowTitleHeightConverter}}"
+                        ResizeBorderThickness="1"
+                        UseAeroCaptionButtons="True" />
+                </Setter.Value>
+            </Setter>
+
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Window}">
@@ -29,10 +76,10 @@
                                 <Grid.RowDefinitions>
 
                                     <!--Title Bar-->
-                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="Auto" />
 
                                     <!--Search TextBox-->
-                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="36" />
 
                                     <!-- BookMarks-->
                                     <RowDefinition Height="36" />
@@ -43,7 +90,8 @@
                                 </Grid.RowDefinitions>
 
                                 <!--Title Bar-->
-                                <Grid>
+                                <Grid
+                                    Height="{Binding WindowState, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}} ,Converter={ui:WindowTitleHeightConverter}}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
@@ -52,7 +100,84 @@
                                     </Grid.ColumnDefinitions>
 
                                     <ListBox ItemsSource="{Binding DirectoryTabItems}"
-                                             SelectedItem="{Binding CurrentDirectoryTabItem}">
+                                             SelectedItem="{Binding CurrentDirectoryTabItem}"
+                                             VerticalAlignment="Bottom"
+                                             Background="Transparent"
+                                             BorderBrush="Transparent"
+                                             BorderThickness="0"
+                                             Margin="0"
+                                             HorizontalContentAlignment="Stretch"
+                                             WindowChrome.IsHitTestVisibleInChrome="True"
+
+                                             ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="{x:Type ListBoxItem}">
+                                                <Setter Property="SnapsToDevicePixels" Value="True" />
+                                                <Setter Property="Height" Value="32" />
+                                                <Setter Property="Padding" Value="4,1" />
+                                                <Setter Property="HorizontalContentAlignment"
+                                                        Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+                                                <Setter Property="VerticalContentAlignment"
+                                                        Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+                                                <Setter Property="Background" Value="Transparent" />
+                                                <Setter Property="BorderBrush" Value="Transparent" />
+                                                <Setter Property="BorderThickness" Value="0" />
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                            <Border x:Name="Bd"
+                                                                    CornerRadius="7 7 0 0"
+                                                                    Background="{TemplateBinding Background}"
+                                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                                    Padding="{TemplateBinding Padding}"
+                                                                    SnapsToDevicePixels="true">
+                                                                <ContentPresenter
+                                                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                                            </Border>
+                                                            <ControlTemplate.Triggers>
+
+                                                                <DataTrigger
+                                                                    Binding="{Binding WindowState, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                                                    Value="Normal">
+                                                                    <Setter Property="Height" Value="34" />
+                                                                </DataTrigger>
+
+                                                                <MultiTrigger>
+                                                                    <MultiTrigger.Conditions>
+                                                                        <Condition Property="IsMouseOver" Value="True" />
+                                                                    </MultiTrigger.Conditions>
+                                                                    <Setter Property="Background" Value="#161616" />
+                                                                </MultiTrigger>
+                                                                <MultiTrigger>
+                                                                    <MultiTrigger.Conditions>
+                                                                        <Condition
+                                                                            Property="Selector.IsSelectionActive"
+                                                                            Value="False" />
+                                                                        <Condition Property="IsSelected" Value="True" />
+                                                                    </MultiTrigger.Conditions>
+
+                                                                    <Setter Property="Background" Value="#353535" />
+                                                                </MultiTrigger>
+
+
+                                                                <MultiTrigger>
+                                                                    <MultiTrigger.Conditions>
+                                                                        <Condition
+                                                                            Property="Selector.IsSelectionActive"
+                                                                            Value="True" />
+                                                                        <Condition Property="IsSelected" Value="True" />
+                                                                    </MultiTrigger.Conditions>
+                                                                    <Setter Property="Background" Value="#353535" />
+                                                                </MultiTrigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ListBox.ItemContainerStyle>
                                         <ListBox.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <StackPanel Orientation="Horizontal" />
@@ -60,23 +185,180 @@
                                         </ListBox.ItemsPanel>
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Name}" />
-                                                    <Button Content="X"
+                                                <Grid>
+
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBlock Margin="10 2"
+                                                               Text="{Binding Name}"
+                                                               Foreground="White" />
+
+                                                    <Button Margin="2"
+                                                            Grid.Column="1"
                                                             Command="{Binding DataContext.CloseCommand, ElementName=Window}"
-                                                            CommandParameter="{Binding}" />
-                                                </StackPanel>
+                                                            CommandParameter="{Binding}">
+                                                        <Button.Style>
+                                                            <Style TargetType="{x:Type Button}">
+                                                                <Setter Property="Background" Value="Transparent" />
+                                                                <Setter Property="BorderBrush" Value="Transparent" />
+                                                                <Setter Property="Foreground" Value="White" />
+                                                                <Setter Property="BorderThickness" Value="0" />
+                                                                <Setter Property="HorizontalContentAlignment"
+                                                                        Value="Center" />
+                                                                <Setter Property="VerticalContentAlignment"
+                                                                        Value="Center" />
+                                                                <Setter Property="ToolTip" Value="Закрыть" />
+
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="{x:Type Button}">
+                                                                            <Border x:Name="border"
+                                                                                    Width="16"
+                                                                                    Height="16"
+                                                                                    CornerRadius="8"
+                                                                                    Background="{TemplateBinding Background}"
+                                                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                                                    SnapsToDevicePixels="true">
+
+                                                                                <Viewbox Width="12"
+                                                                                         Height="12"
+                                                                                         VerticalAlignment="Center"
+                                                                                         HorizontalAlignment="Center"
+                                                                                         Stretch="Uniform">
+                                                                                    <Canvas Width="24" Height="24"
+                                                                                            VerticalAlignment="Center"
+                                                                                            HorizontalAlignment="Center">
+                                                                                        <Path
+                                                                                            Fill="{TemplateBinding Foreground}"
+                                                                                            Data="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
+                                                                                    </Canvas>
+                                                                                </Viewbox>
+                                                                            </Border>
+                                                                            <ControlTemplate.Triggers>
+                                                                                <Trigger Property="IsDefaulted"
+                                                                                         Value="true" />
+                                                                                <Trigger Property="IsMouseOver"
+                                                                                         Value="true">
+                                                                                    <Setter Property="Background"
+                                                                                            Value="#1A1A1A" />
+                                                                                </Trigger>
+                                                                                <Trigger Property="ui:Windows.IsActive"
+                                                                                         Value="False">
+                                                                                    <Setter Property="Foreground"
+                                                                                            Value="#666666" />
+                                                                                </Trigger>
+                                                                                <MultiTrigger>
+                                                                                    <MultiTrigger.Conditions>
+                                                                                        <Condition
+                                                                                            Property="ui:Windows.IsActive"
+                                                                                            Value="False" />
+                                                                                        <Condition
+                                                                                            Property="IsMouseOver"
+                                                                                            Value="true" />
+                                                                                    </MultiTrigger.Conditions>
+                                                                                    <MultiTrigger.Setters>
+                                                                                        <Setter Property="Foreground"
+                                                                                                Value="#b8b8b8" />
+                                                                                    </MultiTrigger.Setters>
+                                                                                </MultiTrigger>
+
+                                                                                <Trigger Property="IsPressed"
+                                                                                         Value="true">
+                                                                                    <Setter Property="Background"
+                                                                                            Value="#333333" />
+                                                                                </Trigger>
+                                                                            </ControlTemplate.Triggers>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </Button.Style>
+                                                    </Button>
+                                                </Grid>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
                                     </ListBox>
 
                                     <Button Grid.Column="1"
                                             Margin="2"
+                                            WindowChrome.IsHitTestVisibleInChrome="True"
                                             Command="{Binding AddTabItemCommand}"
-                                            Content="+"
-                                            Width="{Binding ActualHeight,RelativeSource={RelativeSource Self}}" />
+                                            Width="{Binding ActualHeight,RelativeSource={RelativeSource Self}}">
+                                        <Button.Style>
+                                            <Style TargetType="{x:Type Button}">
+                                                <Setter Property="Background" Value="Transparent" />
+                                                <Setter Property="BorderBrush" Value="Transparent" />
+                                                <Setter Property="Foreground" Value="White" />
+                                                <Setter Property="BorderThickness" Value="0" />
+                                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                                <Setter Property="VerticalContentAlignment" Value="Center" />
+                                                <Setter Property="ToolTip" Value="Новая вкладка" />
+
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type Button}">
+                                                            <Border x:Name="border"
+                                                                    Height="28"
+                                                                    Width="28"
+                                                                    CornerRadius="14"
+                                                                    Background="{TemplateBinding Background}"
+                                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                                    SnapsToDevicePixels="true">
+
+                                                                <Viewbox Width="18"
+                                                                         Height="18"
+                                                                         Stretch="Uniform">
+                                                                    <Canvas Width="24" Height="24">
+                                                                        <Path Fill="{TemplateBinding Foreground}"
+                                                                              Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                                                    </Canvas>
+                                                                </Viewbox>
+                                                            </Border>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsDefaulted" Value="true" />
+                                                                <Trigger Property="IsMouseOver" Value="true">
+                                                                    <Setter Property="Background" Value="#1A1A1A" />
+                                                                </Trigger>
+                                                                <DataTrigger
+                                                                    Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                                                    Value="False">
+                                                                    <Setter Property="Foreground" Value="#666666" />
+                                                                </DataTrigger>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition
+                                                                            Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                                                            Value="False" />
+                                                                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" 
+                                                                                   Value="true" />
+                                                                    </MultiDataTrigger.Conditions>
+
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="Foreground"
+                                                                                Value="#b8b8b8" />
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                             
+                                                                <Trigger Property="IsPressed" Value="true">
+                                                                    <Setter Property="Background" Value="#333333" />
+                                                                </Trigger>
+                                                                <Trigger Property="IsEnabled" Value="false" />
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Style>
+
+                                    </Button>
 
                                     <StackPanel Grid.Column="2"
+                                                WindowChrome.IsHitTestVisibleInChrome="True"
                                                 HorizontalAlignment="Right"
                                                 VerticalAlignment="Top"
                                                 Orientation="Horizontal">
@@ -220,8 +502,9 @@
                                                                         <Setter Property="Content">
                                                                             <Setter.Value>
                                                                                 <Canvas Width="24" Height="24">
-                                                                                    <Path Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}}"
-                                                                                          Data="M4,8H8V4H20V16H16V20H4V8M16,8V14H18V6H10V8H16M6,12V18H14V12H6Z" />
+                                                                                    <Path
+                                                                                        Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}}"
+                                                                                        Data="M4,8H8V4H20V16H16V20H4V8M16,8V14H18V6H10V8H16M6,12V18H14V12H6Z" />
                                                                                 </Canvas>
                                                                             </Setter.Value>
                                                                         </Setter>
@@ -310,7 +593,9 @@
 
                                 </Grid>
 
-                                <Grid Grid.Row="1">
+                                <Grid Grid.Row="1"
+                                      Background="#353535"
+                                      Margin="0">
 
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
@@ -366,6 +651,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+
     </Window.Resources>
 
 </Window>
