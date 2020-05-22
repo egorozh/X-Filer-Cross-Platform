@@ -5,20 +5,26 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="clr-namespace:Explorer.WPF.UI"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
 
         WindowStartupLocation="CenterScreen"
 
         WindowStyle="None"
-
-        ResizeMode="CanResizeWithGrip"
+        AllowsTransparency="True"
+        WindowState="Maximized"
 
         x:Name="Window"
+
+
+        MinWidth="500"
+        MinHeight="120"
 
         Width="1024"
         Height="720">
 
     <Window.Resources>
+
         <Style TargetType="{x:Type ListBox}">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderBrush" Value="Transparent" />
@@ -63,15 +69,20 @@
                 <Setter.Value>
                     <WindowChrome
                         CaptionHeight="{Binding WindowState, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}} ,Converter={ui:WindowTitleHeightConverter}}"
-                        ResizeBorderThickness="1"
-                        UseAeroCaptionButtons="True" />
+                        ResizeBorderThickness="{Binding WindowState, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Converter={ui:WindowBorderThicknessConverter}, ConverterParameter=3}"
+                        CornerRadius="0"
+                        GlassFrameThickness="0" />
                 </Setter.Value>
             </Setter>
 
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Window}">
-                        <Border Background="Black">
+
+                        <Border Background="Black" 
+                                Padding="{TemplateBinding Padding}"
+                                BorderBrush="#84807F"
+                                BorderThickness="{Binding WindowState, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Converter={ui:WindowBorderThicknessConverter}}">
                             <Grid>
                                 <Grid.RowDefinitions>
 
@@ -334,8 +345,9 @@
                                                                         <Condition
                                                                             Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                                                                             Value="False" />
-                                                                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" 
-                                                                                   Value="true" />
+                                                                        <Condition
+                                                                            Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}"
+                                                                            Value="true" />
                                                                     </MultiDataTrigger.Conditions>
 
                                                                     <MultiDataTrigger.Setters>
@@ -343,7 +355,7 @@
                                                                                 Value="#b8b8b8" />
                                                                     </MultiDataTrigger.Setters>
                                                                 </MultiDataTrigger>
-                                                             
+
                                                                 <Trigger Property="IsPressed" Value="true">
                                                                     <Setter Property="Background" Value="#333333" />
                                                                 </Trigger>
@@ -652,7 +664,10 @@
             </Setter>
         </Style>
 
-
     </Window.Resources>
+
+    <b:Interaction.Behaviors>
+        <ui:WindowResizeFixerBehavior />
+    </b:Interaction.Behaviors>
 
 </Window>
