@@ -12,10 +12,16 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Explorer.Shared.ViewModels\Explorer.Shared.ViewModels.csproj" />
+    <ProjectReference Include="..\Controls\Egorozh.GoogleChromeWindow\Egorozh.GoogleChromeWindow.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Assets\folder_background.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="AttachedProperties\" />
+    <Folder Include="Behaviors\" />
   </ItemGroup>
 
 </Project>

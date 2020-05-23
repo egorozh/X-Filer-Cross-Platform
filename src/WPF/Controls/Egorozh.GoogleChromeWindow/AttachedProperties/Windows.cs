@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Explorer.WPF.UI
+namespace Egorozh.GoogleChromeWindow
 {
     internal class Windows
     {

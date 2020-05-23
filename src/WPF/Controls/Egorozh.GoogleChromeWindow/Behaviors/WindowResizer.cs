@@ -5,7 +5,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using Microsoft.Xaml.Behaviors;
 
-namespace Explorer.WPF.UI
+namespace Egorozh.GoogleChromeWindow
 {
     internal class WindowResizeFixerBehavior : Behavior<Window>
     {
@@ -16,7 +16,7 @@ namespace Explorer.WPF.UI
             base.OnAttached();
 
             _fixer = new WindowResizer(AssociatedObject);
-            
+
             AssociatedObject.StateChanged += (s, e) => UpdatePadding();
 
             AssociatedObject.Loaded += (s, e) => UpdatePadding();

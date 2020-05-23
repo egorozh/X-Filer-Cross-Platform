@@ -1,5 +1,6 @@
-﻿using System.Windows;
-using Explorer.Shared.ViewModels;
+﻿using Explorer.Shared.ViewModels;
+using System.ComponentModel;
+using System.Windows;
 
 namespace Explorer.WPF.UI
 {
@@ -16,24 +17,11 @@ namespace Explorer.WPF.UI
             DataContext = _mainVm;
         }
 
-        private void CloseButton_OnClick(object sender, RoutedEventArgs e)
+        protected override void OnClosing(CancelEventArgs e)
         {
             _mainVm.ApplicationClosing();
 
             Application.Current.Shutdown();
-        }
-
-        private void ExpandButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (WindowState == WindowState.Normal)
-                WindowState = WindowState.Maximized;
-            else if (WindowState == WindowState.Maximized)
-                WindowState = WindowState.Normal;
-        }
-
-        private void CollapseButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
         }
     }
 }

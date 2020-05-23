@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace Explorer.WPF.UI
+namespace Egorozh.GoogleChromeWindow
 {
     internal class WindowTitleHeightConverter : MarkupExtension, IValueConverter
     {
