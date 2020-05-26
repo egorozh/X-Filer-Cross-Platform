@@ -47,7 +47,8 @@
 
               </Grid.RowDefinitions>
 
-              <!--Title Bar-->
+              <!--#region Title Bar-->
+              
               <Grid>
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="Auto" />
@@ -85,22 +86,32 @@
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
                             Orientation="Horizontal">
-                  <Button Width="44"
-                          Height="30"
-                          Click="CollapseButton_OnClick">_</Button>
+                  <Button Classes="SystemWindowButton"
+                          Click="CollapseButton_OnClick">
+                    <Canvas Width="24" Height="24">
+                      <Path
+                          Fill="{Binding  $parent[Button].Foreground}"
+                          Data="M20,14H4V10H20" />
+                    </Canvas>
+                  </Button>
                   
                   <Button Width="44"
-                          Height="30"
+                          Height="28" 
                           Click="ExpandButton_OnClick">P</Button>
-                  <Button Width="44"
-                          Height="30"
+                  <Button Classes="SystemWindowButton MainCloseButtonStyle"
                           Click="CloseButton_OnClick">
-                    X
+                    <Canvas Width="24" Height="24">
+                      <Path
+                           Fill="{Binding  $parent[Button].Foreground}"
+                          Data="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
+                    </Canvas>
                   </Button>
                 </StackPanel>
 
               </Grid>
-
+              
+              <!--#endregion-->
+              
               <!--Search TextBox-->
               <Grid Grid.Row="1">
 

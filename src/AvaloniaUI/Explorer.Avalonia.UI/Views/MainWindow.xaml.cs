@@ -36,6 +36,7 @@ namespace Explorer.Avalonia.UI.Views
             {
                 desktopLifetime.Shutdown();
             }
+
         }
 
         private void ExpandButton_OnClick(object sender, RoutedEventArgs e)

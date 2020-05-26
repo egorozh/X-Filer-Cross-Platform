@@ -5,10 +5,11 @@
    
     <Application.Styles>
         <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
+      <StyleInclude Source="avares://Explorer.Avalonia.UI/Themes/Buttons.xaml"/>
         <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseDark.xaml"/>
     </Application.Styles>
 
-  <Application.Resources>
+  <Application.Resources>  
 
     <!--ClipGeometry="M0,0 V58 H58 V0 H0 Z"-->
 
