@@ -1,0 +1,182 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        
+        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+        xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+                            
+        xmlns:local="clr-namespace:Egorozh.GoogleChromeWindow.AvaloniaUI;assembly=Egorozh.GoogleChromeWindow.AvaloniaUI">
+
+  <Style Selector="Window">
+    <Setter Property="WindowStartupLocation" Value="CenterScreen"/>
+    <Setter Property="HasSystemDecorations" Value="False"/>
+   
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate>
+          <Border Background="Black">
+
+            <Grid>
+
+              <Grid.RowDefinitions>
+
+                <!--Title Bar-->
+                <RowDefinition Height="40" />
+
+                <!--Search ToolBarContent-->
+                <RowDefinition Height="Auto" />
+
+                <!--TabItemContent-->
+                <RowDefinition Height="*" />
+
+              </Grid.RowDefinitions>
+
+              <!--#region Title Bar-->
+
+              <Grid Name="TitleBarGrid">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <ListBox Items="{Binding DirectoryTabItems}"
+                         SelectedItem="{Binding CurrentDirectoryTabItem}">
+                  <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                      <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                  </ListBox.ItemsPanel>
+                  <ListBox.ItemTemplate>
+                    <DataTemplate>
+                      <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}" />
+                        <Button Width="{Binding $self.Bounds.Height}"
+                                Command="{Binding DataContext.CloseCommand, ElementName=Window}"
+                                CommandParameter="{Binding}">X</Button>
+                      </StackPanel>
+                    </DataTemplate>
+                  </ListBox.ItemTemplate>
+                </ListBox>
+
+                <Button Grid.Column="1"
+                        Margin="2"
+                        Command="{Binding AddTabItemCommand}"
+                        Content="+"
+                        Width="{Binding $self.Bounds.Height}" />
+
+                <StackPanel Grid.Column="2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Orientation="Horizontal">
+                  <Button Classes="SystemWindowButton"                        >
+                    <Canvas Width="24" Height="24">
+                      <Path
+                          Fill="{Binding  $parent[Button].Foreground}"
+                          Data="M20,14H4V10H20" />
+                    </Canvas>
+                  </Button>
+
+                  <Button Width="44"
+                          Height="28"
+                       >P</Button>
+                  <Button Classes="SystemWindowButton MainCloseButtonStyle"
+                        >
+                    <Canvas Width="24" Height="24">
+                      <Path
+                           Fill="{Binding  $parent[Button].Foreground}"
+                          Data="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
+                    </Canvas>
+                  </Button>
+                </StackPanel>
+
+              </Grid>
+
+              <!--#endregion-->
+              
+              <!--
+              <ContentControl Grid.Row="1"
+                              Content="{TemplateBinding ToolBarContent}"/>
+
+-->
+              <ContentPresenter Grid.Row="2"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Content="{TemplateBinding Content}" />
+
+
+            </Grid>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    
+  </Style>
+
+  <Style Selector="local|GoogleChromeWindow /template/ #TitleBarGrid Button">
+    <Setter Property="Background" Value="Transparent"></Setter>
+    <Setter Property="BorderBrush" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+  </Style>
+  
+  <!--
+  
+  <Style Selector="Button.SystemWindowButton">
+    <Setter Property="Width" Value="44" />
+    <Setter Property="Height" Value="28" />
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderBrush" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Foreground" Value="White"/>
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="border"
+                Background="{TemplateBinding Background}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                BorderBrush="{TemplateBinding BorderBrush}">
+
+          <Viewbox Width="16"
+                   Height="16"
+                   Stretch="Uniform">
+            <ContentPresenter Name="PART_ContentPresenter"
+                                       
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        Content="{TemplateBinding Content}"
+                        Padding="{TemplateBinding Padding}"
+                        TextBlock.Foreground="{TemplateBinding Foreground}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+          </Viewbox>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="Button.SystemWindowButton:pointerover /template/ Border">
+    <Setter Property="Background" Value="#1A1A1A"/>
+  </Style>
+
+  <Style Selector="Button.SystemWindowButton:pressed  /template/ Border">
+    <Setter Property="Background" Value="#333333"/>
+  </Style>
+
+  <Style Selector="Button.SystemWindowButton:pointerover  /template/ ContentPresenter">
+    <Setter Property="Background" Value="Transparent"/>
+  </Style>
+
+  <Style Selector="Button.SystemWindowButton:pressed  /template/ ContentPresenter">
+    <Setter Property="Background" Value="Transparent"/>
+  </Style>
+
+  <Style Selector="Button.MainCloseButtonStyle:pointerover /template/ Border">
+    <Setter Property="Background" Value="#E81123"/>
+  </Style>
+
+  <Style Selector="Button.MainCloseButtonStyle:pressed  /template/ Border">
+    <Setter Property="Background" Value="#8A0A14"/>
+  </Style>
+-->
+</Styles>

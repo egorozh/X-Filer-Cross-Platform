@@ -1,40 +1,27 @@
-﻿<Window xmlns="https://github.com/avaloniaui"
-        
-        
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="clr-namespace:Explorer.Avalonia.UI.ViewModels;assembly=Explorer.Avalonia.UI"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        
-        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-        xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
-        
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="Explorer.Avalonia.UI.Views.MainWindow"
-        
-        xmlns:local="clr-namespace:Explorer.Avalonia.UI;assembly=Explorer.Avalonia.UI"
-        
-        Icon="/Assets/avalonia-logo.ico"
-           
-        WindowStartupLocation="CenterScreen"       
-        
-        HasSystemDecorations="False"
-        
-        Name="Window">
+﻿<egorozh:GoogleChromeWindow xmlns="https://github.com/avaloniaui"
+                
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                          
+                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                            
+                            xmlns:egorozh="clr-namespace:Egorozh.GoogleChromeWindow.AvaloniaUI;assembly=Egorozh.GoogleChromeWindow.AvaloniaUI"
+                            
+                       
+                            mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                            x:Class="Explorer.Avalonia.UI.Views.MainWindow"
+                            
+                            xmlns:local="clr-namespace:Explorer.Avalonia.UI;assembly=Explorer.Avalonia.UI"
+                            
+                            Icon="/Assets/avalonia-logo.ico"
+                               
+                           >
 
-  <Window.Styles>
-    <Style Selector="Window">
-      
-      <Setter Property="Template">
-        <ControlTemplate>
-          <Border Background="Black">
-            
-            <Grid>
-              
-              <Grid.RowDefinitions>
 
-                <!--Title Bar-->
-                <RowDefinition Height="40" />
+
+    <egorozh:GoogleChromeWindow.ToolBarContent>
+        <Grid>
+            <Grid.RowDefinitions>
 
                 <!--Search TextBox-->
                 <RowDefinition Height="40" />
@@ -42,84 +29,16 @@
                 <!-- BookMarks-->
                 <RowDefinition Height="36" />
 
-                <!--TabItemContent-->
-                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-              </Grid.RowDefinitions>
-
-              <!--#region Title Bar-->
-              
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <ListBox Items="{Binding DirectoryTabItems}"
-                         SelectedItem="{Binding CurrentDirectoryTabItem}">
-                  <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                      <StackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                  </ListBox.ItemsPanel>
-                  <ListBox.ItemTemplate>
-                    <DataTemplate>
-                      <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Name}" />
-                        <Button Width="{Binding $self.Bounds.Height}"
-                                Command="{Binding DataContext.CloseCommand, ElementName=Window}" 
-                                CommandParameter="{Binding}">X</Button>
-                      </StackPanel>
-                    </DataTemplate>
-                  </ListBox.ItemTemplate>
-                </ListBox>
-
-                <Button Grid.Column="1" 
-                        Margin="2"
-                        Command="{Binding AddTabItemCommand}"
-                        Content="+"
-                        Width="{Binding $self.Bounds.Height}" />
-
-                <StackPanel Grid.Column="2"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            Orientation="Horizontal">
-                  <Button Classes="SystemWindowButton"
-                          Click="CollapseButton_OnClick">
-                    <Canvas Width="24" Height="24">
-                      <Path
-                          Fill="{Binding  $parent[Button].Foreground}"
-                          Data="M20,14H4V10H20" />
-                    </Canvas>
-                  </Button>
-                  
-                  <Button Width="44"
-                          Height="28" 
-                          Click="ExpandButton_OnClick">P</Button>
-                  <Button Classes="SystemWindowButton MainCloseButtonStyle"
-                          Click="CloseButton_OnClick">
-                    <Canvas Width="24" Height="24">
-                      <Path
-                           Fill="{Binding  $parent[Button].Foreground}"
-                          Data="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
-                    </Canvas>
-                  </Button>
-                </StackPanel>
-
-              </Grid>
-              
-              <!--#endregion-->
-              
-              <!--Search TextBox-->
-              <Grid Grid.Row="1">
+            <!--Search TextBox-->
+            <Grid Grid.Row="0">
 
                 <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <Button Content="&lt;-"
@@ -139,34 +58,31 @@
                          VerticalAlignment="Center"
                          FontSize="16"
                          Text="{Binding CurrentDirectoryTabItem.FilePath}" />
-              </Grid>
-              
-              <StackPanel Grid.Row="2"
-                          Background="#FF353535">
+            
+            </Grid>
+
+            <StackPanel Grid.Row="1"
+                        Background="#FF353535">
                 <Menu>
-                  <MenuItem Header="Games" />
+                    <MenuItem Header="Games" />
                 </Menu>
-              </StackPanel>
+            </StackPanel>
+        </Grid>
+    </egorozh:GoogleChromeWindow.ToolBarContent>
 
-              <ContentControl Grid.Row="3"
-                              Content="{Binding CurrentDirectoryTabItem}">
-                <ContentControl.ContentTemplate>
-                  <DataTemplate>
-                    <local:DirectoryTabItem>
-                      <local:DirectoryTabItem.Background>
-                        <ImageBrush Source="avares://Explorer.Avalonia.UI/Assets/folder_background.png"
-                                     Stretch="None"/>
-                      </local:DirectoryTabItem.Background>
-                    </local:DirectoryTabItem>
-                  </DataTemplate>
-                </ContentControl.ContentTemplate>
-              </ContentControl>
 
-            </Grid>          
-          </Border>
-        </ControlTemplate>
-      </Setter>
-    </Style>
-  </Window.Styles> 
-    
-</Window>
+  <ContentControl Content="{Binding CurrentDirectoryTabItem}">
+      <ContentControl.ContentTemplate>
+          <DataTemplate>
+              <local:DirectoryTabItem>
+                  <local:DirectoryTabItem.Background>
+                      <ImageBrush Source="avares://Explorer.Avalonia.UI/Assets/folder_background.png"
+                                  Stretch="None"/>
+                  </local:DirectoryTabItem.Background>
+              </local:DirectoryTabItem>
+          </DataTemplate>
+      </ContentControl.ContentTemplate>
+  </ContentControl>
+
+
+</egorozh:GoogleChromeWindow>

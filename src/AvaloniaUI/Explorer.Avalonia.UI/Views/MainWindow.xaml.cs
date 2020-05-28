@@ -3,11 +3,12 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Egorozh.GoogleChromeWindow.AvaloniaUI;
 using Explorer.Shared.ViewModels;
 
 namespace Explorer.Avalonia.UI.Views
 {
-    public class MainWindow : Window
+    public class MainWindow : GoogleChromeWindow
     {
         public MainWindow()
         {
