@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 
 namespace Egorozh.GoogleChromeWindow
@@ -79,18 +78,7 @@ namespace Egorozh.GoogleChromeWindow
         }
 
         #endregion
-
-        #region Protected Methods
-
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            base.OnClosing(e);
-
-            Application.Current.Shutdown();
-        }
-
-        #endregion
-
+        
         #region Private Methods
 
         private void OnClose(object obj)
