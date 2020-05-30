@@ -6,6 +6,8 @@
                             
         xmlns:local="clr-namespace:Egorozh.GoogleChromeWindow.AvaloniaUI;assembly=Egorozh.GoogleChromeWindow.AvaloniaUI">
 
+  <StyleInclude Source="/Themes/ChromeTabs.xaml"></StyleInclude>
+  
   <Style Selector="local|GoogleChromeWindow">
     <Setter Property="WindowStartupLocation" Value="CenterScreen"/>
     <Setter Property="HasSystemDecorations" Value="False"/>
@@ -52,24 +54,56 @@
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <ListBox Items="{Binding DirectoryTabItems}"
-                         SelectedItem="{Binding CurrentDirectoryTabItem}">
-                  <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                      <StackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                  </ListBox.ItemsPanel>
-                  <ListBox.ItemTemplate>
+                <local:ChromeTabsControl Items="{Binding DirectoryTabItems}"
+                                          SelectedItem="{Binding CurrentDirectoryTabItem}">
+                  <local:ChromeTabsControl.ItemTemplate>
                     <DataTemplate>
                       <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Name}" />
-                        <Button Width="{Binding $self.Bounds.Height}"
-                                Command="{Binding DataContext.CloseCommand, ElementName=Window}"
-                                CommandParameter="{Binding}">X</Button>
+                        <TextBlock Text="{Binding Name}" 
+                                   Foreground="White"
+                                   VerticalAlignment="Center"/>
+                        <Button Width="16"
+                                Command="{Binding $parent[local:GoogleChromeWindow].DataContext.CloseCommand}"
+                                CommandParameter="{Binding}"
+                                Height="16">
+
+                          <Button.Styles>
+
+                            <Style Selector="Button:pointerover">
+                              <Setter Property="Foreground" Value="#1A1A1A"></Setter>                                    
+                            </Style>
+
+                            <Style Selector="local|GoogleChromeWindow[IsActive=false] Button">
+                              <Setter Property="Foreground" Value="#666666"></Setter>
+                            </Style>
+
+                            <Style Selector="local|GoogleChromeWindow[IsActive=false] Button:pointerover">
+                              <Setter Property="Foreground" Value="#b8b8b8"></Setter>
+                            </Style>
+
+                            <Style Selector="Button:pressed /template/ ContentPresenter">
+                              <Setter Property="Background" Value="#333333"/>
+                            </Style>
+
+                            <Style Selector="Button /template/ ContentPresenter">
+                              <Setter Property="CornerRadius" Value="8"/>
+                            </Style>
+
+                          </Button.Styles>
+                          
+                          <Viewbox Width="8" Height="8"
+                                   Stretch="Uniform"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center">
+                            <Path Stretch="Uniform"
+                                 Fill="{Binding  $parent[Button].Foreground}"
+                                Data="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
+                          </Viewbox>
+                        </Button>
                       </StackPanel>
                     </DataTemplate>
-                  </ListBox.ItemTemplate>
-                </ListBox>
+                  </local:ChromeTabsControl.ItemTemplate>
+                </local:ChromeTabsControl>
 
                 <Button Grid.Column="1"
                         Margin="2"
@@ -185,7 +219,8 @@
                   
                 </StackPanel>
 
-              </Grid>
+              
+            </Grid>
 
               <!--#endregion-->
                            
