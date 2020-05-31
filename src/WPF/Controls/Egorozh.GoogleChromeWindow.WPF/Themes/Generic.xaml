@@ -1,0 +1,166 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:wpf="clr-namespace:Egorozh.GoogleChromeWindow.WPF">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Egorozh.GoogleChromeWindow.WPF;component/Themes/ChromeTabs.xaml" />
+        <ResourceDictionary Source="/Egorozh.GoogleChromeWindow.WPF;component/Themes/Buttons.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate x:Key="GoogleChromeWindowTemplate"
+                     TargetType="{x:Type wpf:GoogleChromeWindow}">
+
+        <Border Background="{TemplateBinding Background}"
+                Padding="{TemplateBinding Padding}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{Binding WindowState, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Converter={wpf:WindowBorderThicknessConverter}}">
+            <Grid>
+                <Grid.RowDefinitions>
+
+                    <!--Title Bar-->
+                    <RowDefinition Height="Auto" />
+
+                    <!--ToolBar-->
+                    <RowDefinition Height="Auto" />
+
+                    <!--TabItemContent-->
+                    <RowDefinition Height="*" />
+
+                </Grid.RowDefinitions>
+
+                <!-- #region Title Bar-->
+                <Grid
+                    Height="{Binding WindowState, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}} ,Converter={wpf:WindowTitleHeightConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <wpf:ChromeTabsControl ItemsSource="{Binding DirectoryTabItems}"
+                                           SelectedItem="{Binding CurrentDirectoryTabItem}">
+                        <wpf:ChromeTabsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                              
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Margin="10 2"
+                                               Text="{Binding Name}"
+                                               Foreground="White" />
+
+                                    <Button Margin="2"
+                                            Grid.Column="1"
+                                            Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type wpf:GoogleChromeWindow}}}"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource CloseTabButtonStyle}" />
+                                </Grid>
+                            </DataTemplate>
+                        </wpf:ChromeTabsControl.ItemTemplate>
+                    </wpf:ChromeTabsControl>
+
+                    <Button Grid.Column="1"
+                            Margin="3"
+                            VerticalAlignment="Bottom"
+                            WindowChrome.IsHitTestVisibleInChrome="True"
+                            Command="{Binding AddTabItemCommand}"
+                            Width="{Binding ActualHeight,RelativeSource={RelativeSource Self}}"
+                            Style="{StaticResource AddTabButtonStyle}" />
+
+                    <StackPanel Grid.Column="3"
+                                WindowChrome.IsHitTestVisibleInChrome="True"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Orientation="Horizontal">
+
+                        <Button wpf:Windows.IsActive="{TemplateBinding IsActive}"
+                                Command="{TemplateBinding CollapseCommand}"
+                                Style="{StaticResource SystemWindowButton}"
+                                ToolTip="Свернуть">
+
+                            <Canvas Width="24" Height="24">
+                                <Path
+                                    Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}}"
+                                    Data="M20,14H4V10H20" />
+                            </Canvas>
+                        </Button>
+
+                        <Button wpf:Windows.IsActive="{TemplateBinding IsActive}"
+                                wpf:Windows.WindowState="{TemplateBinding WindowState}"
+                                Command="{TemplateBinding ExpandCommand}"
+                                Style="{StaticResource ExpandButtonStyle}">
+
+                            <Canvas Width="24" Height="24">
+                                <Path
+                                    Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}}"
+                                    Data="M4,4H20V20H4V4M6,8V18H18V8H6Z" />
+                            </Canvas>
+                        </Button>
+
+                        <Button wpf:Windows.IsActive="{TemplateBinding IsActive}"
+                                Command="{TemplateBinding CloseCommand}"
+                                ToolTip="Закрыть"
+                                Style="{StaticResource MainCloseButtonStyle}">
+
+                            <Canvas Width="24" Height="24">
+                                <Path
+                                    Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}}"
+                                    Data="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
+                            </Canvas>
+
+                        </Button>
+
+                    </StackPanel>
+                </Grid>
+
+                <!--#endregion-->
+
+                <!--ToolBar-->
+                <ContentControl Grid.Row="1"
+                                Content="{TemplateBinding ToolBarContent}" />
+
+                <!--TabItemContent-->
+                <ContentPresenter Grid.Row="2" />
+
+            </Grid>
+        </Border>
+
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsActive" Value="False">
+                <Setter Property="BorderBrush" Value="#353535" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type wpf:GoogleChromeWindow}">
+        <Setter Property="WindowStyle" Value="None" />
+        <Setter Property="AllowsTransparency" Value="True" />
+        <Setter Property="WindowState" Value="Maximized" />
+        <Setter Property="MinWidth" Value="500" />
+        <Setter Property="MinHeight" Value="120" />
+        <Setter Property="Width" Value="1024" />
+        <Setter Property="Height" Value="720" />
+        <Setter Property="BorderBrush" Value="#84807F" />
+        <Setter Property="Background" Value="Black" />
+
+        <Setter Property="Template" Value="{StaticResource GoogleChromeWindowTemplate}" />
+
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome
+                    CaptionHeight="{Binding WindowState, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}} ,Converter={wpf:WindowTitleHeightConverter}}"
+                    ResizeBorderThickness="{Binding WindowState, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Converter={wpf:WindowBorderThicknessConverter}, ConverterParameter=3}"
+                    CornerRadius="0"
+                    GlassFrameThickness="0" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
