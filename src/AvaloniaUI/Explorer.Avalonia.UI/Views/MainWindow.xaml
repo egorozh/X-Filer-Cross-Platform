@@ -32,7 +32,8 @@
             </Grid.RowDefinitions>
 
             <!--Search TextBox-->
-            <Grid Grid.Row="0">
+            <Grid Grid.Row="0"
+                  Background="#353535">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -41,23 +42,166 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Button Content="&lt;-"
-                        Margin="2"
+                <Grid.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="Width" Value="28" />
+                        <Setter Property="Height" Value="28" />
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                      
+                    </Style>
+
+                    <Style Selector="Button /template/ ContentPresenter">
+                        <Setter Property="CornerRadius" Value="14" />
+                    </Style>
+
+                    <Style Selector="Button:pointerover /template/ ContentPresenter">
+                        <Setter Property="Background" Value="#454545" />
+                    </Style>
+
+                    <Style Selector="Button:pressed /template/ ContentPresenter">
+                        <Setter Property="Background" Value="#333333" />
+                    </Style>
+
+                    <Style Selector="Window[IsActive=false] Button">
+                        <Setter Property="Foreground" Value="#666666" />
+                    </Style>
+
+                    <Style Selector="Window[IsActive=false] Button:pointerover">
+                        <Setter Property="Foreground" Value="#b8b8b8" />
+                    </Style>
+                
+
+
+                </Grid.Styles>
+
+                <Button Margin="2"
                         Command="{Binding CurrentDirectoryTabItem.MoveBackCommand}"
-                        Width="{Binding $self.Bounds.Height}" />
+                        Width="{Binding $self.Bounds.Height}" >
+                    <Viewbox Width="14" Height="14"
+                             Stretch="Uniform"
+                             VerticalAlignment="Center"
+                             HorizontalAlignment="Center">
+                        <Path Stretch="Uniform"
+                              Fill="{Binding  $parent[Button].Foreground}"
+                              Data="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
+                    </Viewbox>
+                </Button>
                 <Button Grid.Column="1"
-                        Content="-&gt;"
                         Margin="2"
                         Command="{Binding CurrentDirectoryTabItem.MoveForwardCommand}"
-                        Width="{Binding $self.Bounds.Height}" />
+                        Width="{Binding $self.Bounds.Height}" >
+                    <Viewbox Width="14" Height="14"
+                             Stretch="Uniform"
+                             VerticalAlignment="Center"
+                             HorizontalAlignment="Center">
+                        <Path Stretch="Uniform"
+                              Fill="{Binding  $parent[Button].Foreground}"
+                              Data="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" />
+                    </Viewbox>
+                </Button>
                 <Button Grid.Column="2"
-                        Content="o"
                         Margin="2"
-                        Width="{Binding $self.Bounds.Height}" />
+                        Width="{Binding $self.Bounds.Height}" >
+                    <Viewbox Width="14" Height="14"
+                             Stretch="Uniform"
+                             VerticalAlignment="Center"
+                             HorizontalAlignment="Center">
+                        <Path Stretch="Uniform"
+                              Fill="{Binding  $parent[Button].Foreground}"
+                              Data="M21,10.12H14.22L16.96,7.3C14.23,4.6 9.81,4.5 7.08,7.2C4.35,9.91 4.35,14.28 7.08,17C9.81,19.7 14.23,19.7 16.96,17C18.32,15.65 19,14.08 19,12.1H21C21,14.08 20.12,16.65 18.36,18.39C14.85,21.87 9.15,21.87 5.64,18.39C2.14,14.92 2.11,9.28 5.62,5.81C9.13,2.34 14.76,2.34 18.27,5.81L21,3V10.12M12.5,8V12.25L16,14.33L15.28,15.54L11,13V8H12.5Z" />
+                    </Viewbox>
+                </Button>
+
                 <TextBox Grid.Column="3"
                          VerticalAlignment="Center"
-                         FontSize="16"
-                         Text="{Binding CurrentDirectoryTabItem.FilePath}" />
+                         Margin="10 0"
+                         Text="{Binding CurrentDirectoryTabItem.FilePath}" >
+                    <TextBox.Styles>
+                        <Style Selector="TextBox">
+                            <Setter Property="Background" Value="#202124" />
+                            <Setter Property="BorderBrush" Value="#404D64" />
+                            <Setter Property="FontSize" Value="12" />
+                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="BorderThickness" Value="0" />
+                            <Setter Property="SelectionBrush" Value="{DynamicResource HighlightBrush}"/>
+                            <Setter Property="SelectionForegroundBrush" Value="{DynamicResource HighlightForegroundBrush}"/>
+                            <Setter Property="Padding" Value="4"/>
+                            <Setter Property="Template">
+                                <ControlTemplate>
+                                    <Border Name="border"
+                                            Height="28"
+                                            CornerRadius="14"
+                                            Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                        <DockPanel Margin="20 0"
+                                                   VerticalAlignment="Center">
+
+                                            <TextBlock Name="floatingWatermark"
+                                                        Foreground="{DynamicResource ThemeAccentBrush}"
+                                                        FontSize="{DynamicResource FontSizeSmall}"
+                                                        Text="{TemplateBinding Watermark}"
+                                                        DockPanel.Dock="Top">
+                                                <TextBlock.IsVisible>
+                                                    <MultiBinding Converter="{x:Static BoolConverters.And}">
+                                                        <Binding RelativeSource="{RelativeSource TemplatedParent}"
+                                                             Path="UseFloatingWatermark"/>
+                                                        <Binding RelativeSource="{RelativeSource TemplatedParent}"
+                                                                Path="Text"
+                                                                Converter="{x:Static StringConverters.IsNotNullOrEmpty}"/>
+                                                    </MultiBinding>
+                                                </TextBlock.IsVisible>
+                                            </TextBlock>
+
+                                            <DataValidationErrors>
+                                                <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                            VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+
+                                                    <Panel>
+                                                        <TextBlock Name="watermark"
+                             Opacity="0.5"
+                             Text="{TemplateBinding Watermark}"
+                             IsVisible="{TemplateBinding Text, Converter={x:Static StringConverters.IsNullOrEmpty}}"/>
+                                                        <TextPresenter Name="PART_TextPresenter"
+                                                                         Text="{TemplateBinding Text, Mode=TwoWay}"
+                                                                         CaretIndex="{TemplateBinding CaretIndex}"
+                                                                         SelectionStart="{TemplateBinding SelectionStart}"
+                                                                         SelectionEnd="{TemplateBinding SelectionEnd}"
+                                                                         TextAlignment="{TemplateBinding TextAlignment}"
+                                                                         TextWrapping="{TemplateBinding TextWrapping}"
+                                                                         PasswordChar="{TemplateBinding PasswordChar}"
+                                                                         SelectionBrush="{TemplateBinding SelectionBrush}"
+                                                                         SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
+                                                                         CaretBrush="{TemplateBinding CaretBrush}"/>
+                                                    </Panel>
+                                                </ScrollViewer>
+                                            </DataValidationErrors>
+                                        </DockPanel>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter>
+                        </Style>
+
+                        <Style Selector="TextBox:pointerover /template/ Border#border">
+                            <Setter Property="Background" Value="#292A2D" />
+                        </Style>
+                        <Style Selector="TextBox:focus /template/ Border#border">
+                            <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderHighBrush}"/>
+                        </Style>
+                        <Style Selector="TextBox:error /template/ Border#border">
+                            <Setter Property="BorderBrush" Value="{DynamicResource ErrorBrush}"/>
+                        </Style>
+                        <Style Selector="TextBox /template/ DockPanel">
+                            <Setter Property="Cursor" Value="IBeam" />
+                        </Style>
+                    </TextBox.Styles>
+                </TextBox>
+
             
             </Grid>
 

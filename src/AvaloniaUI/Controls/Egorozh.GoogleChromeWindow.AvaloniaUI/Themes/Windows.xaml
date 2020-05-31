@@ -34,7 +34,8 @@
 
               <!--#region Title Bar-->
 
-              <Grid>
+              <Grid Name="PART_TitleBar"
+                    Background="Transparent">
 
                 <Grid.Styles>
                   <Style Selector="Button">
@@ -106,10 +107,48 @@
                 </local:ChromeTabsControl>
 
                 <Button Grid.Column="1"
-                        Margin="2"
-                        Command="{Binding AddTabItemCommand}"
-                        Content="+"
-                        Width="{Binding $self.Bounds.Height}" />
+                        Margin="3"
+                        ToolTip.Tip="Новая вкладка"
+                        VerticalAlignment="Bottom"
+                        Command="{Binding AddTabItemCommand}"                        
+                        Width="28"
+                        Height="28">
+                  <Button.Styles>
+                    <Style Selector="Button">
+                      <Setter Property="Width" Value="44"></Setter>
+                      <Setter Property="Height" Value="28"/>
+                    </Style>
+                    <Style Selector="Button:pointerover">
+                      <Setter Property="Background" Value="#1A1A1A"></Setter>
+                    </Style>
+
+                    <Style Selector="Button:pressed /template/ ContentPresenter">
+                      <Setter Property="Background" Value="#333333"/>
+                    </Style>
+
+                    <Style Selector="local|GoogleChromeWindow[IsActive=false] Button">
+                      <Setter Property="Foreground" Value="#666666"></Setter>
+                    </Style>
+
+                    <Style Selector="local|GoogleChromeWindow[IsActive=false] Button:pointerover">
+                      <Setter Property="Foreground" Value="#b8b8b8"></Setter>
+                    </Style>
+
+                    <Style Selector="Button /template/ ContentPresenter">
+                      <Setter Property="CornerRadius" Value="14"/>
+                    </Style>
+                  </Button.Styles>
+
+                  <Viewbox Width="10" Height="10"
+                            Stretch="Uniform"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center">
+                    <Path Stretch="Uniform"
+                        Fill="{Binding  $parent[Button].Foreground}"
+                        Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                  </Viewbox>
+                </Button>
+                      
 
                 <StackPanel Grid.Column="2"
                             HorizontalAlignment="Right"
