@@ -7,6 +7,9 @@ namespace Egorozh.GoogleChromeWindow.WPF
     {
         #region Dependency Properties
 
+        public static readonly DependencyProperty TabsMaxWidthProperty = DependencyProperty.Register(
+            "TabsMaxWidth", typeof(double), typeof(GoogleChromeWindow), new PropertyMetadata(default(double)));
+
         public static readonly DependencyProperty CloseCommandProperty = DependencyProperty.Register(
             nameof(CloseCommand), typeof(ICommand), typeof(GoogleChromeWindow),
             new PropertyMetadata(default(ICommand)));
@@ -26,6 +29,12 @@ namespace Egorozh.GoogleChromeWindow.WPF
         #endregion
 
         #region Public Properties
+
+        public double TabsMaxWidth
+        {
+            get => (double) GetValue(TabsMaxWidthProperty);
+            set => SetValue(TabsMaxWidthProperty, value);
+        }
 
         public ICommand CloseCommand
         {
@@ -75,10 +84,14 @@ namespace Egorozh.GoogleChromeWindow.WPF
 
             var behavior = new WindowResizeFixerBehavior();
             behavior.Attach(this);
+
+            CalcTabMaxWidth();
+
+            SizeChanged += (sender, args) => CalcTabMaxWidth();
         }
 
         #endregion
-        
+
         #region Private Methods
 
         private void OnClose(object obj)
@@ -97,6 +110,11 @@ namespace Egorozh.GoogleChromeWindow.WPF
                 WindowState = WindowState.Maximized;
             else if (WindowState == WindowState.Maximized)
                 WindowState = WindowState.Normal;
+        }
+
+        private void CalcTabMaxWidth()
+        {
+            TabsMaxWidth = ActualWidth - 24 * 3 - 115 - 34;
         }
 
         #endregion
