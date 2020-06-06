@@ -29,6 +29,9 @@
     <None Update="icons.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Icons\034-xml.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Icons\041-3ds.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
