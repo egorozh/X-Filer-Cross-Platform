@@ -143,7 +143,7 @@
                                                 <Setter Property="Background" Value="#292A2D" />
                                             </Trigger>
                                             <Trigger Property="IsKeyboardFocused" Value="true">
-                                                <Setter Property="BorderThickness" Value="1" />
+                                                <Setter Property="BorderThickness" Value="2" />
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
