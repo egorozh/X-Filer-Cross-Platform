@@ -1,10 +1,12 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Data.Converters;
-using Avalonia.Media;
+﻿using Avalonia.Data.Converters;
+using Avalonia.Media.Imaging;
+using ChromER.Application;
 using Explorer.Shared.ViewModels;
+using Svg;
 using System;
+using System.Drawing.Imaging;
 using System.Globalization;
+using System.IO;
 
 namespace Explorer.Avalonia.UI
 {
@@ -12,23 +14,36 @@ namespace Explorer.Avalonia.UI
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var drawingGroup = new DrawingGroup();
+            Bitmap dravingImage = null;
 
-            if (value is FileEntityViewModel entityViewModel)
+            if (!(value is FileEntityViewModel viewModel))
+                return dravingImage;
+
+            var imagePath = ChromEr.Instance.IconsManager.GetIconPath(viewModel);
+
+            if (imagePath.Extension.ToUpper() == ".SVG")
             {
-                switch (entityViewModel)
+                var svgDocument = SvgDocument.Open(imagePath.FullName);
+
+                if (svgDocument != null)
                 {
-                    case DirectoryViewModel directoryViewModel:
+                    var bitmap = svgDocument.Draw();
 
-                        return Application.Current.FindResource("FolderIconImage");
+                    using var stream = new MemoryStream();
 
-                    case FileViewModel fileViewModel:
+                    bitmap.Save(stream, ImageFormat.Png);
 
-                        return Application.Current.FindResource("FileIconImage");
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    return new Bitmap(stream);
                 }
             }
-            
-            return drawingGroup;
+            else
+            {
+                return new Bitmap(imagePath.FullName);
+            }
+
+            return dravingImage;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

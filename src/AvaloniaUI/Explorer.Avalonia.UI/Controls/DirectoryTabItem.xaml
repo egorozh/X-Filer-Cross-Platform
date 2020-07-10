@@ -112,13 +112,12 @@
             <Grid.RowDefinitions>           
               <RowDefinition />
               <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>        
+            </Grid.RowDefinitions>
+
+            <Image Source="{Binding ., Converter={StaticResource FileEntityResource}}"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>              
           
-            <DrawingPresenter Drawing="{Binding ., Converter={StaticResource FileEntityResource}}"   
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"
-                              ></DrawingPresenter>
-                        
             <TextBlock Grid.Row="1" 
                        HorizontalAlignment="Center"
                        Foreground="White"

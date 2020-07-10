@@ -1,6 +1,5 @@
-﻿using System.ComponentModel;
-using System.Windows;
-using Explorer.Shared.ViewModels;
+﻿using Explorer.Shared.ViewModels;
+using System.ComponentModel;
 
 namespace ChromER.WPF.UI
 {
@@ -21,7 +20,7 @@ namespace ChromER.WPF.UI
         {
             _mainVm.ApplicationClosing();
 
-            Application.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown();
         }
     }
 }

@@ -25,6 +25,7 @@
     <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.9.9" />
     <PackageReference Include="Avalonia.Xaml.Interactions" Version="0.9.9" />
     <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.9.9" />
+    <PackageReference Include="Svg" Version="3.1.1" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\DirectoryTabItem.xaml">
@@ -32,6 +33,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\ChromER.Application\ChromER.Application.csproj" />
     <ProjectReference Include="..\..\Core\Explorer.Shared.ViewModels\Explorer.Shared.ViewModels.csproj" />
     <ProjectReference Include="..\Controls\Egorozh.GoogleChromeWindow.AvaloniaUI\Egorozh.GoogleChromeWindow.AvaloniaUI.csproj" />
   </ItemGroup>
