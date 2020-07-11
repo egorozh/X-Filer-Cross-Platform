@@ -5,6 +5,7 @@
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                         xmlns:wpf="clr-namespace:Egorozh.GoogleChromeWindow.WPF;assembly=Egorozh.GoogleChromeWindow.WPF"
                         xmlns:ui="clr-namespace:ChromER.WPF.UI"
+                        xmlns:ViewModels="clr-namespace:Explorer.Shared.ViewModels;assembly=Explorer.Shared.ViewModels"
                         mc:Ignorable="d">
 
     <wpf:GoogleChromeWindow.ToolBarContent>
@@ -64,7 +65,7 @@
                                         <Trigger Property="IsPressed" Value="true">
                                             <Setter Property="Background" Value="#333333" />
                                         </Trigger>
-                                        <Trigger Property="IsEnabled" Value="false" >
+                                        <Trigger Property="IsEnabled" Value="false">
                                             <Setter Property="Foreground" Value="#8C8C8C" />
                                         </Trigger>
                                     </ControlTemplate.Triggers>
@@ -168,11 +169,19 @@
             <!-- BookMarks-->
             <Grid Grid.Row="1">
                 <Menu Background="Transparent"
-                      VerticalAlignment="Center">
-                    <MenuItem Header="Games">
-                        <MenuItem Header="C" />
-                        <MenuItem Header="D" />
-                    </MenuItem>
+                      VerticalAlignment="Center"
+                      ItemsSource="{Binding Bookmarks}">
+                    <Menu.Resources>
+                        <Style TargetType="{x:Type MenuItem}">
+                            <Setter Property="Header" Value="{Binding Header}" />
+                            <Setter Property="ItemsSource" Value="{Binding Items}" />
+                            <Setter Property="Command" Value="{Binding Command}" />
+                            <Setter Property="CommandParameter" Value="{Binding CommandParameter}" />
+                        </Style>
+                        <HierarchicalDataTemplate
+                            DataType="{x:Type ViewModels:MenuItemViewModel}"
+                            ItemsSource="{Binding Path=Bookmarks}" />
+                    </Menu.Resources>
                 </Menu>
             </Grid>
 
@@ -185,7 +194,7 @@
                 <ui:DirectoryTabItem>
                     <ui:DirectoryTabItem.Background>
                         <ImageBrush Stretch="UniformToFill"
-                            ImageSource="/ChromER.WPF.UI;component/Assets/folder_background.png" />
+                                    ImageSource="/ChromER.WPF.UI;component/Assets/folder_background.png" />
                     </ui:DirectoryTabItem.Background>
                 </ui:DirectoryTabItem>
             </DataTemplate>

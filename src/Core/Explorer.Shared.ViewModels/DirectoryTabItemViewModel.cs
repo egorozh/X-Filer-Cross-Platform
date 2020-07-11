@@ -56,6 +56,21 @@ namespace Explorer.Shared.ViewModels
 
         #endregion
 
+        #region Public Methods
+
+        public void OpenBookmark(string path)
+        {
+            var attr = File.GetAttributes(path);
+
+            if (attr.HasFlag(FileAttributes.Directory))
+                Open(new DirectoryViewModel(path));
+            else
+                Open(new FileViewModel(path));
+        }
+
+        #endregion
+
+
         #region Commands Methods
 
         private void Open(object parameter)
@@ -71,7 +86,13 @@ namespace Explorer.Shared.ViewModels
             }
             else if (parameter is FileViewModel fileViewModel)
             {
-                Process.Start(fileViewModel.FullName);
+                new Process
+                {
+                    StartInfo = new ProcessStartInfo(fileViewModel.FullName)
+                    {
+                        UseShellExecute = true
+                    }
+                }.Start();
             }
         }
 

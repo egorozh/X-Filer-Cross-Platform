@@ -17,7 +17,7 @@
     <egorozh:GoogleChromeWindow.ToolBarContent>
         <Grid Background="#353535"
               RowDefinitions="36,36">
-            
+
 
             <!--Search TextBox-->
             <Grid Grid.Row="0"
@@ -190,11 +190,16 @@
 
             <StackPanel Grid.Row="1">
                 <Menu Background="Transparent"
-                      VerticalAlignment="Center">
-                    <MenuItem Header="Games">
-                        <MenuItem Header="C" />
-                        <MenuItem Header="D" />
-                    </MenuItem>
+                      VerticalAlignment="Center"
+                      Items="{Binding Bookmarks}">
+                    <Menu.Styles>
+                        <Style Selector="MenuItem">
+                            <Setter Property="Header" Value="{Binding Header}" />
+                            <Setter Property="Items" Value="{Binding Items}" />
+                            <Setter Property="Command" Value="{Binding Command}" />
+                            <Setter Property="CommandParameter" Value="{Binding CommandParameter}" />
+                        </Style>
+                    </Menu.Styles>
                 </Menu>
             </StackPanel>
         </Grid>
