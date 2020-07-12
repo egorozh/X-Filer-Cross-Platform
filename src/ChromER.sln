@@ -9,9 +9,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{14284B65-3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{53C1023C-357F-4EE0-939C-22162A3717A7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Explorer.Avalonia.UI", "AvaloniaUI\Explorer.Avalonia.UI\Explorer.Avalonia.UI.csproj", "{91D936CB-351E-49C4-9416-97EEF47BE21A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChromER.Avalonia.UI", "AvaloniaUI\ChromER.Avalonia.UI\ChromER.Avalonia.UI.csproj", "{91D936CB-351E-49C4-9416-97EEF47BE21A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Explorer.Shared.ViewModels", "Core\Explorer.Shared.ViewModels\Explorer.Shared.ViewModels.csproj", "{838ABDAE-E691-4EEF-BDD4-66485379DC34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChromER.Shared.ViewModels", "Core\ChromER.Shared.ViewModels\ChromER.Shared.ViewModels.csproj", "{838ABDAE-E691-4EEF-BDD4-66485379DC34}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Controls", "Controls", "{1C3A40FD-4728-4F03-822C-808D614B6F0D}"
 EndProject
@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Egorozh.GoogleChromeWindow.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChromER.WPF.UI", "WPF\ChromER.WPF.UI\ChromER.WPF.UI.csproj", "{5603267B-BED4-4F17-B1F1-E1A6A29C538B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromER.Application", "Core\ChromER.Application\ChromER.Application.csproj", "{F089F379-96F0-415F-A2B9-1740AA68A457}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromER", "Core\ChromER\ChromER.csproj", "{F089F379-96F0-415F-A2B9-1740AA68A457}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

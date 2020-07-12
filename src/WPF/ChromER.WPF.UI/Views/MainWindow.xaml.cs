@@ -1,5 +1,5 @@
-﻿using Explorer.Shared.ViewModels;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using ChromER.Shared.ViewModels;
 
 namespace ChromER.WPF.UI
 {

@@ -1,6 +1,4 @@
-﻿using ChromER.Application;
-using Explorer.Shared.ViewModels;
-using SharpVectors.Converters;
+﻿using SharpVectors.Converters;
 using SharpVectors.Renderers.Wpf;
 using System;
 using System.Globalization;
@@ -8,6 +6,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using ChromER.Shared.ViewModels;
 
 namespace ChromER.WPF.UI
 {

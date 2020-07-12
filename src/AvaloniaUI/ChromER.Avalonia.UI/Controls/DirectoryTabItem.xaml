@@ -1,0 +1,133 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+        
+             xmlns:local="clr-namespace:ChromER.Avalonia.UI;assembly=ChromER.Avalonia.UI"
+        
+             x:Class="ChromER.Avalonia.UI.DirectoryTabItem">
+
+
+  <Grid>
+
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition />
+    </Grid.RowDefinitions>
+
+    <ListBox Grid.Row="1"
+             Items="{Binding DirectoriesAndFiles}"
+             SelectedItem="{Binding SelectedFileEntity}"
+             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+             Background="Transparent"         
+           >
+
+      <ListBox.Styles>
+        <Style Selector="ListBoxItem">
+          <Setter Property="Background" Value="Transparent"/>
+          <Setter Property="BorderBrush" Value="Transparent"/>
+          <Setter Property="BorderThickness" Value="0"/>
+          <Setter Property="Padding" Value="4 4 4 4"/>
+
+          <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                  
+          <Setter Property="Width" Value="140" />
+          <Setter Property="Height" Value="140" />
+
+          <Setter Property="Template">
+            <ControlTemplate>
+
+              <Grid>
+
+                <Border x:Name="Bd"
+                        Margin="10"
+                        CornerRadius="5"
+                        Background="{TemplateBinding Background}"
+                                         BorderThickness="{TemplateBinding BorderThickness}"
+                                         BorderBrush="{TemplateBinding BorderBrush}"
+                                         Padding="{TemplateBinding Padding}" >
+
+                  <ContentPresenter Name="PART_ContentPresenter"
+                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"                                    
+                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    Content="{TemplateBinding Content}"/>
+
+
+                </Border>            
+                                          
+              </Grid>
+
+
+            </ControlTemplate>
+          </Setter>
+        </Style>
+
+        <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+          <Setter Property="Background" Value="#55A9A9A9"/>
+        </Style>
+
+        <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+          <Setter Property="Background" Value="#AAA9A9A9"/>
+        </Style>
+
+        <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
+          <Setter Property="Background" Value="#AAA9A9A9"/>
+        </Style>
+
+        <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
+          <Setter Property="Background" Value="#AAA9A9A9"/>
+        </Style>
+
+        <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
+          <Setter Property="Background" Value="#AAA9A9A9"/>
+        </Style>
+      </ListBox.Styles>
+
+      <ListBox.Resources>
+        <local:FileEntityToImageConverter x:Key="FileEntityResource"/>
+      </ListBox.Resources>
+      
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel></WrapPanel>
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+      
+      <i:Interaction.Behaviors>
+        <ia:EventTriggerBehavior EventName="DoubleTapped">
+          <ia:InvokeCommandAction  Command="{Binding OpenCommand}"
+                                   CommandParameter="{Binding SelectedFileEntity}"/>
+        </ia:EventTriggerBehavior>
+      </i:Interaction.Behaviors>
+      
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Grid Background="Transparent">
+
+            <Grid.RowDefinitions>           
+              <RowDefinition />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Image Source="{Binding ., Converter={StaticResource FileEntityResource}}"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>              
+          
+            <TextBlock Grid.Row="1" 
+                       HorizontalAlignment="Center"
+                       Foreground="White"
+                       Text="{Binding Name}" 
+                       TextWrapping="Wrap"
+                       TextAlignment="Center"/>
+          </Grid>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+
+  </Grid>
+</UserControl>

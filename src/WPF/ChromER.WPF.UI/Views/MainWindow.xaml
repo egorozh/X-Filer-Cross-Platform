@@ -5,7 +5,7 @@
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                         xmlns:wpf="clr-namespace:Egorozh.GoogleChromeWindow.WPF;assembly=Egorozh.GoogleChromeWindow.WPF"
                         xmlns:ui="clr-namespace:ChromER.WPF.UI"
-                        xmlns:ViewModels="clr-namespace:Explorer.Shared.ViewModels;assembly=Explorer.Shared.ViewModels"
+                        xmlns:viewModels="clr-namespace:ChromER.Shared.ViewModels;assembly=ChromER.Shared.ViewModels"
                         mc:Ignorable="d">
 
     <wpf:GoogleChromeWindow.ToolBarContent>
@@ -179,7 +179,7 @@
                             <Setter Property="CommandParameter" Value="{Binding CommandParameter}" />
                         </Style>
                         <HierarchicalDataTemplate
-                            DataType="{x:Type ViewModels:MenuItemViewModel}"
+                            DataType="{x:Type viewModels:MenuItemViewModel}"
                             ItemsSource="{Binding Path=Bookmarks}" />
                     </Menu.Resources>
                 </Menu>
