@@ -11,7 +11,7 @@ namespace ChromER.WPF.UI
         {
             InitializeComponent();
 
-            _mainVm = new MainViewModel();
+            _mainVm = new MainViewModel(new WpfSynchronizationHelper());
 
             DataContext = _mainVm;
         }

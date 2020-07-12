@@ -7,6 +7,8 @@ namespace ChromER.Shared.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
+        private readonly ISynchronizationHelper _synchronizationHelper;
+
         #region Public Properties
 
         public ObservableCollection<DirectoryTabItemViewModel> DirectoryTabItems { get; set; } =
@@ -34,8 +36,9 @@ namespace ChromER.Shared.ViewModels
 
         #region Constructor
 
-        public MainViewModel()
+        public MainViewModel(ISynchronizationHelper synchronizationHelper)
         {
+            _synchronizationHelper = synchronizationHelper;
             AddTabItemCommand = new DelegateCommand(OnAddTabItem);
             CloseCommand = new DelegateCommand(OnClose);
 
@@ -95,7 +98,7 @@ namespace ChromER.Shared.ViewModels
 
         private void AddTabItemViewModel()
         {
-            var vm = new DirectoryTabItemViewModel();
+            var vm = new DirectoryTabItemViewModel(_synchronizationHelper);
 
             DirectoryTabItems.Add(vm);
             CurrentDirectoryTabItem = vm;

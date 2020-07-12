@@ -209,10 +209,10 @@
         <ContentControl.ContentTemplate>
             <DataTemplate>
                 <local:DirectoryTabItem>
-                    <local:DirectoryTabItem.Background>
+                    <!--<local:DirectoryTabItem.Background>
                         <ImageBrush Source="avares://ChromER.Avalonia.UI/Assets/folder_background.png"
                                     Stretch="UniformToFill" />
-                    </local:DirectoryTabItem.Background>
+                    </local:DirectoryTabItem.Background>-->
                 </local:DirectoryTabItem>
             </DataTemplate>
         </ContentControl.ContentTemplate>

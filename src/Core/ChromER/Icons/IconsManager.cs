@@ -17,7 +17,7 @@ namespace ChromER
         {
             if (viewModel is DirectoryViewModel)
             {
-                return _converter.GetImagePath(string.Empty);
+                return _converter.GetImagePath("._");
             }
             else if (viewModel is FileViewModel fileViewModel)
             {

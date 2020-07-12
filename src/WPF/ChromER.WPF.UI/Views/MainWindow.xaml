@@ -192,10 +192,10 @@
         <ContentControl.ContentTemplate>
             <DataTemplate>
                 <ui:DirectoryTabItem>
-                    <ui:DirectoryTabItem.Background>
+                    <!--<ui:DirectoryTabItem.Background>
                         <ImageBrush Stretch="UniformToFill"
                                     ImageSource="/ChromER.WPF.UI;component/Assets/folder_background.png" />
-                    </ui:DirectoryTabItem.Background>
+                    </ui:DirectoryTabItem.Background>-->
                 </ui:DirectoryTabItem>
             </DataTemplate>
         </ContentControl.ContentTemplate>

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace ChromER.Shared.ViewModels
 {
@@ -10,6 +12,8 @@ namespace ChromER.Shared.ViewModels
         #region Private Fields
 
         private readonly IDirectoryHistory _history;
+        private readonly BackgroundWorker _backgroundWorker;
+        private readonly ISynchronizationHelper _synchronizationHelper;
 
         #endregion
 
@@ -38,8 +42,20 @@ namespace ChromER.Shared.ViewModels
 
         #region Constructor
 
-        public DirectoryTabItemViewModel()
+        public DirectoryTabItemViewModel(ISynchronizationHelper synchronizationHelper)
         {
+            _synchronizationHelper = synchronizationHelper;
+
+            _backgroundWorker = new BackgroundWorker
+            {
+                WorkerSupportsCancellation = true,
+                WorkerReportsProgress = true
+            };
+
+            _backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
+            _backgroundWorker.DoWork += BackgroundWorker_DoWork;
+            _backgroundWorker.ProgressChanged += BackgroundWorker_ProgressChanged;
+
             _history = new DirectoryHistory("Мой компьютер", "Мой компьютер");
 
             OpenCommand = new DelegateCommand(Open);
@@ -69,7 +85,6 @@ namespace ChromER.Shared.ViewModels
         }
 
         #endregion
-
 
         #region Commands Methods
 
@@ -130,6 +145,14 @@ namespace ChromER.Shared.ViewModels
 
         private void OpenDirectory()
         {
+            if (_backgroundWorker.IsBusy)
+                _backgroundWorker.CancelAsync();
+            else
+                RunWorker();
+        }
+
+        private void RunWorker()
+        {
             DirectoriesAndFiles.Clear();
 
             if (Name == "Мой компьютер")
@@ -142,19 +165,62 @@ namespace ChromER.Shared.ViewModels
 
             var directoryInfo = new DirectoryInfo(FilePath);
 
+            _backgroundWorker.RunWorkerAsync(directoryInfo);
+        }
+
+        private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                RunWorker();
+            }
+        }
+
+        private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+        }
+
+        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var directoryInfo = e.Argument as DirectoryInfo;
+
+            var bw = sender as BackgroundWorker;
+
             try
             {
-                foreach (var directory in directoryInfo.GetDirectories())
+                var directories = directoryInfo.EnumerateDirectories();
+
+                //var allCount = directories.Count();
+
+                foreach (var directory in directories)
                 {
-                    DirectoriesAndFiles.Add(new DirectoryViewModel(directory));
+                    if (bw.CancellationPending)
+                    {
+                        e.Cancel = true;
+
+                        return;
+                    }
+
+                    _synchronizationHelper.InvokeAsync(() =>
+                    {
+                        DirectoriesAndFiles.Add(new DirectoryViewModel(directory));
+                    }).Wait();
                 }
 
                 foreach (var fileInfo in directoryInfo.GetFiles())
                 {
-                    DirectoriesAndFiles.Add(new FileViewModel(fileInfo));
+                    if (bw.CancellationPending)
+                    {
+                        e.Cancel = true;
+
+                        return;
+                    }
+
+                    _synchronizationHelper.InvokeAsync(() => { DirectoriesAndFiles.Add(new FileViewModel(fileInfo)); })
+                        .Wait();
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 //TODO: Try Exception 
             }
@@ -167,5 +233,10 @@ namespace ChromER.Shared.ViewModels
         }
 
         #endregion
+    }
+
+    public interface ISynchronizationHelper
+    {
+        Task InvokeAsync(Action action);
     }
 }

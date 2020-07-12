@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -6,24 +7,25 @@ namespace ChromER
 {
     internal class ExtensionToImageFileConverter
     {
-        public ExtensionToImageFileConverter()
-        {
-        }
+        private Dictionary<string, FileInfo> _icons;
 
-        public FileInfo GetImagePath(string extension)
+        public ExtensionToImageFileConverter()
         {
             var applicationDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
             var iconsDirectory = new DirectoryInfo(Path.Combine(applicationDirectory, "Resources", "Icons"));
 
-            var icons = iconsDirectory
+            _icons = iconsDirectory
                 .GetFiles()
                 .ToDictionary(fi => GetNameWithoutExtension(fi.Name));
+        }
 
-            if (icons.ContainsKey(extension.ToUpper()))
-                return icons[extension.ToUpper()];
+        public FileInfo GetImagePath(string extension)
+        {
+            if (_icons.ContainsKey(extension.ToUpper()))
+                return _icons[extension.ToUpper()];
 
-            return icons["._"];
+            return _icons["._BLANK"];
         }
 
         private string GetNameWithoutExtension(string fileName)
