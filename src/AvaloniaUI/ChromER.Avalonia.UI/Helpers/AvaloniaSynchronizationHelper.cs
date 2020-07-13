@@ -9,7 +9,7 @@ namespace ChromER.Avalonia.UI
     {
         public async Task InvokeAsync(Action action)
         {
-            await Dispatcher.UIThread.InvokeAsync(action, DispatcherPriority.Background);
+            await Dispatcher.UIThread.InvokeAsync(action, DispatcherPriority.Layout);
         }
     }
 }

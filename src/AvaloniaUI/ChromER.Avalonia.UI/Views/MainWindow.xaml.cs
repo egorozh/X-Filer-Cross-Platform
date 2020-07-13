@@ -1,8 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
+﻿using Avalonia.Markup.Xaml;
 using ChromER.Shared.ViewModels;
 using Egorozh.GoogleChromeWindow.AvaloniaUI;
 
@@ -14,7 +10,7 @@ namespace ChromER.Avalonia.UI
         {
             InitializeComponent();
 #if DEBUG
-            this.AttachDevTools();
+            //this.AttachDevTools();
 #endif
 
             _mainVm = new MainViewModel(new AvaloniaSynchronizationHelper());
