@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Egorozh.GoogleChromeWindow.WPF
@@ -8,7 +9,7 @@ namespace Egorozh.GoogleChromeWindow.WPF
         #region Dependency Properties
 
         public static readonly DependencyProperty TabsMaxWidthProperty = DependencyProperty.Register(
-            "TabsMaxWidth", typeof(double), typeof(GoogleChromeWindow), new PropertyMetadata(default(double)));
+            nameof(TabsMaxWidth), typeof(double), typeof(GoogleChromeWindow), new PropertyMetadata(default(double)));
 
         public static readonly DependencyProperty CloseCommandProperty = DependencyProperty.Register(
             nameof(CloseCommand), typeof(ICommand), typeof(GoogleChromeWindow),
@@ -23,8 +24,19 @@ namespace Egorozh.GoogleChromeWindow.WPF
             new PropertyMetadata(default(ICommand)));
 
         public static readonly DependencyProperty ToolBarContentProperty = DependencyProperty.Register(
-            "ToolBarContent", typeof(FrameworkElement), typeof(GoogleChromeWindow),
+            nameof(ToolBarContent), typeof(FrameworkElement), typeof(GoogleChromeWindow),
             new PropertyMetadata(default(FrameworkElement)));
+
+        public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(
+            nameof(ItemsSource), typeof(IEnumerable), typeof(GoogleChromeWindow),
+            new PropertyMetadata(default(IEnumerable)));
+
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(
+            nameof(SelectedItem), typeof(object), typeof(GoogleChromeWindow), new PropertyMetadata(default(object)));
+
+        public static readonly DependencyProperty TabItemTemplateProperty = DependencyProperty.Register(
+            nameof(TabItemTemplate), typeof(DataTemplate), typeof(GoogleChromeWindow),
+            new PropertyMetadata(default(DataTemplate)));
 
         #endregion
 
@@ -54,10 +66,28 @@ namespace Egorozh.GoogleChromeWindow.WPF
             set => SetValue(ExpandCommandProperty, value);
         }
 
+        public IEnumerable ItemsSource
+        {
+            get => (IEnumerable) GetValue(ItemsSourceProperty);
+            set => SetValue(ItemsSourceProperty, value);
+        }
+
         public FrameworkElement ToolBarContent
         {
             get => (FrameworkElement) GetValue(ToolBarContentProperty);
             set => SetValue(ToolBarContentProperty, value);
+        }
+
+        public object SelectedItem
+        {
+            get => (object) GetValue(SelectedItemProperty);
+            set => SetValue(SelectedItemProperty, value);
+        }
+
+        public DataTemplate TabItemTemplate
+        {
+            get => (DataTemplate) GetValue(TabItemTemplateProperty);
+            set => SetValue(TabItemTemplateProperty, value);
         }
 
         #endregion
@@ -84,6 +114,9 @@ namespace Egorozh.GoogleChromeWindow.WPF
 
             var behavior = new WindowResizeFixerBehavior();
             behavior.Attach(this);
+
+            var blurBehavior = new BlurBehavior();
+            blurBehavior.Attach(this);
 
             CalcTabMaxWidth();
 

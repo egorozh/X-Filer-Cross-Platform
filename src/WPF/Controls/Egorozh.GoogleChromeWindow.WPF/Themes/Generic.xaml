@@ -33,15 +33,15 @@
                 <Grid
                     Height="{Binding WindowState, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}} ,Converter={wpf:WindowTitleHeightConverter}}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" 
-                                          MaxWidth="{TemplateBinding TabsMaxWidth}"/>
+                        <ColumnDefinition Width="Auto"
+                                          MaxWidth="{TemplateBinding TabsMaxWidth}" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <wpf:ChromeTabsControl ItemsSource="{Binding DirectoryTabItems}"
-                                           SelectedItem="{Binding CurrentDirectoryTabItem}">
+                    <wpf:ChromeTabsControl ItemsSource="{TemplateBinding ItemsSource}"
+                                           SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type wpf:GoogleChromeWindow}}}">
                         <wpf:ChromeTabsControl.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -57,7 +57,7 @@
                                         <TextBlock.Style>
                                             <Style TargetType="{x:Type TextBlock}">
 
-                                                <Setter Property="Foreground" Value="White"></Setter>
+                                                <Setter Property="Foreground" Value="White" />
                                                 <Style.Triggers>
                                                     <MultiDataTrigger>
                                                         <MultiDataTrigger.Conditions>
@@ -146,8 +146,9 @@
                                 Content="{TemplateBinding ToolBarContent}" />
 
                 <!--TabItemContent-->
-                <ContentPresenter Grid.Row="2" />
-
+                <ContentControl Grid.Row="2"
+                                Content="{TemplateBinding SelectedItem}"
+                                ContentTemplate="{TemplateBinding TabItemTemplate}" />
             </Grid>
         </Border>
 
@@ -160,6 +161,7 @@
     </ControlTemplate>
 
     <Style TargetType="{x:Type wpf:GoogleChromeWindow}">
+       
         <Setter Property="WindowStyle" Value="None" />
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="WindowState" Value="Maximized" />
@@ -168,7 +170,7 @@
         <Setter Property="Width" Value="1024" />
         <Setter Property="Height" Value="720" />
         <Setter Property="BorderBrush" Value="#84807F" />
-        <Setter Property="Background" Value="Black" />
+        <Setter Property="Background" Value="#44000000" />
 
         <Setter Property="Template" Value="{StaticResource GoogleChromeWindowTemplate}" />
 

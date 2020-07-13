@@ -6,7 +6,10 @@
                         xmlns:wpf="clr-namespace:Egorozh.GoogleChromeWindow.WPF;assembly=Egorozh.GoogleChromeWindow.WPF"
                         xmlns:ui="clr-namespace:ChromER.WPF.UI"
                         xmlns:viewModels="clr-namespace:ChromER.Shared.ViewModels;assembly=ChromER.Shared.ViewModels"
-                        mc:Ignorable="d">
+                        mc:Ignorable="d"
+
+                        ItemsSource="{Binding DirectoryTabItems}"
+                        SelectedItem="{Binding CurrentDirectoryTabItem}">
 
     <wpf:GoogleChromeWindow.ToolBarContent>
         <Grid Background="#353535">
@@ -188,17 +191,15 @@
         </Grid>
     </wpf:GoogleChromeWindow.ToolBarContent>
 
-    <ContentControl Content="{Binding CurrentDirectoryTabItem}">
-        <ContentControl.ContentTemplate>
-            <DataTemplate>
-                <ui:DirectoryTabItem>
-                    <!--<ui:DirectoryTabItem.Background>
+    <wpf:GoogleChromeWindow.TabItemTemplate>
+        <DataTemplate>
+            <ui:DirectoryTabItem>
+                <!--<ui:DirectoryTabItem.Background>
                         <ImageBrush Stretch="UniformToFill"
                                     ImageSource="/ChromER.WPF.UI;component/Assets/folder_background.png" />
                     </ui:DirectoryTabItem.Background>-->
-                </ui:DirectoryTabItem>
-            </DataTemplate>
-        </ContentControl.ContentTemplate>
-    </ContentControl>
+            </ui:DirectoryTabItem>
+        </DataTemplate>
+    </wpf:GoogleChromeWindow.TabItemTemplate>
 
 </wpf:GoogleChromeWindow>
