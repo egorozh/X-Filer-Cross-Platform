@@ -79,9 +79,9 @@ namespace ChromER.Shared.ViewModels
             var attr = File.GetAttributes(path);
 
             if (attr.HasFlag(FileAttributes.Directory))
-                Open(new DirectoryViewModel(path));
+                Open(new DirectoryViewModel(new DirectoryInfo(path)));
             else
-                Open(new FileViewModel(path));
+                Open(new FileViewModel(new FileInfo(path)));
         }
 
         #endregion

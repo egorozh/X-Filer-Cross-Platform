@@ -52,8 +52,20 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock Margin="10 2"
-                                               Text="{Binding Name}">
+                                    <TextBlock Margin="10 2 0 2"
+                                               Background="Transparent"
+                                               TextTrimming="CharacterEllipsis"
+                                               Text="{Binding Name}"
+                                               HorizontalAlignment="Stretch">
+                                        <TextBlock.OpacityMask>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                <GradientStop
+                                                    Color="{Binding Background.Color, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"
+                                                    Offset="0.8" />
+                                                <GradientStop Color="Transparent" Offset="1" />
+                                            </LinearGradientBrush>
+                                        </TextBlock.OpacityMask>
+
                                         <TextBlock.Style>
                                             <Style TargetType="{x:Type TextBlock}">
 
@@ -161,7 +173,7 @@
     </ControlTemplate>
 
     <Style TargetType="{x:Type wpf:GoogleChromeWindow}">
-       
+
         <Setter Property="WindowStyle" Value="None" />
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="WindowState" Value="Maximized" />
