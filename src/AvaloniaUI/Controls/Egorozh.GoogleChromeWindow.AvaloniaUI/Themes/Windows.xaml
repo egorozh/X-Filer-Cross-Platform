@@ -15,7 +15,7 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate>
-          <Border Background="#33000000">
+          <Border Background="#44000000">
 
             <Grid>
 
