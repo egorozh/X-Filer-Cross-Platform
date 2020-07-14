@@ -45,6 +45,8 @@
  
   <Style Selector="local|ChromeTabsControl ListBoxItem">
     <Setter Property="Height" Value="32" />
+    <Setter Property="MaxWidth" Value="260" />       
+    <Setter Property="Width" Value="260" />
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="BorderBrush" Value="Transparent"/>
     <Setter Property="BorderThickness" Value="0"/>

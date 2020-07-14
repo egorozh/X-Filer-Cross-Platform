@@ -76,15 +76,17 @@ namespace Egorozh.GoogleChromeWindow.AvaloniaUI
             ExpandCommand = new DelegateCommand(OnExpand);
 
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            TransparencyLevelHint = WindowTransparencyLevel.AcrylicBlur;
         }
 
         #endregion
 
         #region Protected Methods
 
-        protected override void OnTemplateApplied(TemplateAppliedEventArgs e)
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
-            base.OnTemplateApplied(e);
+            base.OnApplyTemplate(e);
 
             _titleBar = e.NameScope.Get<Grid>(PartTitleBar);
         }
