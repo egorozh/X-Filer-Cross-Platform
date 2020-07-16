@@ -41,7 +41,8 @@
                     </Grid.ColumnDefinitions>
 
                     <wpf:ChromeTabsControl ItemsSource="{TemplateBinding ItemsSource}"
-                                           SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type wpf:GoogleChromeWindow}}}">
+                                           ActiveTabBackground="{TemplateBinding ActiveTabBackground}"
+                                           SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type wpf:GoogleChromeWindow}}, Mode=TwoWay}">
                         <wpf:ChromeTabsControl.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -60,7 +61,7 @@
                                         <TextBlock.OpacityMask>
                                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                                 <GradientStop
-                                                    Color="{Binding Background.Color, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"
+                                                    Color="Red"
                                                     Offset="0.8" />
                                                 <GradientStop Color="Transparent" Offset="1" />
                                             </LinearGradientBrush>

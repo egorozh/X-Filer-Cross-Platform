@@ -11,7 +11,9 @@
                         Title="{Binding CurrentDirectoryTabItem.Name}"
 
                         ItemsSource="{Binding DirectoryTabItems}"
-                        SelectedItem="{Binding CurrentDirectoryTabItem}">
+                        SelectedItem="{Binding CurrentDirectoryTabItem, Mode=TwoWay}"
+
+                        ActiveTabBackground="{DynamicResource ToolBarBackground}">
 
     <wpf:GoogleChromeWindow.InputBindings>
         <ui:ExtendedMouseBinding Gesture="XButton1"
@@ -21,7 +23,7 @@
     </wpf:GoogleChromeWindow.InputBindings>
 
     <wpf:GoogleChromeWindow.ToolBarContent>
-        <Grid Background="#353535">
+        <Grid Background="{DynamicResource ToolBarBackground}">
 
             <Grid.RowDefinitions>
                 <!--Search TextBox-->

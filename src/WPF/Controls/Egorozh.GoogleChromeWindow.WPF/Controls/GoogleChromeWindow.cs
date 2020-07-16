@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Egorozh.GoogleChromeWindow.WPF
 {
@@ -37,6 +38,10 @@ namespace Egorozh.GoogleChromeWindow.WPF
         public static readonly DependencyProperty TabItemTemplateProperty = DependencyProperty.Register(
             nameof(TabItemTemplate), typeof(DataTemplate), typeof(GoogleChromeWindow),
             new PropertyMetadata(default(DataTemplate)));
+
+        public static readonly DependencyProperty ActiveTabBackgroundProperty = DependencyProperty.Register(
+            nameof(ActiveTabBackground), typeof(Brush), typeof(GoogleChromeWindow),
+            new PropertyMetadata(default(Brush)));
 
         #endregion
 
@@ -88,6 +93,12 @@ namespace Egorozh.GoogleChromeWindow.WPF
         {
             get => (DataTemplate) GetValue(TabItemTemplateProperty);
             set => SetValue(TabItemTemplateProperty, value);
+        }
+        
+        public Brush ActiveTabBackground
+        {
+            get => (Brush) GetValue(ActiveTabBackgroundProperty);
+            set => SetValue(ActiveTabBackgroundProperty, value);
         }
 
         #endregion
