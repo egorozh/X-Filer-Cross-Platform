@@ -439,8 +439,13 @@
     <ControlTemplate
         x:Key="{x:Static MenuItem.TopLevelItemTemplateKey}"
         TargetType="{x:Type MenuItem}">
+
         <Border Name="Border"
-                Background="#292A2D">
+                Margin="2 0"
+                Height="28"
+                MinWidth="32"
+                CornerRadius="14"
+                Background="Transparent">
             <Grid>
                 <ContentPresenter
                     Margin="6,3,6,3"
@@ -448,9 +453,10 @@
                     RecognizesAccessKey="True" />
             </Grid>
         </Border>
+
         <ControlTemplate.Triggers>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource NormalBrush}" />
+                <Setter TargetName="Border" Property="Background" Value="#555555" />
                 <Setter TargetName="Border" Property="BorderBrush" Value="Transparent" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
