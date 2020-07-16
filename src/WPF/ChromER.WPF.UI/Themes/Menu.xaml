@@ -387,18 +387,31 @@
                 CornerRadius="14">
 
             <Grid>
-                <ContentPresenter
-                    Margin="6,3,6,3"
-                    ContentSource="Header"
-                    RecognizesAccessKey="True" />
-                <Popup
-                    Name="Popup"
-                    Placement="Bottom"
-                    IsOpen="{TemplateBinding IsSubmenuOpen}"
-                    AllowsTransparency="True"
 
-                    Focusable="False"
-                    PopupAnimation="Fade">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Viewbox Stretch="Uniform"
+                         Margin="10 6 2 6">
+                    <ContentPresenter ContentSource="Icon" />
+                </Viewbox>
+
+                <ContentPresenter Grid.Column="1"
+                                  Margin="6,3,10,3"
+                                  VerticalAlignment="Center"
+                                  ContentSource="Header"
+                                  RecognizesAccessKey="True" />
+
+                <Popup Grid.ColumnSpan="2" Grid.Column="0"
+                       Name="Popup"
+                       Placement="Bottom"
+                       IsOpen="{TemplateBinding IsSubmenuOpen}"
+                       AllowsTransparency="True"
+
+                       Focusable="False"
+                       PopupAnimation="Fade">
                     <Border
                         Name="SubmenuBorder"
                         SnapsToDevicePixels="True"
@@ -456,9 +469,10 @@
                          Margin="10 6 2 6">
                     <ContentPresenter ContentSource="Icon" />
                 </Viewbox>
-              
+
                 <ContentPresenter Grid.Column="1"
-                                  Margin="6,3,6,10"
+                                  Margin="6,3,10,3"
+                                  VerticalAlignment="Center"
                                   ContentSource="Header"
                                   RecognizesAccessKey="True" />
             </Grid>
@@ -481,6 +495,7 @@
         x:Key="{x:Static MenuItem.SubmenuItemTemplateKey}"
         TargetType="{x:Type MenuItem}">
         <Border Name="Border"
+                Height="28"
                 Background="#292A2D">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -489,11 +504,13 @@
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut" />
                     <ColumnDefinition Width="13" />
                 </Grid.ColumnDefinitions>
-                <ContentPresenter
-                    Name="Icon"
-                    Margin="6,0,6,0"
-                    VerticalAlignment="Center"
-                    ContentSource="Icon" />
+
+                <Viewbox Stretch="Uniform"
+                         Margin="10 6 2 6">
+                    <ContentPresenter ContentSource="Icon"
+                                      Name="Icon"/>
+                </Viewbox>
+
                 <Border
                     Name="Check"
                     Width="13" Height="13"
@@ -515,6 +532,7 @@
                     Name="HeaderHost"
                     Grid.Column="1"
                     ContentSource="Header"
+                    VerticalAlignment="Center"
                     RecognizesAccessKey="True" />
                 <TextBlock x:Name="InputGestureText"
                            Grid.Column="2"
@@ -548,7 +566,8 @@
     <ControlTemplate
         x:Key="{x:Static MenuItem.SubmenuHeaderTemplateKey}"
         TargetType="{x:Type MenuItem}">
-        <Border Name="Border">
+        <Border Name="Border"
+                Height="28">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Icon" />
@@ -556,11 +575,11 @@
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut" />
                     <ColumnDefinition Width="13" />
                 </Grid.ColumnDefinitions>
-                <ContentPresenter
-                    Name="Icon"
-                    Margin="6,0,6,0"
-                    VerticalAlignment="Center"
-                    ContentSource="Icon" />
+                <Viewbox Stretch="Uniform"
+                         Margin="10 6 2 6">
+                    <ContentPresenter ContentSource="Icon"
+                                      Name="Icon"/>
+                </Viewbox>
                 <ContentPresenter
                     Name="HeaderHost"
                     Grid.Column="1"
