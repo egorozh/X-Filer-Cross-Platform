@@ -7,7 +7,13 @@ namespace ChromER
 {
     internal class ExtensionToImageFileConverter
     {
-        private Dictionary<string, FileInfo> _icons;
+        #region Private Fields
+
+        private readonly Dictionary<string, FileInfo> _icons;
+
+        #endregion
+
+        #region Constructor
 
         public ExtensionToImageFileConverter()
         {
@@ -20,24 +26,39 @@ namespace ChromER
                 .ToDictionary(fi => GetNameWithoutExtension(fi.Name));
         }
 
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Получение полного пути до иконки для заданного расширения
+        /// </summary>
+        /// <param name="extension">Расширение в формате без точки сначала</param>
+        /// <returns></returns>
         public FileInfo GetImagePath(string extension)
         {
             if (_icons.ContainsKey(extension.ToUpper()))
                 return _icons[extension.ToUpper()];
 
-            return _icons["._BLANK"];
+            return _icons[IconName.Blank.ToUpper()];
         }
 
-        private string GetNameWithoutExtension(string fileName)
+        #endregion
+
+        #region Private Methods
+
+        private static string GetNameWithoutExtension(string fileName)
         {
-            // 7z.svg
+            // 7z.svg => 7z
 
             var parts = fileName.Split(new[] {'.'});
 
             if (parts.Length > 0)
-                return '.' + parts[0].ToUpper();
+                return parts[0].ToUpper();
 
             return "_";
         }
+
+        #endregion
     }
 }

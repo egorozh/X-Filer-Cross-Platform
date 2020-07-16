@@ -17,13 +17,13 @@ namespace ChromER
         {
             if (viewModel is DirectoryViewModel)
             {
-                return _converter.GetImagePath("._");
+                return _converter.GetImagePath(IconName.Folder);
             }
             else if (viewModel is FileViewModel fileViewModel)
             {
                 var extension = new FileInfo(fileViewModel.FullName).Extension;
 
-                var imagePath = _converter.GetImagePath(extension);
+                var imagePath = _converter.GetImagePath(string.IsNullOrEmpty(extension) ? "" : extension.Substring(1));
 
                 return imagePath;
             }
