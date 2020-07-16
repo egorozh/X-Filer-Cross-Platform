@@ -122,7 +122,7 @@
                        HorizontalAlignment="Center"
                        Foreground="White"
                        Text="{Binding Name}" 
-                       TextWrapping="Wrap"
+                       TextTrimming="CharacterEllipsis"
                        TextAlignment="Center"/>
           </Grid>
         </DataTemplate>
