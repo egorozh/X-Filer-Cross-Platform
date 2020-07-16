@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Avalonia.Threading;
-using ChromER.Shared.ViewModels;
 
 namespace ChromER.Avalonia.UI
 {

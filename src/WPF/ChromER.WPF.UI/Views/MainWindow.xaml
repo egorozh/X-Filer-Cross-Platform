@@ -5,7 +5,7 @@
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                         xmlns:wpf="clr-namespace:Egorozh.GoogleChromeWindow.WPF;assembly=Egorozh.GoogleChromeWindow.WPF"
                         xmlns:ui="clr-namespace:ChromER.WPF.UI"
-                        xmlns:viewModels="clr-namespace:ChromER.Shared.ViewModels;assembly=ChromER.Shared.ViewModels"
+                        xmlns:chromEr="clr-namespace:ChromER;assembly=ChromER"
                         mc:Ignorable="d"
 
                         Title="{Binding CurrentDirectoryTabItem.Name}"
@@ -191,9 +191,10 @@
                             <Setter Property="ItemsSource" Value="{Binding Items}" />
                             <Setter Property="Command" Value="{Binding Command}" />
                             <Setter Property="CommandParameter" Value="{Binding CommandParameter}" />
+                            <Setter Property="Icon" Value="{Binding IconPath, Converter={ui:IconPathToImageConverter}}" />
                         </Style>
                         <HierarchicalDataTemplate
-                            DataType="{x:Type viewModels:MenuItemViewModel}"
+                            DataType="{x:Type chromEr:MenuItemViewModel}"
                             ItemsSource="{Binding Path=Bookmarks}" />
                     </Menu.Resources>
                 </Menu>

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using ChromER.Shared.ViewModels;
 
 namespace ChromER.WPF.UI
 {
@@ -11,7 +10,7 @@ namespace ChromER.WPF.UI
         {
             InitializeComponent();
 
-            _mainVm = new MainViewModel(new WpfSynchronizationHelper());
+            _mainVm = ChromEr.Instance.MainViewModel;
 
             DataContext = _mainVm;
         }

@@ -1,5 +1,4 @@
 ﻿using Avalonia.Markup.Xaml;
-using ChromER.Shared.ViewModels;
 using Egorozh.GoogleChromeWindow.AvaloniaUI;
 
 namespace ChromER.Avalonia.UI
@@ -13,7 +12,7 @@ namespace ChromER.Avalonia.UI
             //this.AttachDevTools();
 #endif
 
-            _mainVm = new MainViewModel(new AvaloniaSynchronizationHelper());
+            _mainVm = ChromEr.Instance.MainViewModel;
 
             DataContext = _mainVm;
         }

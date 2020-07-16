@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 
-namespace ChromER.Shared.ViewModels
+namespace ChromER
 {
     public class MainViewModel : BaseViewModel
     {
@@ -16,7 +16,7 @@ namespace ChromER.Shared.ViewModels
 
         public DirectoryTabItemViewModel CurrentDirectoryTabItem { get; set; }
 
-        public ObservableCollection<MenuItemViewModel> Bookmarks=>ChromEr.Instance
+        public IReadOnlyCollection<MenuItemViewModel> Bookmarks => ChromEr.Instance.BookmarksManager.Bookmarks;
 
         #endregion
 
@@ -25,8 +25,6 @@ namespace ChromER.Shared.ViewModels
         public DelegateCommand AddTabItemCommand { get; }
 
         public DelegateCommand CloseCommand { get; }
-
-        public DelegateCommand BookmarkClickCommand { get; }
 
         #endregion
 
@@ -43,22 +41,6 @@ namespace ChromER.Shared.ViewModels
             CloseCommand = new DelegateCommand(OnClose);
 
             AddTabItemViewModel();
-
-            BookmarkClickCommand = new DelegateCommand(OnBookmarkClicked);
-
-            Bookmarks = new ObservableCollection<MenuItemViewModel>
-            {
-                new MenuItemViewModel("C:\\")
-                {
-                    Header = "C:\\",
-                    Command = BookmarkClickCommand
-                },
-                new MenuItemViewModel(@"C:\Games\ArtMoney")
-                {
-                    Header = @"ArtMoney",
-                    Command = BookmarkClickCommand
-                }
-            };
         }
 
         #endregion
@@ -72,12 +54,6 @@ namespace ChromER.Shared.ViewModels
         #endregion
 
         #region Commands Methods
-
-        private void OnBookmarkClicked(object parameter)
-        {
-            if (parameter is string path)
-                CurrentDirectoryTabItem.OpenBookmark(path);
-        }
 
         private void OnAddTabItem(object obj)
         {
@@ -126,6 +102,8 @@ namespace ChromER.Shared.ViewModels
         public ICommand Command { get; set; }
 
         public object CommandParameter { get; set; }
+
+        public string IconPath { get; set; }
 
         public IList<MenuItemViewModel> Items { get; set; }
 

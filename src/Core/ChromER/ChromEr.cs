@@ -3,30 +3,48 @@
     /// <summary>
     /// Основное приложение проводника chromER
     /// </summary>
-    public class ChromEr
+    public sealed class ChromEr
     {
         #region Singleton
 
-        private static ChromEr _instance;
+        public static ChromEr Instance { get; private set; }
 
-        public static ChromEr Instance => _instance ??= new ChromEr();
+        public static void CreateChromer(ISynchronizationHelper helper)
+        {
+            if (Instance == null)
+            {
+                Instance = new ChromEr(helper);
+            }
+        }
 
         #endregion
 
         #region Public Properties
+
+        public MainViewModel MainViewModel { get; }
 
         /// <summary>
         /// Менеджер иконок
         /// </summary>
         public IIconsManager IconsManager { get; }
 
+        /// <summary>
+        /// Менеджер закладок
+        /// </summary>
+        public IBookmarksManager BookmarksManager { get; }
+
         #endregion
 
         #region Constructor
 
-        public ChromEr()
+        private ChromEr(ISynchronizationHelper synchronizationHelper)
         {
-            IconsManager = new IconsManager(new ExtensionToImageFileConverter());
+            MainViewModel = new MainViewModel(synchronizationHelper);
+
+            var converter = new ExtensionToImageFileConverter();
+
+            IconsManager = new IconsManager(converter);
+            BookmarksManager = new BookmarksManager(MainViewModel, converter);
         }
 
         #endregion

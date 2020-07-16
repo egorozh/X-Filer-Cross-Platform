@@ -13,6 +13,8 @@ namespace ChromER.Avalonia.UI
 
         public override void OnFrameworkInitializationCompleted()
         {
+            ChromEr.CreateChromer(new AvaloniaSynchronizationHelper());
+
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.MainWindow = new MainWindow();

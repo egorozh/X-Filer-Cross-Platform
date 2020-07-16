@@ -4,7 +4,6 @@ using System.Globalization;
 using System.IO;
 using Avalonia.Data.Converters;
 using Avalonia.Media.Imaging;
-using ChromER.Shared.ViewModels;
 using Svg;
 
 namespace ChromER.Avalonia.UI

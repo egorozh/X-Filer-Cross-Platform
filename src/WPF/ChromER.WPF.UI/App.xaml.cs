@@ -8,6 +8,8 @@ namespace ChromER.WPF.UI
         {
             base.OnStartup(e);
 
+            ChromEr.CreateChromer(new WpfSynchronizationHelper());
+
             var mainWindow = new MainWindow();
 
             mainWindow.Show();
