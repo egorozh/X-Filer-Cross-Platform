@@ -49,19 +49,19 @@ namespace ChromER
 
             _bookmarks = CreateMenuItemViewModels(items);
 
-            new ObservableCollection<MenuItemViewModel>
-            {
-                new MenuItemViewModel("C:\\")
-                {
-                    Header = "C:\\",
-                    Command = BookmarkClickCommand
-                },
-                new MenuItemViewModel(@"C:\Games\ArtMoney")
-                {
-                    Header = @"ArtMoney",
-                    Command = BookmarkClickCommand
-                }
-            };
+            //new ObservableCollection<MenuItemViewModel>
+            //{
+            //    new MenuItemViewModel("C:\\")
+            //    {
+            //        Header = "C:\\",
+            //        Command = BookmarkClickCommand
+            //    },
+            //    new MenuItemViewModel(@"C:\Games\ArtMoney")
+            //    {
+            //        Header = @"ArtMoney",
+            //        Command = BookmarkClickCommand
+            //    }
+            //};
         }
 
         private ObservableCollection<MenuItemViewModel> CreateMenuItemViewModels(IList<BookmarkItem> items)

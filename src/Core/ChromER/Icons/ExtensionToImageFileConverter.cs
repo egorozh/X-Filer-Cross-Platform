@@ -23,7 +23,7 @@ namespace ChromER
 
             _icons = iconsDirectory
                 .GetFiles()
-                .ToDictionary(fi => GetNameWithoutExtension(fi.Name));
+                .ToDictionary(fi => Path.GetFileNameWithoutExtension(fi.Name).ToUpper());
         }
 
         #endregion
@@ -41,22 +41,6 @@ namespace ChromER
                 return _icons[extension.ToUpper()];
 
             return _icons[IconName.Blank.ToUpper()];
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        private static string GetNameWithoutExtension(string fileName)
-        {
-            // 7z.svg => 7z
-
-            var parts = fileName.Split(new[] {'.'});
-
-            if (parts.Length > 0)
-                return parts[0].ToUpper();
-
-            return "_";
         }
 
         #endregion
