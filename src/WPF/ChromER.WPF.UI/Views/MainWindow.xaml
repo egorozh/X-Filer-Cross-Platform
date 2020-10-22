@@ -117,67 +117,61 @@
                     </Canvas>
                 </Button>
 
-                <TextBox Grid.Column="3"
-                         VerticalAlignment="Center"
-                         Margin="10 0"
-                         Text="{Binding CurrentDirectoryTabItem.FilePath}">
-                    <TextBox.Style>
-                        <Style TargetType="{x:Type TextBox}">
-                            <Setter Property="Background" Value="#202124" />
-                            <Setter Property="BorderBrush" Value="#404D64" />
-                            <Setter Property="FontSize" Value="12" />
+                <ui:SearchControl Grid.Column="3"
+                                  VerticalAlignment="Center"
+                                  Margin="10 0"
+                                  Text="{Binding CurrentDirectoryTabItem.FilePath}">
+                    <ui:SearchControl.Resources>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderBrush" Value="Transparent" />
                             <Setter Property="Foreground" Value="White" />
                             <Setter Property="BorderThickness" Value="0" />
-                            <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
-                            <Setter Property="HorizontalContentAlignment" Value="Left" />
-                            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                            <Setter Property="AllowDrop" Value="true" />
-                            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
-                            <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
+                            <Setter Property="Margin" Value="2 2 4 2" />
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
+
                             <Setter Property="Template">
                                 <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type TextBox}">
+                                    <ControlTemplate TargetType="{x:Type Button}">
                                         <Border x:Name="border"
-                                                Height="28"
-                                                CornerRadius="14"
-                                                Background="{TemplateBinding Background}"
-                                                BorderThickness="{TemplateBinding BorderThickness}"
-                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                SnapsToDevicePixels="True">
-                                            <Grid Margin="20 0"
-                                                  VerticalAlignment="Center">
-                                                <ScrollViewer x:Name="PART_ContentHost"
-                                                              Focusable="false"
-                                                              HorizontalScrollBarVisibility="Hidden"
-                                                              VerticalScrollBarVisibility="Hidden" />
-                                            </Grid>
+                                            Height="24"
+                                            Width="24"
+                                            CornerRadius="14"
+                                            Background="{TemplateBinding Background}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            SnapsToDevicePixels="true">
 
+                                            <Viewbox Width="18"
+                                                 Height="18"
+                                                 Stretch="Uniform">
+                                                <ContentPresenter />
+                                            </Viewbox>
                                         </Border>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="true">
-                                                <Setter Property="Background" Value="#292A2D" />
+                                                <Setter Property="Background" Value="#454545" />
                                             </Trigger>
-                                            <Trigger Property="IsKeyboardFocused" Value="true">
-                                                <Setter Property="BorderThickness" Value="2" />
+                                            <Trigger Property="IsPressed" Value="true">
+                                                <Setter Property="Background" Value="#333333" />
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled" Value="false">
+                                                <Setter Property="Foreground" Value="#8C8C8C" />
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
-                            <Style.Triggers>
-                                <MultiTrigger>
-                                    <MultiTrigger.Conditions>
-                                        <Condition Property="IsInactiveSelectionHighlightEnabled"
-                                                   Value="true" />
-                                        <Condition Property="IsSelectionActive" Value="false" />
-                                    </MultiTrigger.Conditions>
-                                    <Setter Property="SelectionBrush"
-                                            Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
-                                </MultiTrigger>
-                            </Style.Triggers>
                         </Style>
-                    </TextBox.Style>
-                </TextBox>
+                    </ui:SearchControl.Resources>
+                    <ui:SearchControl.ButtonsContent>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Command="{Binding AddBookmarkCommand}"
+                                    CommandParameter="{Binding CurrentDirectoryTabItem.FilePath}">+</Button>
+                        </StackPanel>
+                    </ui:SearchControl.ButtonsContent>
+                </ui:SearchControl>
             </Grid>
 
             <!-- BookMarks-->

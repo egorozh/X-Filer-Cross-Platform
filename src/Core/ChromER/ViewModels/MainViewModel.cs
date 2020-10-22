@@ -26,6 +26,8 @@ namespace ChromER
 
         public DelegateCommand CloseCommand { get; }
 
+        public DelegateCommand AddBookmarkCommand => ChromEr.Instance.BookmarksManager.AddBookmarkCommand;
+
         #endregion
 
         #region Events

@@ -4,7 +4,21 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>0.1.0.0</FileVersion>
+    <Version>0.1.0</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="AttachedProperties\**" />
+    <Compile Remove="Behaviors\**" />
+    <EmbeddedResource Remove="AttachedProperties\**" />
+    <EmbeddedResource Remove="Behaviors\**" />
+    <None Remove="AttachedProperties\**" />
+    <None Remove="Behaviors\**" />
+    <Page Remove="AttachedProperties\**" />
+    <Page Remove="Behaviors\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
@@ -18,11 +32,6 @@
 
   <ItemGroup>
     <Resource Include="Assets\folder_background.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="AttachedProperties\" />
-    <Folder Include="Behaviors\" />
   </ItemGroup>
 
 </Project>

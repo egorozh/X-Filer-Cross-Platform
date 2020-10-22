@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace ChromER
 {
-    internal class BookmarksManager : IBookmarksManager
+    internal class BookmarksManager : BaseViewModel, IBookmarksManager
     {
         #region Constants
 
@@ -21,12 +21,14 @@ namespace ChromER
         private readonly ExtensionToImageFileConverter _converter;
 
         private readonly ObservableCollection<MenuItemViewModel> _bookmarks;
+        private readonly List<BookmarkItem> _items;
 
         #endregion
 
         #region Public Properties
 
         public IReadOnlyCollection<MenuItemViewModel> Bookmarks => _bookmarks;
+        public DelegateCommand AddBookmarkCommand { get; }
 
         #endregion
 
@@ -44,24 +46,11 @@ namespace ChromER
             _converter = converter;
             BookmarkClickCommand = new DelegateCommand(OnBookmarkClicked);
 
-            var items = OpenBookmarksFile();
+            AddBookmarkCommand = new DelegateCommand(OnAddBookmark);
 
+            _items = OpenBookmarksFile();
 
-            _bookmarks = CreateMenuItemViewModels(items);
-
-            //new ObservableCollection<MenuItemViewModel>
-            //{
-            //    new MenuItemViewModel("C:\\")
-            //    {
-            //        Header = "C:\\",
-            //        Command = BookmarkClickCommand
-            //    },
-            //    new MenuItemViewModel(@"C:\Games\ArtMoney")
-            //    {
-            //        Header = @"ArtMoney",
-            //        Command = BookmarkClickCommand
-            //    }
-            //};
+            _bookmarks = CreateMenuItemViewModels(_items);
         }
 
         private ObservableCollection<MenuItemViewModel> CreateMenuItemViewModels(IList<BookmarkItem> items)
@@ -70,6 +59,10 @@ namespace ChromER
 
             if (items == null || !items.Any())
                 return menuVms;
+
+            var applicationDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+            var iconsDirectory = new DirectoryInfo(Path.Combine(applicationDirectory, "Resources", "Icons"));
 
             foreach (var bookmarkItem in items)
             {
@@ -80,10 +73,6 @@ namespace ChromER
                     Items = CreateMenuItemViewModels(bookmarkItem.Children)
                 };
 
-                var applicationDirectory = AppDomain.CurrentDomain.BaseDirectory;
-
-                var iconsDirectory = new DirectoryInfo(Path.Combine(applicationDirectory, "Resources", "Icons"));
-
                 if (path == null)
                 {
                     vm.Header = bookmarkItem.BookmarkFolderName;
@@ -91,31 +80,42 @@ namespace ChromER
                 }
                 else
                 {
-                    vm.Command = BookmarkClickCommand;
-
-                    var attr = File.GetAttributes(path);
-
-                    if (attr.HasFlag(FileAttributes.Directory))
+                    try
                     {
-                        vm.Header = new DirectoryInfo(path).Name;
-                        vm.IconPath = Path.Combine(iconsDirectory.FullName, IconName.Folder + ".svg");
+                        DefinitionPathToVm(vm, path, iconsDirectory);
                     }
-                    else
+                    catch (Exception e)
                     {
-                        var extension = new FileInfo(path).Extension;
-
-                        vm.Header = new FileInfo(path).Name;
-                        vm.IconPath =
-                            _converter.GetImagePath(string.IsNullOrEmpty(extension) ? "" : extension.Substring(1))
-                                .FullName;
+                        continue;
                     }
                 }
-
 
                 menuVms.Add(vm);
             }
 
             return menuVms;
+        }
+
+        private void DefinitionPathToVm(MenuItemViewModel vm, string path, DirectoryInfo iconsDirectory)
+        {
+            vm.Command = BookmarkClickCommand;
+
+            var attr = File.GetAttributes(path);
+
+            if (attr.HasFlag(FileAttributes.Directory))
+            {
+                vm.Header = new DirectoryInfo(path).Name;
+                vm.IconPath = Path.Combine(iconsDirectory.FullName, IconName.Folder + ".svg");
+            }
+            else
+            {
+                var extension = new FileInfo(path).Extension;
+
+                vm.Header = new FileInfo(path).Name;
+                vm.IconPath =
+                    _converter.GetImagePath(string.IsNullOrEmpty(extension) ? "" : extension.Substring(1))
+                        .FullName;
+            }
         }
 
         private List<BookmarkItem> OpenBookmarksFile()
@@ -145,6 +145,34 @@ namespace ChromER
         {
             if (parameter is string path)
                 _mainViewModel.CurrentDirectoryTabItem.OpenBookmark(path);
+        }
+
+        private void OnAddBookmark(object obj)
+        {
+            if (obj is string path && Directory.Exists(path))
+            {
+                _items.Add(new BookmarkItem
+                {
+                    Path = path
+                });
+
+                try
+                {
+                    var json = JsonSerializer.Serialize(_items);
+
+                    File.WriteAllText(BookmarksFileName, json);
+                }
+                catch (Exception e)
+                {
+                }
+
+                _bookmarks.Clear();
+
+                foreach (var viewModel in CreateMenuItemViewModels(_items))
+                {
+                    _bookmarks.Add(viewModel);
+                }
+            }
         }
 
         #endregion
