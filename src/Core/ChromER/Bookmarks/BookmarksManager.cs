@@ -141,8 +141,8 @@ namespace ChromER
 
         private void OnBookmarkClicked(object parameter)
         {
-            if (parameter is object[] parameters &&
-                parameters.Length == 2 &&
+            if (parameter is IList<object> parameters &&
+                parameters.Count == 2 &&
                 parameters[0] is string path &&
                 parameters[1] is DirectoryTabItemViewModel tabItemViewModel)
             {

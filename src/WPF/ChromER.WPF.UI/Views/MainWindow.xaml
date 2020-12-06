@@ -9,7 +9,7 @@
                          xmlns:dockablz="http://dragablz.net/winfx/xaml/dockablz"
                          mc:Ignorable="d"
 
-                         Title="{Binding CurrentDirectoryTabItem.Name}"
+                         Title="{Binding CurrentDirectoryTabItem.Header}"
 
                          Height="720" Width="1024">
 
@@ -32,6 +32,8 @@
 
             <Style TargetType="{x:Type dragablz:TabablzControl}"
                    x:Key="TabablzControlStyle">
+
+                <Setter Property="SelectedItem" Value="{Binding CurrentDirectoryTabItem, Mode=TwoWay}" />
 
                 <Setter Property="NewItemFactory" Value="{Binding Factory}" />
                 <Setter Property="ItemsSource" Value="{Binding DirectoryTabItems}" />

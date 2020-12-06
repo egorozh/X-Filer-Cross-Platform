@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using Avalonia.Data.Converters;
+using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
 using Svg;
 
@@ -47,6 +49,16 @@ namespace ChromER.Avalonia.UI
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public class YourConverter : MarkupExtension, IMultiValueConverter
+    {
+        public override object ProvideValue(IServiceProvider serviceProvider) => this;
+
+        public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
+        {
+            return values;
         }
     }
 }

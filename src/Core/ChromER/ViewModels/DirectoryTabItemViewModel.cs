@@ -244,11 +244,4 @@ namespace ChromER
     {
         Task InvokeAsync(Action action);
     }
-
-    public interface IBookmarkParameterData
-    {
-        DirectoryTabItemViewModel TabItemViewModel { get; set; }
-
-        string Path { get; set; }
-    }
 }
