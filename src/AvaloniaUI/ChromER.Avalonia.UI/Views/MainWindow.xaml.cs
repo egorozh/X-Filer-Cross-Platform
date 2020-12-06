@@ -12,16 +12,14 @@ namespace ChromER.Avalonia.UI
             //this.AttachDevTools();
 #endif
 
-            _mainVm = ChromEr.Instance.MainViewModel;
+          
 
-            DataContext = _mainVm;
+            
         }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
         }
-
-        private readonly MainViewModel _mainVm;
     }
 }

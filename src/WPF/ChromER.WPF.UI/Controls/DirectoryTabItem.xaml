@@ -5,125 +5,330 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:ui="clr-namespace:ChromER.WPF.UI"
+             xmlns:chromEr="clr-namespace:ChromER;assembly=ChromER"
+             xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <ListBox ItemsSource="{Binding DirectoriesAndFiles}"
-             SelectedItem="{Binding SelectedFileEntity}"
-             Background="Transparent"
-             BorderThickness="0"
-             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-             HorizontalContentAlignment="Center"
-             VerticalContentAlignment="Center">
+    <Grid Background="{DynamicResource ToolBarBackground}">
 
-        <ListBox.ItemContainerStyle>
-            <Style TargetType="{x:Type ListBoxItem}">
-                <Setter Property="SnapsToDevicePixels" Value="True" />
-                <Setter Property="Padding" Value="4" />
-                <Setter Property="HorizontalContentAlignment"
-                        Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
-                <Setter Property="VerticalContentAlignment"
-                        Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
-                <Setter Property="Background" Value="Transparent" />
-                <Setter Property="BorderBrush" Value="Transparent" />
-                <Setter Property="BorderThickness" Value="1" />
-                <Setter Property="Width" Value="140" />
-                <Setter Property="Height" Value="140" />
+        <Grid.RowDefinitions>
 
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+            <!--Search TextBox-->
 
-                            <Grid>
+            <RowDefinition Height="36" />
 
-                                <Border x:Name="Bd"
-                                        Margin="10"
-                                        CornerRadius="5"
+
+            <!-- BookMarks-->
+
+            <RowDefinition Height="36" />
+
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+
+        <!--Search TextBox-->
+
+        <Grid Grid.Row="0"
+              Margin="5 0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="Margin" Value="2" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="border"
+                                        Height="28"
+                                        Width="28"
+                                        CornerRadius="14"
                                         Background="{TemplateBinding Background}"
                                         BorderThickness="{TemplateBinding BorderThickness}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
-                                        Padding="{TemplateBinding Padding}"
                                         SnapsToDevicePixels="true">
 
-
-                                    <ContentPresenter
-                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-
-
+                                    <Viewbox Width="22"
+                                             Height="22"
+                                             Stretch="Uniform">
+                                        <ContentPresenter />
+                                    </Viewbox>
                                 </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter Property="Background" Value="#454545" />
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="true">
+                                        <Setter Property="Background" Value="#333333" />
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="false">
+                                        <Setter Property="Foreground" Value="#8C8C8C" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Grid.Resources>
 
-                            </Grid>
+            <Button ToolTip="Нажмите, чтобы вернуться."
+                    Command="{Binding MoveBackCommand}">
+                <Canvas Width="24" Height="24">
+                    <Path
+                        Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                        Data="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
+                </Canvas>
+            </Button>
 
-                            <ControlTemplate.Triggers>
-                                <MultiTrigger>
-                                    <MultiTrigger.Conditions>
-                                        <Condition Property="IsMouseOver" Value="True" />
-                                    </MultiTrigger.Conditions>
+            <Button Grid.Column="1"
+                    ToolTip="Нажмите, чтобы перейти вперёд."
+                    Command="{Binding MoveForwardCommand}">
+                <Canvas Width="24" Height="24">
+                    <Path
+                        Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                        Data="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" />
+                </Canvas>
+            </Button>
 
-                                    <Setter TargetName="Bd" Property="Background" Value="#55A9A9A9" />
-                                </MultiTrigger>
-                                <MultiTrigger>
-                                    <MultiTrigger.Conditions>
-                                        <Condition Property="Selector.IsSelectionActive" Value="False" />
-                                        <Condition Property="IsSelected" Value="True" />
-                                    </MultiTrigger.Conditions>
+            <Button Grid.Column="2"
+                    ToolTip="Обновить">
+                <Canvas Width="24" Height="24">
+                    <Path
+                        Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                        Data="M21,10.12H14.22L16.96,7.3C14.23,4.6 9.81,4.5 7.08,7.2C4.35,9.91 4.35,14.28 7.08,17C9.81,19.7 14.23,19.7 16.96,17C18.32,15.65 19,14.08 19,12.1H21C21,14.08 20.12,16.65 18.36,18.39C14.85,21.87 9.15,21.87 5.64,18.39C2.14,14.92 2.11,9.28 5.62,5.81C9.13,2.34 14.76,2.34 18.27,5.81L21,3V10.12M12.5,8V12.25L16,14.33L15.28,15.54L11,13V8H12.5Z" />
+                </Canvas>
+            </Button>
 
-                                </MultiTrigger>
-                                <MultiTrigger>
-                                    <MultiTrigger.Conditions>
-                                        <Condition Property="Selector.IsSelectionActive" Value="True" />
-                                        <Condition Property="IsSelected" Value="True" />
-                                    </MultiTrigger.Conditions>
+            <ui:SearchControl Grid.Column="3"
+                              VerticalAlignment="Center"
+                              Margin="10 0"
+                              Text="{Binding FilePath}">
+                <ui:SearchControl.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Margin" Value="2 2 4 2" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
 
-                                    <Setter TargetName="Bd" Property="Background" Value="#AAA9A9A9" />
-                                </MultiTrigger>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="TextElement.Foreground" TargetName="Bd"
-                                            Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </ListBox.ItemContainerStyle>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border x:Name="border"
+                                            Height="24"
+                                            Width="24"
+                                            CornerRadius="14"
+                                            Background="{TemplateBinding Background}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            SnapsToDevicePixels="true">
 
-        <ListBox.ItemsPanel>
-            <ItemsPanelTemplate>
-                <WrapPanel />
-            </ItemsPanelTemplate>
-        </ListBox.ItemsPanel>
+                                        <Viewbox Width="18"
+                                                 Height="18"
+                                                 Stretch="Uniform">
+                                            <ContentPresenter />
+                                        </Viewbox>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter Property="Background" Value="#454545" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="true">
+                                            <Setter Property="Background" Value="#333333" />
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="false">
+                                            <Setter Property="Foreground" Value="#8C8C8C" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ui:SearchControl.Resources>
+                <ui:SearchControl.ButtonsContent>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Command="{Binding AddBookmarkCommand}"
+                                CommandParameter="{Binding FilePath}">
+                            <Path Stretch="Uniform"
+                                  Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                                  Data="M5.8 21L7.4 14L2 9.2L9.2 8.6L12 2L14.8 8.6L22 9.2L18.8 12H18C17.3 12 16.6 12.1 15.9 12.4L18.1 10.5L13.7 10.1L12 6.1L10.3 10.1L5.9 10.5L9.2 13.4L8.2 17.7L12 15.4L12.5 15.7C12.3 16.2 12.1 16.8 12.1 17.3L5.8 21M17 14V17H14V19H17V22H19V19H22V17H19V14H17Z" />
 
-        <b:Interaction.Triggers>
-            <b:EventTrigger EventName="MouseDoubleClick">
-                <b:InvokeCommandAction
-                    Command="{Binding OpenCommand}"
-                    CommandParameter="{Binding SelectedFileEntity}" />
-            </b:EventTrigger>
-        </b:Interaction.Triggers>
+                        </Button>
+                    </StackPanel>
+                </ui:SearchControl.ButtonsContent>
+            </ui:SearchControl>
+        </Grid>
 
-        <ListBox.ItemTemplate>
-            <DataTemplate>
-                <Grid Background="Transparent">
+        <!-- BookMarks-->
+        <Grid Grid.Row="1">
+            <Menu Background="Transparent"
+                  VerticalAlignment="Center"
+                  ItemsSource="{Binding DataContext.Bookmarks, RelativeSource={RelativeSource AncestorType={x:Type dragablz:DragablzWindow}}}">
+                <Menu.Resources>
+                    <Style TargetType="{x:Type MenuItem}">
+                        <Setter Property="Header"
+                                Value="{Binding DataContext.Header, RelativeSource={RelativeSource Self}}" />
+                        <Setter Property="ItemsSource"
+                                Value="{Binding DataContext.Items, RelativeSource={RelativeSource Self}}" />
+                        <Setter Property="Command"
+                                Value="{Binding DataContext.Command, RelativeSource={RelativeSource Self}}" />
+                        <Setter Property="CommandParameter">
+                            <Setter.Value>
+                                <MultiBinding Converter="{ui:YourConverter}">
+                                    <Binding Path="DataContext.CommandParameter"
+                                             RelativeSource="{RelativeSource Self}" />
+                                    <Binding Path="DataContext"
+                                             RelativeSource="{RelativeSource AncestorType={x:Type ui:DirectoryTabItem}}" />
+                                </MultiBinding>
+                            </Setter.Value>
+                        </Setter>
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
+                        <Setter Property="Icon"
+                                Value="{Binding DataContext.IconPath, Converter={ui:IconPathToImageConverter}, RelativeSource={RelativeSource Self}}" />
+                    </Style>
+                    <HierarchicalDataTemplate
+                        DataType="{x:Type chromEr:MenuItemViewModel}"
+                        ItemsSource="{Binding Path=Bookmarks}" />
+                </Menu.Resources>
+            </Menu>
+        </Grid>
 
-                    <Image Source="{Binding ., Converter={ui:FileEntityToImageConverter}}" />
+        <ListBox Grid.Row="2"
+                 ItemsSource="{Binding DirectoriesAndFiles}"
+                 SelectedItem="{Binding SelectedFileEntity}"
+                 Background="Transparent"
+                 SelectionMode="Extended"
+                 BorderThickness="0"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 HorizontalContentAlignment="Center"
+                 VerticalContentAlignment="Center">
 
-                    <TextBlock Grid.Row="1"
-                               HorizontalAlignment="Center"
-                               Foreground="White"
-                               Text="{Binding Name}"
-                               TextTrimming="CharacterEllipsis" />
-                </Grid>
-            </DataTemplate>
-        </ListBox.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="SnapsToDevicePixels" Value="True" />
+                    <Setter Property="Padding" Value="4" />
+                    <Setter Property="HorizontalContentAlignment"
+                            Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+                    <Setter Property="VerticalContentAlignment"
+                            Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="Width" Value="140" />
+                    <Setter Property="Height" Value="140" />
 
-    </ListBox>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+
+                                <Grid>
+
+                                    <Border x:Name="Bd"
+                                            Margin="10"
+                                            CornerRadius="5"
+                                            Background="{TemplateBinding Background}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            Padding="{TemplateBinding Padding}"
+                                            SnapsToDevicePixels="true">
+
+
+                                        <ContentPresenter
+                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+
+
+                                    </Border>
+
+                                </Grid>
+
+                                <ControlTemplate.Triggers>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsMouseOver" Value="True" />
+                                        </MultiTrigger.Conditions>
+
+                                        <Setter TargetName="Bd" Property="Background" Value="#55A9A9A9" />
+                                    </MultiTrigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="Selector.IsSelectionActive" Value="False" />
+                                            <Condition Property="IsSelected" Value="True" />
+                                        </MultiTrigger.Conditions>
+
+                                    </MultiTrigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="Selector.IsSelectionActive" Value="True" />
+                                            <Condition Property="IsSelected" Value="True" />
+                                        </MultiTrigger.Conditions>
+
+                                        <Setter TargetName="Bd" Property="Background" Value="#AAA9A9A9" />
+                                    </MultiTrigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="TextElement.Foreground" TargetName="Bd"
+                                                Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+
+            <b:Interaction.Triggers>
+                <b:EventTrigger EventName="MouseDoubleClick">
+                    <b:InvokeCommandAction
+                        Command="{Binding OpenCommand}"
+                        CommandParameter="{Binding SelectedFileEntity}" />
+                </b:EventTrigger>
+            </b:Interaction.Triggers>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Background="Transparent">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Image Source="{Binding ., Converter={ui:FileEntityToImageConverter}}" />
+
+                        <TextBlock Grid.Row="1"
+                                   HorizontalAlignment="Center"
+                                   Foreground="White"
+                                   Text="{Binding Name}"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+        </ListBox>
+
+    </Grid>
+
 
 </UserControl>

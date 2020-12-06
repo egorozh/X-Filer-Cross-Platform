@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="**\*.xaml.cs">
@@ -18,15 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0-preview1" />
-    <PackageReference Include="Avalonia.Skia" Version="0.10.0-preview1" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0-preview6" />
+    <PackageReference Include="Avalonia.Skia" Version="0.10.0-preview6" />
     <PackageReference Include="Svg" Version="3.1.1" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Controls\DirectoryTabItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\Core\ChromER\ChromER.csproj" />
     <ProjectReference Include="..\Controls\Egorozh.GoogleChromeWindow.AvaloniaUI\Egorozh.GoogleChromeWindow.AvaloniaUI.csproj" />

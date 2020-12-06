@@ -17,7 +17,6 @@ namespace ChromER
 
         #region Private Fields
 
-        private readonly MainViewModel _mainViewModel;
         private readonly ExtensionToImageFileConverter _converter;
 
         private readonly ObservableCollection<MenuItemViewModel> _bookmarks;
@@ -40,9 +39,8 @@ namespace ChromER
 
         #region Constructor
 
-        public BookmarksManager(MainViewModel mainViewModel, ExtensionToImageFileConverter converter)
+        public BookmarksManager(ExtensionToImageFileConverter converter)
         {
-            _mainViewModel = mainViewModel;
             _converter = converter;
             BookmarkClickCommand = new DelegateCommand(OnBookmarkClicked);
 
@@ -143,8 +141,13 @@ namespace ChromER
 
         private void OnBookmarkClicked(object parameter)
         {
-            if (parameter is string path)
-                _mainViewModel.CurrentDirectoryTabItem.OpenBookmark(path);
+            if (parameter is object[] parameters &&
+                parameters.Length == 2 &&
+                parameters[0] is string path &&
+                parameters[1] is DirectoryTabItemViewModel tabItemViewModel)
+            {
+                tabItemViewModel.OpenBookmark(path);
+            }
         }
 
         private void OnAddBookmark(object obj)

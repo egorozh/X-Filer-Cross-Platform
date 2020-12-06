@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows.Input;
 
 namespace ChromER
@@ -11,83 +11,38 @@ namespace ChromER
 
         #region Public Properties
 
-        public ObservableCollection<DirectoryTabItemViewModel> DirectoryTabItems { get; set; } =
-            new ObservableCollection<DirectoryTabItemViewModel>();
+        public ITabClient InterTabClient { get; }
+
+        public ObservableCollection<DirectoryTabItemViewModel> DirectoryTabItems { get; }
+
+        public ObservableCollection<DirectoryTabItemViewModel> ToolItems { get; set; } = new();
 
         public DirectoryTabItemViewModel CurrentDirectoryTabItem { get; set; }
 
         public IReadOnlyCollection<MenuItemViewModel> Bookmarks => ChromEr.Instance.BookmarksManager.Bookmarks;
 
-        #endregion
-
-        #region Commands
-
-        public DelegateCommand AddTabItemCommand { get; }
-
-        public DelegateCommand CloseCommand { get; }
-
-        public DelegateCommand AddBookmarkCommand => ChromEr.Instance.BookmarksManager.AddBookmarkCommand;
+        public Func<DirectoryTabItemViewModel> Factory { get; }
 
         #endregion
-
-        #region Events
-
-        #endregion
-
+        
         #region Constructor
 
-        public MainViewModel(ISynchronizationHelper synchronizationHelper)
+        public MainViewModel(ISynchronizationHelper synchronizationHelper, ITabClient tabClient,
+            IEnumerable<DirectoryTabItemViewModel> init)
         {
             _synchronizationHelper = synchronizationHelper;
-            AddTabItemCommand = new DelegateCommand(OnAddTabItem);
-            CloseCommand = new DelegateCommand(OnClose);
+            InterTabClient = tabClient;
 
-            AddTabItemViewModel();
-        }
+            DirectoryTabItems = new ObservableCollection<DirectoryTabItemViewModel>(init);
 
-        #endregion
-
-        #region Public Methods
-
-        public void ApplicationClosing()
-        {
-        }
-
-        #endregion
-
-        #region Commands Methods
-
-        private void OnAddTabItem(object obj)
-        {
-            AddTabItemViewModel();
-        }
-
-        private void OnClose(object obj)
-        {
-            if (obj is DirectoryTabItemViewModel directoryTabItemViewModel)
-            {
-                CloseTab(directoryTabItemViewModel);
-            }
+            Factory = CreateTabVm;
         }
 
         #endregion
 
         #region Private Methods
 
-        private void AddTabItemViewModel()
-        {
-            var vm = new DirectoryTabItemViewModel(_synchronizationHelper);
-
-            DirectoryTabItems.Add(vm);
-            CurrentDirectoryTabItem = vm;
-        }
-
-        private void CloseTab(DirectoryTabItemViewModel directoryTabItemViewModel)
-        {
-            DirectoryTabItems.Remove(directoryTabItemViewModel);
-
-            CurrentDirectoryTabItem = DirectoryTabItems.FirstOrDefault();
-        }
+        private DirectoryTabItemViewModel CreateTabVm() => new(_synchronizationHelper);
 
         #endregion
     }

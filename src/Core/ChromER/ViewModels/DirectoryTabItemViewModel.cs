@@ -21,16 +21,21 @@ namespace ChromER
 
         public string FilePath { get; set; }
 
-        public string Name { get; set; }
+        public string Header { get; set; }
 
-        public ObservableCollection<FileEntityViewModel> DirectoriesAndFiles { get; set; } =
-            new ObservableCollection<FileEntityViewModel>();
+        public bool IsSelected { get; set; }
+
+        public object Content { get; set; }
+
+        public ObservableCollection<FileEntityViewModel> DirectoriesAndFiles { get; set; } = new();
 
         public FileEntityViewModel SelectedFileEntity { get; set; }
 
         #endregion
 
         #region Commands
+
+        public DelegateCommand AddBookmarkCommand => ChromEr.Instance.BookmarksManager.AddBookmarkCommand;
 
         public DelegateCommand OpenCommand { get; }
 
@@ -62,7 +67,7 @@ namespace ChromER
             MoveBackCommand = new DelegateCommand(OnMoveBack, OnCanMoveBack);
             MoveForwardCommand = new DelegateCommand(OnMoveForward, OnCanMoveForward);
 
-            Name = _history.Current.DirectoryPathName;
+            Header = _history.Current.DirectoryPathName;
             FilePath = _history.Current.DirectoryPath;
 
             OpenDirectory();
@@ -93,9 +98,9 @@ namespace ChromER
             if (parameter is DirectoryViewModel directoryViewModel)
             {
                 FilePath = directoryViewModel.FullName;
-                Name = directoryViewModel.Name;
+                Header = directoryViewModel.Name;
 
-                _history.Add(FilePath, Name);
+                _history.Add(FilePath, Header);
 
                 OpenDirectory();
             }
@@ -120,7 +125,7 @@ namespace ChromER
             var current = _history.Current;
 
             FilePath = current.DirectoryPath;
-            Name = current.DirectoryPathName;
+            Header = current.DirectoryPathName;
 
             OpenDirectory();
         }
@@ -134,7 +139,7 @@ namespace ChromER
             var current = _history.Current;
 
             FilePath = current.DirectoryPath;
-            Name = current.DirectoryPathName;
+            Header = current.DirectoryPathName;
 
             OpenDirectory();
         }
@@ -155,7 +160,7 @@ namespace ChromER
         {
             DirectoriesAndFiles.Clear();
 
-            if (Name == "Мой компьютер")
+            if (Header == "Мой компьютер")
             {
                 foreach (var logicalDrive in Directory.GetLogicalDrives())
                     DirectoriesAndFiles.Add(new DirectoryViewModel(logicalDrive));
@@ -238,5 +243,12 @@ namespace ChromER
     public interface ISynchronizationHelper
     {
         Task InvokeAsync(Action action);
+    }
+
+    public interface IBookmarkParameterData
+    {
+        DirectoryTabItemViewModel TabItemViewModel { get; set; }
+
+        string Path { get; set; }
     }
 }

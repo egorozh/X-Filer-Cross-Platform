@@ -13,11 +13,19 @@ namespace ChromER.Avalonia.UI
 
         public override void OnFrameworkInitializationCompleted()
         {
-            ChromEr.CreateChromer(new AvaloniaSynchronizationHelper());
+            AvaloniaSynchronizationHelper shelper = new();
+
+            ChromEr.CreateChromer(shelper, null);
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow();
+                desktop.MainWindow = new MainWindow
+                {
+                    DataContext = ChromEr.Instance.CreateMainViewModel(new []
+                    {
+                        new DirectoryTabItemViewModel(shelper)
+                    })
+                };
             }
 
             base.OnFrameworkInitializationCompleted();
