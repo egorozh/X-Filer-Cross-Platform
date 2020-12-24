@@ -11,6 +11,10 @@
                 <ResourceDictionary Source="Themes/Menu.xaml" />
                 <ResourceDictionary Source="Themes/Icons.xaml" />
                 <ResourceDictionary Source="Themes/Scroll.xaml" />
+
+                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml" />
+
+                <ResourceDictionary Source="Themes/Dragablze.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 

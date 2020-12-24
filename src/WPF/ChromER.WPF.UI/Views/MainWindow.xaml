@@ -22,16 +22,13 @@
 
     <dragablz:DragablzWindow.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-
             <DataTemplate DataType="{x:Type chromEr:DirectoryTabItemViewModel}">
                 <ui:DirectoryTabItem />
             </DataTemplate>
 
             <Style TargetType="{x:Type dragablz:TabablzControl}"
-                   x:Key="TabablzControlStyle">
+                   x:Key="TabablzControlStyle"
+                   BasedOn="{StaticResource ChromerTabablzControlBaseStyle}">
 
                 <Setter Property="SelectedItem" Value="{Binding CurrentDirectoryTabItem, Mode=TwoWay}" />
 
@@ -40,8 +37,8 @@
                 <Setter Property="ClosingItemCallback" Value="{x:Static ui:CloseActionStorage.ClosingTabItemHandler}" />
                 <Setter Property="ShowDefaultAddButton" Value="True" />
                 <Setter Property="ShowDefaultCloseButton" Value="True" />
-                <Setter Property="AdjacentHeaderItemOffset" Value="-15" />
-                <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
+                <Setter Property="AdjacentHeaderItemOffset" Value="-14" />
+                <Setter Property="ItemContainerStyle" Value="{StaticResource ChromerDragableTabItemStyle}" />
                 <Setter Property="HeaderMemberPath" Value="Header" />
 
                 <Setter Property="Margin" Value="0 8 0 0" />
