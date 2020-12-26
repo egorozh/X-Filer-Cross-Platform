@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:dockablz="http://dragablz.net/winfx/xaml/dockablz"
+                    xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:ChromER.WPF.UI"
-                    xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz">
+                    xmlns:local="clr-namespace:ChromER.WPF.UI">
 
     <Style TargetType="{x:Type Thumb}" x:Key="ChromerInvisibleThumbStyle">
         <Setter Property="Background" Value="Transparent" />
@@ -13,7 +14,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-  
+
     <Style TargetType="{x:Type Button}"
            x:Key="SystemWindowButton">
 
@@ -25,7 +26,6 @@
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-
 
         <Setter Property="Template">
             <Setter.Value>
@@ -211,16 +211,29 @@
 
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Height" Value="32" />
-        <Setter Property="MaxWidth" Value="200" />
-        <Setter Property="Width" Value="200" />
+       
+        <Setter Property="Width">
+            <Setter.Value>
+                <MultiBinding>
+                    <MultiBinding.Converter>
+                        <local:CalcMaxWidthTabItemConverter  />
+                    </MultiBinding.Converter>
+                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type dragablz:TabablzControl}}"
+                             Path="ActualWidth" />
+                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type dragablz:DragablzItemsControl}}" 
+                             Path="Items.Count" />
+                    
+                </MultiBinding>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Padding" Value="10,1" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-
 
         <Setter Property="Template">
             <Setter.Value>
@@ -392,7 +405,7 @@
 
     <Style TargetType="{x:Type dragablz:TabablzControl}"
            x:Key="ChromerTabablzControlBaseStyle">
-        <Setter Property="Padding" Value="2" /> 
+        <Setter Property="Padding" Value="2" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="{StaticResource TabItem.Selected.Background}" />
@@ -413,15 +426,22 @@
                             <RowDefinition x:Name="RowDefinition0" Height="Auto" />
                             <RowDefinition x:Name="RowDefinition1" Height="*" />
                         </Grid.RowDefinitions>
-                        <Border x:Name="contentPanel" BorderBrush="{TemplateBinding BorderBrush}"
+                        <Border x:Name="contentPanel"
+                                BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="{TemplateBinding Background}" Grid.Column="0"
-                                KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1"
-                                KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local"
+                                Background="{TemplateBinding Background}"
+                                Grid.Column="0"
+                                KeyboardNavigation.DirectionalNavigation="Contained"
+                                Grid.Row="1"
+                                KeyboardNavigation.TabIndex="2"
+                                KeyboardNavigation.TabNavigation="Local"
                                 Margin="0 -1 0 0">
                             <Grid x:Name="PART_ItemsHolder" />
                         </Border>
-                        <Grid Grid.Column="0" Grid.Row="0" Margin="0,2,2,0" x:Name="HeaderContainerGrid"
+                        <Grid Grid.Column="0" Grid.Row="0"
+                              Margin="0,2,2,0"
+                              HorizontalAlignment="Left"
+                              x:Name="HeaderContainerGrid"
                               Visibility="{TemplateBinding IsHeaderPanelVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <Grid.Resources>
                                 <Style TargetType="{x:Type Button}"
@@ -452,7 +472,8 @@
                                         <MultiBinding.Converter>
                                             <dragablz:TabablzHeaderSizeConverter Orientation="Horizontal" />
                                         </MultiBinding.Converter>
-                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="ActualWidth" />
+                                        <Binding RelativeSource="{RelativeSource TemplatedParent}"
+                                                 Path="ActualWidth" />
                                         <Binding RelativeSource="{RelativeSource Self}" Path="ItemsPresenterWidth" />
                                         <Binding ElementName="PrefixContentControl" Path="ActualWidth" />
                                         <Binding ElementName="DefaultAddButton" Path="DesiredSize.Width" />
@@ -598,5 +619,57 @@
         </Style.Triggers>
     </Style>
 
+    <Style TargetType="{x:Type dockablz:Branch}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type dockablz:Branch}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FirstItemLength, Mode=TwoWay}" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SecondItemLength, Mode=TwoWay}" />
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter x:Name="PART_FirstContentPresenter" Content="{TemplateBinding FirstItem}" />
+                            <GridSplitter Grid.Column="1" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" 
+                                          Width="5"
+                                          Background="#202124"/>
+                            <ContentPresenter x:Name="PART_SecondContentPresenter" Grid.Column="2" Content="{TemplateBinding SecondItem}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type dockablz:Branch}">
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FirstItemLength, Mode=TwoWay}" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SecondItemLength, Mode=TwoWay}" />
+                                    </Grid.RowDefinitions>
+                                    <ContentPresenter x:Name="PART_FirstContentPresenter" Content="{TemplateBinding FirstItem}" />
+                                    <GridSplitter Grid.Row="1" ResizeDirection="Rows" 
+                                                  ResizeBehavior="PreviousAndNext"
+                                                  Background="#202124"
+                                                  Height="5"
+                                                  HorizontalAlignment="Stretch" />
+                                    <ContentPresenter x:Name="PART_SecondContentPresenter" Grid.Row="2" Content="{TemplateBinding SecondItem}" />
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 
 </ResourceDictionary>

@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\ChromER\ChromER.csproj" />
+    <ProjectReference Include="..\Controls\Egorozh.GoogleChromeWindow.WPF\Egorozh.GoogleChromeWindow.WPF.csproj" />
   </ItemGroup>
 
   <ItemGroup>

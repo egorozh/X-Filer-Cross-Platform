@@ -4,7 +4,7 @@
 
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Themes/SearchControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/ChromER.WPF.UI;component/Themes/SearchControl.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

@@ -47,6 +47,8 @@ namespace Egorozh.GoogleChromeWindow.WPF
 
         #region Public Properties
 
+        public static double SystemButtonsWidth { get; } = 44 * 3;
+
         public double TabsMaxWidth
         {
             get => (double) GetValue(TabsMaxWidthProperty);
@@ -94,7 +96,7 @@ namespace Egorozh.GoogleChromeWindow.WPF
             get => (DataTemplate) GetValue(TabItemTemplateProperty);
             set => SetValue(TabItemTemplateProperty, value);
         }
-        
+
         public Brush ActiveTabBackground
         {
             get => (Brush) GetValue(ActiveTabBackgroundProperty);
@@ -126,8 +128,8 @@ namespace Egorozh.GoogleChromeWindow.WPF
             var behavior = new WindowResizeFixerBehavior();
             behavior.Attach(this);
 
-            var blurBehavior = new BlurBehavior();
-            blurBehavior.Attach(this);
+            //var blurBehavior = new BlurBehavior();
+            //blurBehavior.Attach(this);
 
             CalcTabMaxWidth();
 

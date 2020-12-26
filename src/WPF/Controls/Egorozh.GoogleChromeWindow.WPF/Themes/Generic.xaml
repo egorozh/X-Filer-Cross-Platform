@@ -16,22 +16,14 @@
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{Binding WindowState, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Converter={wpf:WindowBorderThicknessConverter}}">
             <Grid>
-                <Grid.RowDefinitions>
+                <!--#endregion-->
 
-                    <!--Title Bar-->
-                    <RowDefinition Height="Auto" />
-
-                    <!--ToolBar-->
-                    <RowDefinition Height="Auto" />
-
-                    <!--TabItemContent-->
-                    <RowDefinition Height="*" />
-
-                </Grid.RowDefinitions>
+                <ContentPresenter />
 
                 <!-- #region Title Bar-->
-                <Grid
-                    Height="{Binding WindowState, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}} ,Converter={wpf:WindowTitleHeightConverter}}">
+                <Grid HorizontalAlignment="Right"
+                      VerticalAlignment="Top"
+                      Height="{Binding WindowState, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}} ,Converter={wpf:WindowTitleHeightConverter}}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"
                                           MaxWidth="{TemplateBinding TabsMaxWidth}" />
@@ -39,72 +31,6 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-
-                    <wpf:ChromeTabsControl ItemsSource="{TemplateBinding ItemsSource}"
-                                           ActiveTabBackground="{TemplateBinding ActiveTabBackground}"
-                                           SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type wpf:GoogleChromeWindow}}, Mode=TwoWay}">
-                        <wpf:ChromeTabsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBlock Margin="10 2 0 2"
-                                               Background="Transparent"
-                                               TextTrimming="CharacterEllipsis"
-                                               Text="{Binding Name}"
-                                               HorizontalAlignment="Stretch">
-                                        <TextBlock.OpacityMask>
-                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                                <GradientStop
-                                                    Color="Red"
-                                                    Offset="0.8" />
-                                                <GradientStop Color="Transparent" Offset="1" />
-                                            </LinearGradientBrush>
-                                        </TextBlock.OpacityMask>
-
-                                        <TextBlock.Style>
-                                            <Style TargetType="{x:Type TextBlock}">
-
-                                                <Setter Property="Foreground" Value="White" />
-                                                <Style.Triggers>
-                                                    <MultiDataTrigger>
-                                                        <MultiDataTrigger.Conditions>
-                                                            <Condition
-                                                                Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"
-                                                                Value="False" />
-                                                            <Condition
-                                                                Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                                                                Value="False" />
-                                                        </MultiDataTrigger.Conditions>
-                                                        <Setter Property="Foreground" Value="#BFBFBF" />
-                                                    </MultiDataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-
-                                    <Button Margin="2"
-                                            Grid.Column="1"
-                                            Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type wpf:GoogleChromeWindow}}}"
-                                            CommandParameter="{Binding}"
-                                            Style="{StaticResource CloseTabButtonStyle}" />
-                                </Grid>
-                            </DataTemplate>
-                        </wpf:ChromeTabsControl.ItemTemplate>
-                    </wpf:ChromeTabsControl>
-
-                    <Button Grid.Column="1"
-                            Margin="3"
-                            VerticalAlignment="Bottom"
-                            WindowChrome.IsHitTestVisibleInChrome="True"
-                            Command="{Binding AddTabItemCommand}"
-                            Width="{Binding ActualHeight,RelativeSource={RelativeSource Self}}"
-                            Style="{StaticResource AddTabButtonStyle}" />
 
                     <StackPanel Grid.Column="3"
                                 WindowChrome.IsHitTestVisibleInChrome="True"
@@ -151,17 +77,6 @@
 
                     </StackPanel>
                 </Grid>
-
-                <!--#endregion-->
-
-                <!--ToolBar-->
-                <ContentControl Grid.Row="1"
-                                Content="{TemplateBinding ToolBarContent}" />
-
-                <!--TabItemContent-->
-                <ContentControl Grid.Row="2"
-                                Content="{TemplateBinding SelectedItem}"
-                                ContentTemplate="{TemplateBinding TabItemTemplate}" />
             </Grid>
         </Border>
 
@@ -177,13 +92,13 @@
 
         <Setter Property="WindowStyle" Value="None" />
         <Setter Property="AllowsTransparency" Value="True" />
-        <Setter Property="WindowState" Value="Maximized" />
+
         <Setter Property="MinWidth" Value="500" />
         <Setter Property="MinHeight" Value="120" />
         <Setter Property="Width" Value="1024" />
         <Setter Property="Height" Value="720" />
         <Setter Property="BorderBrush" Value="#84807F" />
-        <Setter Property="Background" Value="#AA000000" />
+        <Setter Property="Background" Value="#000000" />
 
         <Setter Property="Template" Value="{StaticResource GoogleChromeWindowTemplate}" />
 
