@@ -139,6 +139,8 @@
         <Setter Property="Width" Value="16" />
         <Setter Property="Height" Value="16" />
         <Setter Property="ToolTip" Value="Закрыть" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="White" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -164,14 +166,14 @@
                                     Value="#555555" />
                         </Trigger>
                         <DataTrigger
-                            Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type dragablz:DragablzWindow}} }"
+                            Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type Window}} }"
                             Value="False">
                             <Setter Property="Foreground" Value="#BFBFBF" />
                         </DataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition
-                                    Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type dragablz:DragablzWindow}} }"
+                                    Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type Window}} }"
                                     Value="False" />
                                 <Condition
                                     Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}"
@@ -185,10 +187,10 @@
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition
-                                    Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type dragablz:DragablzWindow}} }"
+                                    Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type Window}} }"
                                     Value="False" />
                                 <Condition
-                                    Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"
+                                    Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type dragablz:DragablzItem}}}"
                                     Value="true" />
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
@@ -286,8 +288,6 @@
                                        x:Name="PART_Thumb" />
 
                                 <Button Grid.Column="1"
-                                        Foreground="{TemplateBinding Foreground}"
-                                        Background="{TemplateBinding Background}"
                                         BorderBrush="{TemplateBinding Background}"
                                         Style="{StaticResource CloseItemButtonStyle}"
                                         Command="{x:Static dragablz:TabablzControl.CloseItemCommand}"
