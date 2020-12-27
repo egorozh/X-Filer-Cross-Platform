@@ -20,11 +20,11 @@ namespace ChromER.WPF.UI
                 values[1] is int itemsCount)
             {
                 var newWidth = (controlWidth - GoogleChromeWindow.SystemButtonsWidth - 10.0) / itemsCount;
-                if (newWidth < 200)
+                if (newWidth < 256.0)
                     return newWidth;
             }
 
-            return 200.0;
+            return 256.0;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

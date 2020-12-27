@@ -10,8 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dragablz" Version="0.0.3.223" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
     <PackageReference Include="SharpVectors.Reloaded" Version="1.6.0" />
   </ItemGroup>
 

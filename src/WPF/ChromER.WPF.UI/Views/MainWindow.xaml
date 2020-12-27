@@ -6,7 +6,6 @@
                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                         xmlns:ui="clr-namespace:ChromER.WPF.UI"
-                        xmlns:chromEr="clr-namespace:ChromER;assembly=ChromER"
                         xmlns:wpf="clr-namespace:Egorozh.GoogleChromeWindow.WPF;assembly=Egorozh.GoogleChromeWindow.WPF"
                         mc:Ignorable="d"
 
@@ -20,42 +19,10 @@
         <ui:ExtendedMouseBinding Gesture="XButton2"
                                  Command="{Binding CurrentDirectoryTabItem.MoveForwardCommand}" />
     </wpf:GoogleChromeWindow.InputBindings>
-
-    <wpf:GoogleChromeWindow.Resources>
-        <ResourceDictionary>
-            <DataTemplate DataType="{x:Type chromEr:DirectoryTabItemViewModel}">
-                <ui:DirectoryTabItem />
-            </DataTemplate>
-
-            <Style TargetType="{x:Type dragablz:TabablzControl}"
-                   x:Key="TabablzControlStyle"
-                   BasedOn="{StaticResource ChromerTabablzControlBaseStyle}">
-
-                <Setter Property="SelectedItem" Value="{Binding CurrentDirectoryTabItem, Mode=TwoWay}" />
-
-                <Setter Property="NewItemFactory" Value="{Binding Factory}" />
-                <Setter Property="ItemsSource" Value="{Binding DirectoryTabItems}" />
-                <Setter Property="ClosingItemCallback" Value="{x:Static ui:CloseActionStorage.ClosingTabItemHandler}" />
-                <Setter Property="ShowDefaultAddButton" Value="True" />
-                <Setter Property="ShowDefaultCloseButton" Value="True" />
-                <Setter Property="AdjacentHeaderItemOffset" Value="-14" />
-                <Setter Property="ItemContainerStyle" Value="{StaticResource ChromerDragableTabItemStyle}" />
-                <Setter Property="HeaderMemberPath" Value="Header" />
-
-                <Setter Property="Margin" Value="0 8 0 0" />
-                <Setter Property="BorderThickness" Value="0" />
-                <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
-            </Style>
-
-        </ResourceDictionary>
-    </wpf:GoogleChromeWindow.Resources>
-
+   
     <dockablz:Layout Partition="2AE89D18-F236-4D20-9605-6C03319038E6"
-                     FloatingItemHeaderMemberPath="Header"
-                     FloatingItemsSource="{Binding ToolItems}"
-                     ClosingFloatingItemCallback="{x:Static ui:CloseActionStorage.ClosingFloatingItemHandler}"
-                     IsFloatDropZoneEnabled="True"
-                     FloatingItemsContainerMargin="0 2 0 0">
+                     IsFloatDropZoneEnabled="False"
+                     x:Name="Layout">
 
         <!-- branch template lets dragablz create a new tab control after a window is split via docking -->
         <dockablz:Layout.BranchTemplate>

@@ -165,19 +165,16 @@
                             <Setter Property="Background"
                                     Value="#555555" />
                         </Trigger>
-                        <DataTrigger
-                            Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type Window}} }"
-                            Value="False">
+                        <DataTrigger Value="False"
+                                     Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type Window}} }">
                             <Setter Property="Foreground" Value="#BFBFBF" />
                         </DataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-                                <Condition
-                                    Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type Window}} }"
-                                    Value="False" />
-                                <Condition
-                                    Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}"
-                                    Value="true" />
+                                <Condition Value="False"
+                                           Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type Window}} }" />
+                                <Condition Value="true"
+                                           Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" />
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
                                 <Setter Property="Background" Value="#414141" />
@@ -186,12 +183,10 @@
                         </MultiDataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-                                <Condition
-                                    Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type Window}} }"
-                                    Value="False" />
-                                <Condition
-                                    Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type dragablz:DragablzItem}}}"
-                                    Value="true" />
+                                <Condition Value="False"
+                                           Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type Window}} }" />
+                                <Condition Value="true"
+                                           Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type dragablz:DragablzItem}}}" />
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
                                 <Setter Property="Foreground" Value="White" />
@@ -213,18 +208,17 @@
 
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Height" Value="32" />
-       
         <Setter Property="Width">
             <Setter.Value>
                 <MultiBinding>
                     <MultiBinding.Converter>
-                        <local:CalcMaxWidthTabItemConverter  />
+                        <local:CalcMaxWidthTabItemConverter />
                     </MultiBinding.Converter>
                     <Binding RelativeSource="{RelativeSource AncestorType={x:Type dragablz:TabablzControl}}"
                              Path="ActualWidth" />
-                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type dragablz:DragablzItemsControl}}" 
+                    <Binding RelativeSource="{RelativeSource AncestorType={x:Type dragablz:DragablzItemsControl}}"
                              Path="Items.Count" />
-                    
+
                 </MultiBinding>
             </Setter.Value>
         </Setter>
@@ -240,7 +234,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type dragablz:DragablzItem}">
-                    <Grid x:Name="templateRoot" SnapsToDevicePixels="true" Margin="0 1 0 -1">
+                    <Grid x:Name="templateRoot" SnapsToDevicePixels="true" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
@@ -249,14 +243,15 @@
 
 
                         <Path Fill="{TemplateBinding Background}"
+                              Stretch="Uniform"
                               VerticalAlignment="Bottom">
                             <Path.Data>
                                 <PathGeometry>
                                     <PathFigure StartPoint="0 0"
                                                 IsClosed="True">
-                                        <ArcSegment Size="7 7"
-                                                    Point="7 -7" />
-                                        <LineSegment Point="7 0" />
+                                        <ArcSegment Size="8 8"
+                                                    Point="8 -8" />
+                                        <LineSegment Point="8 0" />
                                     </PathFigure>
                                 </PathGeometry>
                             </Path.Data>
@@ -264,7 +259,7 @@
 
                         <Border Grid.Column="1"
                                 x:Name="Bd"
-                                CornerRadius="7 7 0 0"
+                                CornerRadius="8 8 0 0"
                                 Background="{TemplateBinding Background}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
@@ -320,44 +315,21 @@
                                 HorizontalAlignment="Left" />
 
                         <Path Grid.Column="2"
+                              Stretch="Uniform"
                               Fill="{TemplateBinding Background}"
                               VerticalAlignment="Bottom">
                             <Path.Data>
                                 <PathGeometry>
-                                    <PathFigure StartPoint="0 -7"
+                                    <PathFigure StartPoint="0 -8"
                                                 IsClosed="True">
-                                        <ArcSegment Size="7 7"
-                                                    Point="7 0" />
+                                        <ArcSegment Size="8 8"
+                                                    Point="8 0" />
                                         <LineSegment Point="0 0" />
                                     </PathFigure>
                                 </PathGeometry>
                             </Path.Data>
                         </Path>
 
-
-                        <!--<dragablz:Trapezoid x:Name="Trapezoid"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            Background="{TemplateBinding Background}"
-                                            LongBasePenBrush="{TemplateBinding Background}"
-                                            PenThickness="0"
-                                            Margin="0 0 0 0">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <ContentPresenter Content="{TemplateBinding ContentControl.Content}"
-                                                  ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
-                                                  ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
-                                                  HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
-                                                  VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
-                                                  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
-                                                  Margin="{TemplateBinding Control.Padding }"
-                                                  x:Name="contentPresenter" />
-                           
-                          
-                            </Grid>
-                        </dragablz:Trapezoid>-->
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="dragablz:TabablzControl.IsWrappingTabItem" Value="True">
@@ -369,9 +341,8 @@
                             <Setter TargetName="RightBorder" Property="Visibility" Value="Collapsed" />
                             <Setter Property="Background" Value="#161616" />
                         </Trigger>
-                        <DataTrigger
-                            Binding="{Binding WindowState, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                            Value="Normal">
+                        <DataTrigger Value="Normal"
+                                     Binding="{Binding WindowState, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
                             <Setter Property="Height" Value="34" />
                         </DataTrigger>
                         <MultiTrigger>
@@ -397,6 +368,34 @@
                             <Setter Property="Background"
                                     Value="{DynamicResource ToolBarBackground }" />
                         </MultiTrigger>
+                        <DataTrigger Value="False"
+                                     Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type Window}} }">
+                            <Setter Property="Foreground" Value="#BFBFBF" />
+                        </DataTrigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Value="False"
+                                           Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type Window}} }" />
+                                <Condition Value="true"
+                                           Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" />
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter Property="Foreground" Value="White" />
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Value="False"
+                                           Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type Window}} }" />
+                                <Condition Value="true"
+                                           Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" />
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter Property="Foreground" Value="#C4C4C4" />
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -404,15 +403,23 @@
     </Style>
 
     <Style TargetType="{x:Type dragablz:TabablzControl}"
-           x:Key="ChromerTabablzControlBaseStyle">
-        <Setter Property="Padding" Value="2" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Background" Value="{StaticResource TabItem.Selected.Background}" />
-        <Setter Property="BorderBrush" Value="{StaticResource TabItem.Selected.Border}" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-        <Setter Property="ItemContainerStyle" Value="{StaticResource StandardDragablzTabItemStyle}" />
+           x:Key="TabablzControlStyle">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="0 8 0 0" />
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+
+        <Setter Property="SelectedItem" Value="{Binding CurrentDirectoryTabItem, Mode=TwoWay}" />
+        <Setter Property="NewItemFactory" Value="{Binding Factory}" />
+        <Setter Property="ItemsSource" Value="{Binding DirectoryTabItems}" />
+        <Setter Property="ClosingItemCallback"
+                Value="{x:Static local:CloseActionStorage.ClosingTabItemHandler}" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ChromerDragableTabItemStyle}" />
+        <Setter Property="ShowDefaultAddButton" Value="True" />
+        <Setter Property="ShowDefaultCloseButton" Value="True" />
+        <Setter Property="AdjacentHeaderItemOffset" Value="-16" />
+        <Setter Property="HeaderMemberPath" Value="Header" />
+      
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type dragablz:TabablzControl}">
@@ -435,12 +442,13 @@
                                 Grid.Row="1"
                                 KeyboardNavigation.TabIndex="2"
                                 KeyboardNavigation.TabNavigation="Local"
-                                Margin="0 -1 0 0">
+                                Margin="0 0 0 0">
                             <Grid x:Name="PART_ItemsHolder" />
                         </Border>
                         <Grid Grid.Column="0" Grid.Row="0"
                               Margin="0,2,2,0"
                               HorizontalAlignment="Left"
+                              VerticalAlignment="Bottom"
                               x:Name="HeaderContainerGrid"
                               Visibility="{TemplateBinding IsHeaderPanelVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <Grid.Resources>
@@ -463,7 +471,8 @@
                                                            ItemsSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Items}"
                                                            ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
                                                            ItemsOrganiser="{TemplateBinding HeaderItemsOrganiser}"
-                                                           KeyboardNavigation.TabIndex="1" Panel.ZIndex="1"
+                                                           KeyboardNavigation.TabIndex="1"
+                                                           Panel.ZIndex="1"
                                                            ItemTemplate="{TemplateBinding HeaderItemTemplate}"
                                                            FixedItemCount="{TemplateBinding FixedHeaderCount}"
                                                            Style="{StaticResource TabablzDragablzItemsControlStyle}">
@@ -616,6 +625,10 @@
                     </Setter.Value>
                 </Setter>
             </Trigger>
+            <DataTrigger Value="Maximized"
+                         Binding="{Binding WindowState, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                <Setter Property="Margin" Value="0" />
+            </DataTrigger>
         </Style.Triggers>
     </Style>
 
@@ -628,15 +641,18 @@
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FirstItemLength, Mode=TwoWay}" />
+                                <ColumnDefinition MinWidth="30"
+                                                  Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FirstItemLength, Mode=TwoWay}" />
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SecondItemLength, Mode=TwoWay}" />
+                                <ColumnDefinition MinWidth="30"
+                                                  Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SecondItemLength, Mode=TwoWay}" />
                             </Grid.ColumnDefinitions>
                             <ContentPresenter x:Name="PART_FirstContentPresenter" Content="{TemplateBinding FirstItem}" />
-                            <GridSplitter Grid.Column="1" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" 
+                            <GridSplitter Grid.Column="1" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext"
                                           Width="5"
-                                          Background="#202124"/>
-                            <ContentPresenter x:Name="PART_SecondContentPresenter" Grid.Column="2" Content="{TemplateBinding SecondItem}" />
+                                          Background="#202124" />
+                            <ContentPresenter x:Name="PART_SecondContentPresenter" Grid.Column="2"
+                                              Content="{TemplateBinding SecondItem}" />
                         </Grid>
                     </Border>
                 </ControlTemplate>
@@ -652,17 +668,21 @@
                                     BorderThickness="{TemplateBinding BorderThickness}">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FirstItemLength, Mode=TwoWay}" />
+                                        <RowDefinition MinHeight="30"
+                                                       Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FirstItemLength, Mode=TwoWay}" />
                                         <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SecondItemLength, Mode=TwoWay}" />
+                                        <RowDefinition MinHeight="30"
+                                                       Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SecondItemLength, Mode=TwoWay}" />
                                     </Grid.RowDefinitions>
-                                    <ContentPresenter x:Name="PART_FirstContentPresenter" Content="{TemplateBinding FirstItem}" />
-                                    <GridSplitter Grid.Row="1" ResizeDirection="Rows" 
+                                    <ContentPresenter x:Name="PART_FirstContentPresenter"
+                                                      Content="{TemplateBinding FirstItem}" />
+                                    <GridSplitter Grid.Row="1" ResizeDirection="Rows"
                                                   ResizeBehavior="PreviousAndNext"
                                                   Background="#202124"
                                                   Height="5"
                                                   HorizontalAlignment="Stretch" />
-                                    <ContentPresenter x:Name="PART_SecondContentPresenter" Grid.Row="2" Content="{TemplateBinding SecondItem}" />
+                                    <ContentPresenter x:Name="PART_SecondContentPresenter" Grid.Row="2"
+                                                      Content="{TemplateBinding SecondItem}" />
                                 </Grid>
                             </Border>
                         </ControlTemplate>

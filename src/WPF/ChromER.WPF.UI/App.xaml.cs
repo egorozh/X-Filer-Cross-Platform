@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Dragablz;
 using System.Collections.Generic;
 using System.Windows;
-using Dragablz;
-using Dragablz.Dockablz;
 
 namespace ChromER.WPF.UI
 {
@@ -52,23 +50,6 @@ namespace ChromER.WPF.UI
 
             //here's your view model:
             var viewModel = args.DragablzItem.DataContext as DirectoryTabItemViewModel;
-
-            //here's how you can cancel stuff:
-            //args.Cancel(); 
-        }
-
-        public static ClosingFloatingItemCallback ClosingFloatingItemHandler => ClosingFloatingItemHandlerImpl;
-
-        /// <summary>
-        /// Callback to handle floating toolbar/MDI window closing.
-        /// </summary>        
-        private static void ClosingFloatingItemHandlerImpl(ItemActionCallbackArgs<Layout> args)
-        {
-            //in here you can dispose stuff or cancel the close
-
-            //here's your view model: 
-            if (args.DragablzItem.DataContext is IDisposable disposable)
-                disposable.Dispose();
 
             //here's how you can cancel stuff:
             //args.Cancel(); 
