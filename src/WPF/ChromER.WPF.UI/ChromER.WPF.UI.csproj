@@ -10,10 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SharpVectors.Reloaded" Version="1.6.0" />
+    <PackageReference Include="gong-wpf-dragdrop" Version="2.3.2" />
+    <PackageReference Include="SharpVectors.Reloaded" Version="1.7.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\gong-wpf-dragdrop\src\GongSolutions.WPF.DragDrop\GongSolutions.WPF.DragDrop.csproj" />
     <ProjectReference Include="..\..\Core\ChromER\ChromER.csproj" />
     <ProjectReference Include="..\Controls\Egorozh.GoogleChromeWindow.WPF\Egorozh.GoogleChromeWindow.WPF.csproj" />
   </ItemGroup>

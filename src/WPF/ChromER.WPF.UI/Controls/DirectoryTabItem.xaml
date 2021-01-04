@@ -4,8 +4,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:ui="clr-namespace:ChromER.WPF.UI"
+
              xmlns:chromEr="clr-namespace:ChromER;assembly=ChromER"
+
+             xmlns:ui="clr-namespace:ChromER.WPF.UI"
+             xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d"
 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -215,12 +218,20 @@
                  BorderThickness="0"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  HorizontalContentAlignment="Center"
-                 VerticalContentAlignment="Center">
+                 VerticalContentAlignment="Center"
+                 
+                 dd:DragDrop.IsDragSource="True"
+                 dd:DragDrop.IsDropTarget="True"
+                 dd:DragDrop.DropHandler="{x:Static ui:ChromerDragDrop.Instance}"
+                 
+                 dd:DragDrop.UseDefaultDragAdorner="True"
+                 dd:DragDrop.UseDefaultEffectDataTemplate="True">
 
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">
                     <Setter Property="SnapsToDevicePixels" Value="True" />
-                    <Setter Property="Padding" Value="4" />
+                    <Setter Property="Padding" Value="10" />
+
                     <Setter Property="HorizontalContentAlignment"
                             Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
                     <Setter Property="VerticalContentAlignment"
@@ -238,20 +249,17 @@
                                 <Grid>
 
                                     <Border x:Name="Bd"
-                                            Margin="10"
+                                            Margin="{TemplateBinding Padding}"
                                             CornerRadius="5"
                                             Background="{TemplateBinding Background}"
                                             BorderThickness="{TemplateBinding BorderThickness}"
                                             BorderBrush="{TemplateBinding BorderBrush}"
-                                            Padding="{TemplateBinding Padding}"
                                             SnapsToDevicePixels="true">
 
-
-                                        <ContentPresenter
-                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-
+                                        <ContentPresenter Margin="4"
+                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 
                                     </Border>
 
@@ -306,7 +314,7 @@
             </b:Interaction.Triggers>
 
             <ListBox.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate DataType="{x:Type chromEr:FileEntityViewModel}">
                     <Grid Background="Transparent">
 
                         <Grid.RowDefinitions>
@@ -314,7 +322,9 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Image Source="{Binding ., Converter={ui:FileEntityToImageConverter}}" />
+                        <Image MaxWidth="140"
+                               MaxHeight="140"
+                               Source="{Binding ., Converter={ui:FileEntityToImageConverter}}" />
 
                         <TextBlock Grid.Row="1"
                                    HorizontalAlignment="Center"

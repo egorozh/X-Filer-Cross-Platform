@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChromER.WPF.UI", "WPF\Chrom
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChromER", "Core\ChromER\ChromER.csproj", "{F089F379-96F0-415F-A2B9-1740AA68A457}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GongSolutions.WPF.DragDrop", "..\..\..\gong-wpf-dragdrop\src\GongSolutions.WPF.DragDrop\GongSolutions.WPF.DragDrop.csproj", "{E6D08F1E-C09D-4478-99F8-A7F8733D3120}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{F089F379-96F0-415F-A2B9-1740AA68A457}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F089F379-96F0-415F-A2B9-1740AA68A457}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F089F379-96F0-415F-A2B9-1740AA68A457}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6D08F1E-C09D-4478-99F8-A7F8733D3120}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6D08F1E-C09D-4478-99F8-A7F8733D3120}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6D08F1E-C09D-4478-99F8-A7F8733D3120}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6D08F1E-C09D-4478-99F8-A7F8733D3120}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +67,7 @@ Global
 		{885F194E-6B8B-4A83-9D6E-96D22A823D47} = {1C3A40FD-4728-4F03-822C-808D614B6F0D}
 		{5603267B-BED4-4F17-B1F1-E1A6A29C538B} = {53C1023C-357F-4EE0-939C-22162A3717A7}
 		{F089F379-96F0-415F-A2B9-1740AA68A457} = {14284B65-3202-462F-A933-80DB508724B7}
+		{E6D08F1E-C09D-4478-99F8-A7F8733D3120} = {53C1023C-357F-4EE0-939C-22162A3717A7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B25000C6-E314-45E7-874B-69C955B90F19}

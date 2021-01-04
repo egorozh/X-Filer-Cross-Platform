@@ -1,9 +1,8 @@
 ﻿<Application x:Class="ChromER.WPF.UI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:chromEr="clr-namespace:ChromER;assembly=ChromER"
              xmlns:ui="clr-namespace:ChromER.WPF.UI"
-             xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+             xmlns:chromEr="clr-namespace:ChromER;assembly=ChromER"
              ShutdownMode="OnLastWindowClose">
 
     <Application.Resources>
