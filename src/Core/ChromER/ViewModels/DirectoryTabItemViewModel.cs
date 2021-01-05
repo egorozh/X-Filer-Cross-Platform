@@ -163,7 +163,7 @@ namespace ChromER
             if (Header == "Мой компьютер")
             {
                 foreach (var logicalDrive in Directory.GetLogicalDrives())
-                    DirectoriesAndFiles.Add(new DirectoryViewModel(logicalDrive));
+                    DirectoriesAndFiles.Add(new LogicalDriveViewModel(logicalDrive));
 
                 return;
             }

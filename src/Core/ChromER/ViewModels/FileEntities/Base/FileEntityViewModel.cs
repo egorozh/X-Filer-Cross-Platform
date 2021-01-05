@@ -10,5 +10,7 @@
         {
             Name = name;
         }
+
+        public abstract string GetRootName();    
     }
 }

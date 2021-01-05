@@ -5,17 +5,13 @@ using System.Windows.Markup;
 
 namespace ChromER.WPF.UI
 {
-    public class YourConverter : MarkupExtension, IMultiValueConverter
+    public class CloneParamsConverter : MarkupExtension, IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            return values.Clone();
-        }
+            => values.Clone();
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
 
         public override object ProvideValue(IServiceProvider serviceProvider) => this;
     }

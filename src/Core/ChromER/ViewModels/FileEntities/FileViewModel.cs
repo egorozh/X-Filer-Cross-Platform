@@ -13,6 +13,7 @@ namespace ChromER
             FullName = fileInfo.FullName;
         }
 
-        
+        public override string GetRootName()
+            => new FileInfo(FullName).Directory?.Root.Name;
     }
 }

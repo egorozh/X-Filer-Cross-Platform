@@ -191,7 +191,7 @@
                                 Value="{Binding DataContext.Command, RelativeSource={RelativeSource Self}}" />
                         <Setter Property="CommandParameter">
                             <Setter.Value>
-                                <MultiBinding Converter="{ui:YourConverter}">
+                                <MultiBinding Converter="{ui:CloneParamsConverter}">
                                     <Binding Path="DataContext.CommandParameter"
                                              RelativeSource="{RelativeSource Self}" />
                                     <Binding Path="DataContext"
@@ -219,13 +219,15 @@
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  HorizontalContentAlignment="Center"
                  VerticalContentAlignment="Center"
-                 
+
                  dd:DragDrop.IsDragSource="True"
                  dd:DragDrop.IsDropTarget="True"
                  dd:DragDrop.DropHandler="{x:Static ui:ChromerDragDrop.Instance}"
-                 
+
                  dd:DragDrop.UseDefaultDragAdorner="True"
-                 dd:DragDrop.UseDefaultEffectDataTemplate="True">
+                 dd:DragDrop.UseDefaultEffectDataTemplate="True"
+                 
+                 dd:DragDrop.DragHandler="{x:Static ui:ChromerDragHandler.Instance}">
 
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">

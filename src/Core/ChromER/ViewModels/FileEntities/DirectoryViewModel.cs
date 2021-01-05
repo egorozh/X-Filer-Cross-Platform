@@ -2,16 +2,14 @@
 
 namespace ChromER
 {
-    public sealed class DirectoryViewModel : FileEntityViewModel
+    public class DirectoryViewModel : FileEntityViewModel
     {
-        public DirectoryViewModel(string directoryName) : base(directoryName)
-        {
-            FullName = directoryName;
-        }
-
         public DirectoryViewModel(DirectoryInfo directoryName) : base(directoryName.Name)
         {
             FullName = directoryName.FullName;
         }
+
+        public override string GetRootName()
+            => new DirectoryInfo(FullName).Root.Name;
     }
 }
