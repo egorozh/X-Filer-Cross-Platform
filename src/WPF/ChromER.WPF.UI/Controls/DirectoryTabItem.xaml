@@ -12,7 +12,7 @@
              mc:Ignorable="d"
 
              d:DesignHeight="450" d:DesignWidth="800">
-
+  
     <Grid Background="{DynamicResource ToolBarBackground}">
 
         <Grid.RowDefinitions>
@@ -210,26 +210,22 @@
             </Menu>
         </Grid>
 
-        <ListBox Grid.Row="2"
-                 ItemsSource="{Binding DirectoriesAndFiles}"
-                 SelectedItem="{Binding SelectedFileEntity}"
-                 Background="Transparent"
-                 SelectionMode="Extended"
-                 BorderThickness="0"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 HorizontalContentAlignment="Center"
-                 VerticalContentAlignment="Center"
+        <ui:RectSelectListBox Grid.Row="2"
+                              ItemsSource="{Binding DirectoriesAndFiles}"
+                              SelectedItem="{Binding SelectedFileEntity}"
+                             
+                              dd:DragDrop.IsDragSource="True"
+                              dd:DragDrop.IsDropTarget="True"
+                              dd:DragDrop.DropHandler="{x:Static ui:ChromerDragDrop.Instance}"
 
-                 dd:DragDrop.IsDragSource="True"
-                 dd:DragDrop.IsDropTarget="True"
-                 dd:DragDrop.DropHandler="{x:Static ui:ChromerDragDrop.Instance}"
+                              dd:DragDrop.UseDefaultDragAdorner="True"
+                              dd:DragDrop.UseDefaultEffectDataTemplate="True"
 
-                 dd:DragDrop.UseDefaultDragAdorner="True"
-                 dd:DragDrop.UseDefaultEffectDataTemplate="True"
-                 
-                 dd:DragDrop.DragHandler="{x:Static ui:ChromerDragHandler.Instance}">
+                              dd:DragDrop.DragHandler="{x:Static ui:ChromerDragHandler.Instance}"
+                              
+                              dd:DragDrop.DragDirectlySelectedOnly="True">
 
-            <ListBox.ItemContainerStyle>
+            <ui:RectSelectListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">
                     <Setter Property="SnapsToDevicePixels" Value="True" />
                     <Setter Property="Padding" Value="10" />
@@ -299,13 +295,13 @@
                         </Setter.Value>
                     </Setter>
                 </Style>
-            </ListBox.ItemContainerStyle>
+            </ui:RectSelectListBox.ItemContainerStyle>
 
-            <ListBox.ItemsPanel>
+            <ui:RectSelectListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel />
                 </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
+            </ui:RectSelectListBox.ItemsPanel>
 
             <b:Interaction.Triggers>
                 <b:EventTrigger EventName="MouseDoubleClick">
@@ -315,7 +311,7 @@
                 </b:EventTrigger>
             </b:Interaction.Triggers>
 
-            <ListBox.ItemTemplate>
+            <ui:RectSelectListBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type chromEr:FileEntityViewModel}">
                     <Grid Background="Transparent">
 
@@ -335,9 +331,9 @@
                                    TextTrimming="CharacterEllipsis" />
                     </Grid>
                 </DataTemplate>
-            </ListBox.ItemTemplate>
+            </ui:RectSelectListBox.ItemTemplate>
 
-        </ListBox>
+        </ui:RectSelectListBox>
 
     </Grid>
 
