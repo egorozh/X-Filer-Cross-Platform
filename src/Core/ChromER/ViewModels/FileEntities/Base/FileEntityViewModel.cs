@@ -6,6 +6,8 @@
 
         public string FullName { get; set; }
 
+        public abstract string ChangeDateTime { get; }
+
         protected FileEntityViewModel(string name)
         {
             Name = name;

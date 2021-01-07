@@ -23,6 +23,8 @@ namespace ChromER
             }
         }
 
+        public static string RootName = "Мой компьютер";
+
         #endregion
 
         #region Public Properties
@@ -59,7 +61,7 @@ namespace ChromER
         #endregion
 
         public MainViewModel CreateMainViewModel(IEnumerable<DirectoryTabItemViewModel> initItems)
-            => new MainViewModel(_synchronizationHelper, _tabClientFactory?.Invoke(), initItems);
+            => new (_synchronizationHelper, _tabClientFactory?.Invoke(), initItems);
     }
 
     public interface ITabClient

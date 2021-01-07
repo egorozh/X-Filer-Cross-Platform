@@ -108,10 +108,14 @@ namespace ChromER.WPF.UI
 
                 var pos = listBoxItem.TranslatePoint(new Point(), _canvas);
 
-                pos = new Point(pos.X + 10, pos.Y + 10);
+                var padding = listBoxItem.Padding;
 
-                var itemGeometry =
-                    new RectangleGeometry(new Rect(pos, new Size(listBoxItem.ActualWidth - 20, listBoxItem.ActualHeight - 20)));
+                pos = new (pos.X + padding.Left, pos.Y + padding.Top);
+
+                Size itemSize = new(listBoxItem.ActualWidth - padding.Left - padding.Right,
+                    listBoxItem.ActualHeight - padding.Top - padding.Bottom);
+
+                RectangleGeometry itemGeometry = new (new Rect(pos, itemSize));
 
                 var detail = itemGeometry.FillContainsWithDetail(rectangleGeometry);
 

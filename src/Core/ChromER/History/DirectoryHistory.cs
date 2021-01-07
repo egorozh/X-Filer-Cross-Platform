@@ -6,12 +6,6 @@ namespace ChromER
 {
     internal class DirectoryHistory : IDirectoryHistory
     {
-        #region Private Fields
-
-        private DirectoryNode _head;
-
-        #endregion
-
         #region Properties
 
         public bool CanMoveBack => Current.PreviousNode != null;
@@ -31,8 +25,8 @@ namespace ChromER
 
         public DirectoryHistory(string directoryPath, string directoryPathName)
         {
-            _head = new DirectoryNode(directoryPath, directoryPathName);
-            Current = _head;
+            var head = new DirectoryNode(directoryPath, directoryPathName);
+            Current = head;
         }
 
         #endregion

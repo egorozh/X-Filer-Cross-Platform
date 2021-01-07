@@ -9,14 +9,14 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/Colors.xaml" />
-                <ResourceDictionary Source="Themes/Menu.xaml" />
-                <ResourceDictionary Source="Themes/Icons.xaml" />
-                <ResourceDictionary Source="Themes/Scroll.xaml" />
+                <ResourceDictionary Source="Themes/App/Colors.xaml" />
+                <ResourceDictionary Source="Themes/App/Menu.xaml" />
+                <ResourceDictionary Source="Themes/App/Icons.xaml" />
+                <ResourceDictionary Source="Themes/App/Scroll.xaml" />
 
                 <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml" />
 
-                <ResourceDictionary Source="Themes/Dragablze.xaml" />
+                <ResourceDictionary Source="Themes/App/Dragablze.xaml" />
 
                 <ResourceDictionary>
                     <DataTemplate DataType="{x:Type chromEr:DirectoryTabItemViewModel}">

@@ -113,8 +113,8 @@ namespace ChromER.WPF.UI
             if (dropInfo.TargetItem == null && !targetCollection.Contains(sourceItem))
             {
                 var targetVisual = (ItemsControl) dropInfo.VisualTarget;
-                var viewModel = targetVisual.DataContext as DirectoryTabItemViewModel;
-                DirectoryInfo targetDirectory = new(viewModel.FilePath);
+                var viewModel = targetVisual.DataContext as IFilesPresenter;
+                DirectoryInfo targetDirectory = new(viewModel.CurrentDirectoryPathName);
 
                 var targetRoot = targetDirectory.Root.Name;
 

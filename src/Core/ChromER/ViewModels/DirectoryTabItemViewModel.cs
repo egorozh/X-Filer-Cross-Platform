@@ -1,46 +1,69 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace ChromER
 {
-    public class DirectoryTabItemViewModel : BaseViewModel
+    public class DirectoryTabItemViewModel : ChromerTabItemViewModel
     {
         #region Private Fields
 
         private readonly IDirectoryHistory _history;
-        private readonly BackgroundWorker _backgroundWorker;
+
         private readonly ISynchronizationHelper _synchronizationHelper;
+        private string _searchText;
+        private bool _isTilePresenter;
+        private bool _isGridPresenter;
 
         #endregion
 
         #region Public Properties
 
-        public string FilePath { get; set; }
+        public bool IsTilePresenter
+        {
+            get => _isTilePresenter;
+            set
+            {
+                _isTilePresenter = value;
 
-        public string Header { get; set; }
+                if (value)
+                {
+                    IsGridPresenter = false;
+                    OpenDirectory();
+                }
+            }
+        }
 
-        public bool IsSelected { get; set; }
+        public bool IsGridPresenter
+        {
+            get => _isGridPresenter;
+            set
+            {
+                _isGridPresenter = value;
 
-        public object Content { get; set; }
+                if (value)
+                {
+                    IsTilePresenter = false;
+                    OpenDirectory();
+                }
+            }
+        }
 
-        public ObservableCollection<FileEntityViewModel> DirectoriesAndFiles { get; set; } = new();
+        public string SearchText
+        {
+            get => _searchText;
+            set => SetSearchText(value);
+        }
 
-        public FileEntityViewModel SelectedFileEntity { get; set; }
+        public string CurrentDirectoryFileName => _history.Current.DirectoryPath;
+
+        public IFilesPresenter? FilesPresenter { get; set; }
 
         #endregion
 
         #region Commands
 
         public DelegateCommand AddBookmarkCommand => ChromEr.Instance.BookmarksManager.AddBookmarkCommand;
-
-        public DelegateCommand OpenCommand { get; }
 
         public DelegateCommand MoveBackCommand { get; }
 
@@ -54,26 +77,15 @@ namespace ChromER
         {
             _synchronizationHelper = synchronizationHelper;
 
-            _backgroundWorker = new BackgroundWorker
-            {
-                WorkerSupportsCancellation = true,
-                WorkerReportsProgress = true
-            };
+            _history = new DirectoryHistory(ChromEr.RootName, ChromEr.RootName);
 
-            _backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
-            _backgroundWorker.DoWork += BackgroundWorker_DoWork;
-            _backgroundWorker.ProgressChanged += BackgroundWorker_ProgressChanged;
-
-            _history = new DirectoryHistory("Мой компьютер", "Мой компьютер");
-
-            OpenCommand = new DelegateCommand(Open);
             MoveBackCommand = new DelegateCommand(OnMoveBack, OnCanMoveBack);
             MoveForwardCommand = new DelegateCommand(OnMoveForward, OnCanMoveForward);
 
             Header = _history.Current.DirectoryPathName;
-            FilePath = _history.Current.DirectoryPath;
+            SearchText = _history.Current.DirectoryPath;
 
-            OpenDirectory();
+            IsTilePresenter = true;
 
             _history.HistoryChanged += History_HistoryChanged;
         }
@@ -96,14 +108,14 @@ namespace ChromER
 
         #region Commands Methods
 
-        private void Open(object parameter)
+        private void Open(FileEntityViewModel parameter)
         {
             if (parameter is DirectoryViewModel directoryViewModel)
             {
-                FilePath = directoryViewModel.FullName;
+                SearchText = directoryViewModel.FullName;
                 Header = directoryViewModel.Name;
 
-                _history.Add(FilePath, Header);
+                _history.Add(SearchText, Header);
 
                 OpenDirectory();
             }
@@ -127,7 +139,7 @@ namespace ChromER
 
             var current = _history.Current;
 
-            FilePath = current.DirectoryPath;
+            SearchText = current.DirectoryPath;
             Header = current.DirectoryPathName;
 
             OpenDirectory();
@@ -141,7 +153,7 @@ namespace ChromER
 
             var current = _history.Current;
 
-            FilePath = current.DirectoryPath;
+            SearchText = current.DirectoryPath;
             Header = current.DirectoryPathName;
 
             OpenDirectory();
@@ -153,187 +165,33 @@ namespace ChromER
 
         private void OpenDirectory()
         {
-            if (_backgroundWorker.IsBusy)
-                _backgroundWorker.CancelAsync();
-            else
-                RunWorker();
-        }
-
-        private void RunWorker()
-        {
-            DirectoriesAndFiles.Clear();
-
-            if (Header == "Мой компьютер")
+            if (FilesPresenter != null)
             {
-                foreach (var logicalDrive in Directory.GetLogicalDrives())
-                    DirectoriesAndFiles.Add(new LogicalDriveViewModel(logicalDrive));
-
-                return;
+                FilesPresenter.DirectoryOrFileOpened -= FilePresenterOnDirectoryOrFileOpened;
+                FilesPresenter.Dispose();
             }
 
-            var directoryInfo = new DirectoryInfo(FilePath);
+            FilesPresenter = _isGridPresenter
+                ? new GridFilesPresenterViewModel(_synchronizationHelper, CurrentDirectoryFileName)
+                : new TileFilesPresenterViewModel(_synchronizationHelper, CurrentDirectoryFileName);
 
-            _backgroundWorker.RunWorkerAsync(directoryInfo);
+            FilesPresenter.DirectoryOrFileOpened += FilePresenterOnDirectoryOrFileOpened;
         }
 
-        private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void FilePresenterOnDirectoryOrFileOpened(object? sender, OpenDirectoryEventArgs e)
         {
-            if (e.Cancelled)
-            {
-                RunWorker();
-            }
+            Open(e.FileEntityViewModel);
         }
 
-        private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-        }
-
-        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            var directoryInfo = e.Argument as DirectoryInfo;
-
-            var bw = sender as BackgroundWorker;
-
-            try
-            {
-                var directories = directoryInfo.EnumerateDirectories()
-                    .OrderBy(d => d.Name, new NaturalSortComparer());
-
-                //var allCount = directories.Count();
-
-                foreach (var directory in directories)
-                {
-                    if (bw.CancellationPending)
-                    {
-                        e.Cancel = true;
-
-                        return;
-                    }
-
-                    _synchronizationHelper.InvokeAsync(() =>
-                    {
-                        DirectoriesAndFiles.Add(new DirectoryViewModel(directory));
-                    }).Wait();
-                }
-
-                foreach (var fileInfo in directoryInfo.GetFiles())
-                {
-                    if (bw.CancellationPending)
-                    {
-                        e.Cancel = true;
-
-                        return;
-                    }
-
-                    _synchronizationHelper.InvokeAsync(() => { DirectoriesAndFiles.Add(new FileViewModel(fileInfo)); })
-                        .Wait();
-                }
-            }
-            catch (Exception ex)
-            {
-                //TODO: Try Exception 
-            }
-        }
-
-        private void History_HistoryChanged(object sender, EventArgs e)
+        private void History_HistoryChanged(object? sender, EventArgs e)
         {
             MoveBackCommand?.RaiseCanExecuteChanged();
             MoveForwardCommand?.RaiseCanExecuteChanged();
         }
 
-        #endregion
-    }
-
-    public interface ISynchronizationHelper
-    {
-        Task InvokeAsync(Action action);
-    }
-
-    public class NaturalSortComparer : IComparer<string>, IDisposable
-    {
-        #region Private Fields
-
-        private readonly bool _isAscending;
-
-        private Dictionary<string, string[]> _table = new();
-
-        #endregion
-        
-        #region Constructor
-
-        public NaturalSortComparer(bool inAscendingOrder = true)
+        private void SetSearchText(string text)
         {
-            this._isAscending = inAscendingOrder;
-        }
-
-        #endregion
-        
-        #region Public Methods
-
-        public int Compare(string x, string y)
-        {
-            if (x == y)
-                return 0;
-
-            if (!_table.TryGetValue(x, out var x1))
-            {
-                x1 = Regex.Split(x.Replace(" ", ""), "([0-9]+)");
-                _table.Add(x, x1);
-            }
-
-            if (!_table.TryGetValue(y, out var y1))
-            {
-                y1 = Regex.Split(y.Replace(" ", ""), "([0-9]+)");
-                _table.Add(y, y1);
-            }
-
-            int returnVal;
-
-            for (int i = 0; i < x1.Length && i < y1.Length; i++)
-            {
-                if (x1[i] != y1[i])
-                {
-                    returnVal = PartCompare(x1[i], y1[i]);
-                    return _isAscending ? returnVal : -returnVal;
-                }
-            }
-
-            if (y1.Length > x1.Length)
-            {
-                returnVal = 1;
-            }
-            else if (x1.Length > y1.Length)
-            {
-                returnVal = -1;
-            }
-            else
-            {
-                returnVal = 0;
-            }
-
-            return _isAscending ? returnVal : -returnVal;
-        }
-
-        public void Dispose()
-        {
-            _table.Clear();
-            _table = null;
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        private static int PartCompare(string left, string right)
-        {
-            int x, y;
-            if (!int.TryParse(left, out x))
-                return left.CompareTo(right);
-
-            if (!int.TryParse(right, out y))
-                return left.CompareTo(right);
-
-            return x.CompareTo(y);
+            _searchText = text;
         }
 
         #endregion

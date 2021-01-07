@@ -1,11 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:ChromER.WPF.UI">
-
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/ChromER.WPF.UI;component/Themes/SearchControl.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/ChromER.WPF.UI;component/Themes/RectSelectListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/ChromER.WPF.UI;component/Themes/Controls/SearchControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/ChromER.WPF.UI;component/Themes/Controls/RectSelectListBox.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

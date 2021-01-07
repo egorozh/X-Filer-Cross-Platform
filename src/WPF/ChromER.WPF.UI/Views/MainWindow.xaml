@@ -9,17 +9,10 @@
                         xmlns:wpf="clr-namespace:Egorozh.GoogleChromeWindow.WPF;assembly=Egorozh.GoogleChromeWindow.WPF"
                         mc:Ignorable="d"
 
-                        Title="{Binding CurrentDirectoryTabItem.Header}"
+                        Title="{Binding CurrentTabItem.Header}"
 
                         Height="720" Width="1024">
-
-    <wpf:GoogleChromeWindow.InputBindings>
-        <ui:ExtendedMouseBinding Gesture="XButton1"
-                                 Command="{Binding CurrentDirectoryTabItem.MoveBackCommand}" />
-        <ui:ExtendedMouseBinding Gesture="XButton2"
-                                 Command="{Binding CurrentDirectoryTabItem.MoveForwardCommand}" />
-    </wpf:GoogleChromeWindow.InputBindings>
-   
+  
     <dockablz:Layout Partition="2AE89D18-F236-4D20-9605-6C03319038E6"
                      IsFloatDropZoneEnabled="False"
                      x:Name="Layout">
