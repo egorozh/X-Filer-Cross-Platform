@@ -3,6 +3,7 @@
                     xmlns:local="clr-namespace:ChromER.WPF.UI">
 
     <SolidColorBrush x:Key="{x:Static DataGrid.FocusBorderBrushKey}" Color="#FF000000" />
+
     <Style x:Key="DataGridCellStyle1" TargetType="{x:Type DataGridCell}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
@@ -12,7 +13,7 @@
                 <ControlTemplate TargetType="{x:Type DataGridCell}">
                     <Border Background="{TemplateBinding Background}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderBrush="{TemplateBinding BorderBrush}"
                             SnapsToDevicePixels="True">
                         <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Border>
@@ -22,7 +23,6 @@
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="#555555" />
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
@@ -37,8 +37,6 @@
                         Value="#999999" />
                 <Setter Property="BorderBrush"
                         Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
-                <Setter Property="Foreground"
-                        Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}" />
             </MultiTrigger>
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
@@ -115,8 +113,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="HorizontalGridLinesBrush" Value="Transparent" />
-        <Setter Property="VerticalGridLinesBrush" Value="Transparent" />
+        <Setter Property="GridLinesVisibility" Value="None" />
         <Setter Property="RowDetailsVisibilityMode" Value="Collapsed" />
 
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />

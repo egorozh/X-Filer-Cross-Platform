@@ -8,6 +8,8 @@ namespace ChromER
 
         public string FullName { get; set; }
 
+        public string Group { get; set; } 
+
         public abstract DateTime ChangeDateTime { get; }
 
         protected FileEntityViewModel(string name)

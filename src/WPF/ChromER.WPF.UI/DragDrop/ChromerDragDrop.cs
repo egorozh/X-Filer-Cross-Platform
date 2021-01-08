@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace ChromER.WPF.UI
 {
@@ -40,7 +41,8 @@ namespace ChromER.WPF.UI
             //        $"{dropInfo.VisualTarget} ; {dropInfo.VisualTargetItem}";
             //}
 
-            if (dropInfo.TargetCollection is ObservableCollection<FileEntityViewModel> targetCollection)
+            if (dropInfo.TargetCollection is ListCollectionView listCollectionView &&
+                listCollectionView.SourceCollection is ObservableCollection<FileEntityViewModel> targetCollection)
             {
                 if (CanDrag(dropInfo, targetCollection))
                     return;

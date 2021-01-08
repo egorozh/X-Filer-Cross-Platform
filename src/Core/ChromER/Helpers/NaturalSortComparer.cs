@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace ChromER
 {
-    public class NaturalSortComparer : IComparer<string>, IDisposable
+    public class NaturalSortComparer : IComparer<string>, IDisposable, IComparer
     {
         #region Private Fields
 
@@ -13,7 +14,7 @@ namespace ChromER
         private Dictionary<string, string[]> _table = new();
 
         #endregion
-        
+
         #region Constructor
 
         public NaturalSortComparer(bool inAscendingOrder = true)
@@ -22,7 +23,7 @@ namespace ChromER
         }
 
         #endregion
-        
+
         #region Public Methods
 
         public int Compare(string x, string y)
@@ -92,5 +93,8 @@ namespace ChromER
         }
 
         #endregion
+
+        public int Compare(object? x, object? y) 
+            => Compare(x as string, y as string);
     }
 }

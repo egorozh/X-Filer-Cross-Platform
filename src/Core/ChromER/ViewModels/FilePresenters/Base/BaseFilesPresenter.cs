@@ -26,7 +26,7 @@ namespace ChromER
         #endregion
 
         #region Events
-        
+
         public event EventHandler<OpenDirectoryEventArgs>? DirectoryOrFileOpened;
 
         #endregion
@@ -105,14 +105,41 @@ namespace ChromER
         {
             if (CurrentDirectoryPathName == ChromEr.RootName)
             {
+                var group = "Папки";
+
+                var specialFolders = new []
+                {
+                    Environment.GetFolderPath(Environment.SpecialFolder.MyVideos),
+                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                    Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
+                    Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)
+                };
+
+                foreach (var specialFolder in specialFolders)
+                {
+                    await _synchronizationHelper.InvokeAsync(() =>
+                    {
+                        DirectoriesAndFiles.Add(new DirectoryViewModel(new DirectoryInfo(specialFolder))
+                        {
+                            Group = group
+                        });
+                    });
+                }
+                
+                group = "Устройства и диски";
+                
                 foreach (var logicalDrive in Directory.GetLogicalDrives())
                 {
                     await _synchronizationHelper.InvokeAsync(() =>
                     {
-                        DirectoriesAndFiles.Add(new LogicalDriveViewModel(logicalDrive));
+                        DirectoriesAndFiles.Add(new LogicalDriveViewModel(logicalDrive)
+                        {
+                            Group = group
+                        });
                     });
                 }
-                
+
                 return;
             }
 

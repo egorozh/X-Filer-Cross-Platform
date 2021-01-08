@@ -8,7 +8,7 @@
              mc:Ignorable="d"
 
              d:DesignHeight="450" d:DesignWidth="800">
-  
+
     <UserControl.InputBindings>
         <ui:ExtendedMouseBinding Gesture="XButton1"
                                  Command="{Binding MoveBackCommand}" />
@@ -216,16 +216,21 @@
                         Content="{Binding FilesPresenter}">
             <ContentControl.ContextMenu>
                 <ContextMenu>
-                 
+
                     <MenuItem Header="Вид">
                         <MenuItem Header="Значки"
                                   IsCheckable="True"
-                                  
+
                                   IsChecked="{Binding IsTilePresenter, Mode=TwoWay}" />
                         <MenuItem Header="Таблица"
                                   IsCheckable="True"
                                   IsChecked="{Binding IsGridPresenter, Mode=TwoWay}" />
                     </MenuItem>
+                    <MenuItem Header="Сортировка" />
+                    <MenuItem Header="Группировка" />
+                    <MenuItem Header="Обновить" />
+                    <Separator />
+                    <MenuItem Header="Свойства" />
                 </ContextMenu>
             </ContentControl.ContextMenu>
             <ContentControl.Resources>

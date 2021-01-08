@@ -8,11 +8,20 @@
              xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-   
+
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="GroupedCollectionViewSource"
+                              Source="{Binding DirectoriesAndFiles}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Group" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
+
     <Grid>
-        <ui:RectSelectDataGrid ItemsSource="{Binding DirectoriesAndFiles}"
-                               SelectedItem="{Binding SelectedFileEntity, Mode=TwoWay}"
-                             
+        <ui:RectSelectDataGrid SelectedItem="{Binding SelectedFileEntity, Mode=TwoWay}"
+                               ItemsSource="{Binding Source={StaticResource GroupedCollectionViewSource}}"
+
                                dd:DragDrop.DropScrollingMode="VerticalOnly"
                                dd:DragDrop.IsDragSource="True"
                                dd:DragDrop.IsDropTarget="True"
@@ -24,6 +33,38 @@
 
                                dd:DragDrop.DragDirectlySelectedOnly="True">
 
+            <ui:RectSelectDataGrid.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Grid>
+                                            <Expander Margin="10"
+                                                      Visibility="{Binding Name, Converter={ui:NotNullToVisibilityConverter}}"
+                                                      IsExpanded="True"
+                                                      Foreground="White">
+                                                <Expander.Header>
+                                                    <TextBlock Text="{Binding Name}"
+                                                               FontSize="16" />
+                                                </Expander.Header>
+                                                <Expander.Content>
+                                                    <ItemsPresenter />
+                                                </Expander.Content>
+                                            </Expander>
+                                            <Grid Visibility="{Binding Name, Converter={ui:NullToVisibilityConverter}}">
+                                                <ItemsPresenter />
+                                            </Grid>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ui:RectSelectDataGrid.GroupStyle>
+
             <b:Interaction.Triggers>
                 <b:EventTrigger EventName="MouseDoubleClick">
                     <b:InvokeCommandAction
@@ -33,7 +74,9 @@
             </b:Interaction.Triggers>
 
             <ui:RectSelectDataGrid.Columns>
-                <DataGridTemplateColumn Header="Имя">
+                <DataGridTemplateColumn Header="Имя" 
+                                        CanUserSort="True"
+                                        SortMemberPath="Name">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -57,7 +100,7 @@
 
                                 <Image MaxWidth="18"
                                        MaxHeight="18"
-                                       Margin="0 0 5 0"
+                                       Margin="10 0 5 0"
                                        Source="{Binding ., Converter={ui:FileEntityToImageConverter}}" />
 
                                 <TextBox HorizontalAlignment="Center"
@@ -78,4 +121,5 @@
 
         </ui:RectSelectDataGrid>
     </Grid>
+
 </UserControl>
