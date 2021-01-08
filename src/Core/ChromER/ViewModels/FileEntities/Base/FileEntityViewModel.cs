@@ -1,12 +1,14 @@
-﻿namespace ChromER
+﻿using System;
+
+namespace ChromER
 {
     public abstract class FileEntityViewModel : BaseViewModel
     {
-        public string Name { get; }
+        public string Name { get; set; }
 
         public string FullName { get; set; }
 
-        public abstract string ChangeDateTime { get; }
+        public abstract DateTime ChangeDateTime { get; }
 
         protected FileEntityViewModel(string name)
         {

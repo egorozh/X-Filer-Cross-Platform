@@ -31,6 +31,10 @@ namespace ChromER
                     IsGridPresenter = false;
                     OpenDirectory();
                 }
+                else if (!_isGridPresenter)
+                {
+                    IsTilePresenter = true;
+                }
             }
         }
 
@@ -45,6 +49,10 @@ namespace ChromER
                 {
                     IsTilePresenter = false;
                     OpenDirectory();
+                }
+                else if (!_isTilePresenter)
+                {
+                    IsGridPresenter = true;
                 }
             }
         }

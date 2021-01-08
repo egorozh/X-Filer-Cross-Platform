@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace ChromER
 {
@@ -14,7 +15,7 @@ namespace ChromER
             FullName = fileInfo.FullName;
         }
 
-        public override string ChangeDateTime => _fileInfo.LastWriteTime.ToString();
+        public override DateTime ChangeDateTime => _fileInfo.LastWriteTime;
 
         public override string GetRootName()
             => new FileInfo(FullName).Directory?.Root.Name;

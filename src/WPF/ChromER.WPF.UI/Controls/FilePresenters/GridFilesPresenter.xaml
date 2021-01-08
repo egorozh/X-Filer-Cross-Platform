@@ -4,44 +4,78 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ui="clr-namespace:ChromER.WPF.UI"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
+   
+    <Grid>
+        <ui:RectSelectDataGrid ItemsSource="{Binding DirectoriesAndFiles}"
+                               SelectedItem="{Binding SelectedFileEntity, Mode=TwoWay}"
+                             
+                               dd:DragDrop.DropScrollingMode="VerticalOnly"
+                               dd:DragDrop.IsDragSource="True"
+                               dd:DragDrop.IsDropTarget="True"
+                               dd:DragDrop.DropHandler="{x:Static ui:ChromerDragDrop.Instance}"
 
-    <DataGrid ItemsSource="{Binding DirectoriesAndFiles}"
-              SelectedItem="{Binding SelectedFileEntity, Mode=TwoWay}"
-              AutoGenerateColumns="False"
-              Background="Transparent">
-        <DataGrid.ItemContainerStyle>
-            <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
-                <Setter Property="Background" Value="Transparent" />
-            </Style>
-        </DataGrid.ItemContainerStyle>
-        <DataGrid.Columns>
-            <DataGridTemplateColumn Header="Имя">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
+                               dd:DragDrop.UseDefaultEffectDataTemplate="True"
 
-                            <Image MaxWidth="18"
-                                   MaxHeight="18"
-                                   Margin="0 0 5 0"
-                                   Source="{Binding ., Converter={ui:FileEntityToImageConverter}}" />
+                               dd:DragDrop.DragHandler="{x:Static ui:ChromerDragHandler.Instance}"
 
-                            <TextBlock HorizontalAlignment="Center"
-                                       Foreground="White"
-                                       Text="{Binding Name}"
-                                       TextTrimming="CharacterEllipsis" />
-                        </StackPanel>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-            <DataGridTextColumn Header="Дата изменения"
-                                IsReadOnly="True" 
-                                Binding="{Binding ChangeDateTime}"/>
-            <DataGridTextColumn Header="Размер"
-                                IsReadOnly="True" 
-                                Binding="{Binding Size}"/>
-        </DataGrid.Columns>
+                               dd:DragDrop.DragDirectlySelectedOnly="True">
 
-    </DataGrid>
+            <b:Interaction.Triggers>
+                <b:EventTrigger EventName="MouseDoubleClick">
+                    <b:InvokeCommandAction
+                        Command="{Binding OpenCommand}"
+                        CommandParameter="{Binding SelectedFileEntity}" />
+                </b:EventTrigger>
+            </b:Interaction.Triggers>
+
+            <ui:RectSelectDataGrid.Columns>
+                <DataGridTemplateColumn Header="Имя">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+
+                                <Image MaxWidth="18"
+                                       MaxHeight="18"
+                                       Margin="10 0 5 0"
+                                       Source="{Binding ., Converter={ui:FileEntityToImageConverter}}" />
+
+                                <TextBlock HorizontalAlignment="Center"
+                                           Foreground="White"
+                                           Background="Transparent"
+                                           Text="{Binding Name}"
+                                           TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+
+                                <Image MaxWidth="18"
+                                       MaxHeight="18"
+                                       Margin="0 0 5 0"
+                                       Source="{Binding ., Converter={ui:FileEntityToImageConverter}}" />
+
+                                <TextBox HorizontalAlignment="Center"
+                                         Foreground="White"
+                                         Background="Transparent"
+                                         Text="{Binding Name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Дата изменения"
+                                    IsReadOnly="True"
+                                    Binding="{Binding ChangeDateTime, StringFormat=g}" />
+                <DataGridTextColumn Header="Размер"
+                                    IsReadOnly="True"
+                                    Binding="{Binding Size, StringFormat={}{0:0} КБ}" />
+            </ui:RectSelectDataGrid.Columns>
+
+        </ui:RectSelectDataGrid>
+    </Grid>
 </UserControl>

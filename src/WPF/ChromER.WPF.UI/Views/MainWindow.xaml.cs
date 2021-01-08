@@ -11,7 +11,6 @@
 
         private void MainWindow_Closed(object sender, System.EventArgs e)
         {
-           
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace ChromER
 {
@@ -12,7 +13,7 @@ namespace ChromER
             FullName = directoryName.FullName;
         }
 
-        public override string ChangeDateTime => _directoryName.LastWriteTime.ToString();
+        public override DateTime ChangeDateTime => _directoryName.LastWriteTime;
 
         public override string GetRootName()
             => new DirectoryInfo(FullName).Root.Name;

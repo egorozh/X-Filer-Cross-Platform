@@ -3,6 +3,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/ChromER.WPF.UI;component/Themes/Controls/SearchControl.xaml" />
         <ResourceDictionary Source="pack://application:,,,/ChromER.WPF.UI;component/Themes/Controls/RectSelectListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/ChromER.WPF.UI;component/Themes/Controls/RectSelectDataGrid.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

@@ -4,20 +4,20 @@ using System.Windows.Input;
 
 namespace ChromER.WPF.UI
 {
-    internal class RectSelectListBox : ListBox
+    internal class RectSelectDataGrid : DataGrid
     {
         #region Private Fields
 
-        private RectSelectLogic<ListBoxItem> _selectLogic;
+        private RectSelectLogic<DataGridRow> _selectLogic;
 
         #endregion
 
         #region Static Constructor
 
-        static RectSelectListBox()
+        static RectSelectDataGrid()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(RectSelectListBox),
-                new FrameworkPropertyMetadata(typeof(RectSelectListBox)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(RectSelectDataGrid),
+                new FrameworkPropertyMetadata(typeof(RectSelectDataGrid)));
         }
 
         #endregion
@@ -28,8 +28,9 @@ namespace ChromER.WPF.UI
         {
             base.OnApplyTemplate();
 
-            _selectLogic = new RectSelectLogic<ListBoxItem>(this, GetTemplateChild("PART_Canvas") as Canvas,
-                i => i.IsSelected = true, i => i.IsSelected = false);
+            _selectLogic =
+                new RectSelectLogic<DataGridRow>(this, GetTemplateChild("PART_Canvas") as Canvas,
+                    i => i.IsSelected = true, i => i.IsSelected = false);
         }
 
         #endregion

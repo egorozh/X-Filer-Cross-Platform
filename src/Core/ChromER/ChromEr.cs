@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace ChromER
 {
@@ -19,6 +20,10 @@ namespace ChromER
         {
             if (Instance == null)
             {
+                CultureInfo currentCulture = new ("Ru-ru");
+                CultureInfo.CurrentCulture = currentCulture;
+                CultureInfo.CurrentUICulture = currentCulture;
+
                 Instance = new ChromEr(helper, tabClientFactory);
             }
         }
