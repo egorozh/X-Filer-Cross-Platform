@@ -19,15 +19,4 @@
     <ProjectReference Include="..\Controls\Egorozh.GoogleChromeWindow.WPF\Egorozh.GoogleChromeWindow.WPF.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Page Update="Themes\Controls\RectSelectDataGrid.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Themes\Controls\RectSelectListBox.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-
 </Project>

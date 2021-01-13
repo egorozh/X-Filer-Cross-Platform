@@ -2,9 +2,8 @@
 {
     public class TileFilesPresenterViewModel : BaseFilesPresenter
     {
-        public TileFilesPresenterViewModel(ISynchronizationHelper synchronizationHelper, string directoryPathName) :
-            base(
-                synchronizationHelper, directoryPathName)
+        public TileFilesPresenterViewModel(DirectoryTabItemViewModel directoryTabItemView, string directoryPathName) :
+            base(directoryTabItemView, directoryPathName)
         {
         }
     }

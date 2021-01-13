@@ -8,28 +8,27 @@
              mc:Ignorable="d"
 
              d:DesignHeight="450" d:DesignWidth="800">
-
+ 
     <UserControl.InputBindings>
         <ui:ExtendedMouseBinding Gesture="XButton1"
                                  Command="{Binding MoveBackCommand}" />
         <ui:ExtendedMouseBinding Gesture="XButton2"
                                  Command="{Binding MoveForwardCommand}" />
-    </UserControl.InputBindings>
 
+    </UserControl.InputBindings>
+    
     <Grid Background="{DynamicResource ToolBarBackground}">
 
         <Grid.RowDefinitions>
 
             <!--Search TextBox-->
-
             <RowDefinition Height="36" />
 
-
             <!-- BookMarks-->
-
             <RowDefinition Height="36" />
 
             <RowDefinition Height="*" />
+
         </Grid.RowDefinitions>
 
         <!--Search TextBox-->
@@ -220,12 +219,12 @@
                     <MenuItem Header="Вид">
                         <MenuItem Header="Значки"
                                   IsCheckable="True"
-
                                   IsChecked="{Binding IsTilePresenter, Mode=TwoWay}" />
                         <MenuItem Header="Таблица"
                                   IsCheckable="True"
                                   IsChecked="{Binding IsGridPresenter, Mode=TwoWay}" />
                     </MenuItem>
+
                     <MenuItem Header="Сортировка" />
                     <MenuItem Header="Группировка" />
                     <MenuItem Header="Обновить" />
@@ -242,7 +241,6 @@
                 </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
-
     </Grid>
 
 </UserControl>

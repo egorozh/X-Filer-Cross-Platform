@@ -18,7 +18,7 @@ namespace ChromER
 
         public ObservableCollection<ChromerTabItemViewModel> TabItems { get; }
 
-        public ChromerTabItemViewModel CurrentTabItem { get; set; }
+        public ChromerTabItemViewModel? CurrentTabItem { get; set; }
 
         public IReadOnlyCollection<MenuItemViewModel> Bookmarks => ChromEr.Instance.BookmarksManager.Bookmarks;
 
@@ -41,9 +41,27 @@ namespace ChromER
 
         #endregion
 
+        #region Public Methods
+
+        public void OnOpenNewTab(FileEntityViewModel fileEntityViewModel, bool isSelectNewTab = false)
+        {
+            if (fileEntityViewModel is DirectoryViewModel directoryViewModel)
+            {
+                var tab = new DirectoryTabItemViewModel(_synchronizationHelper, directoryViewModel.FullName,
+                    directoryViewModel.Name);
+                TabItems.Add(tab);
+
+                if (isSelectNewTab)
+                    CurrentTabItem = tab;
+            }
+        }
+
+        #endregion
+        
         #region Private Methods
 
-        private DirectoryTabItemViewModel CreateTabVm() => new(_synchronizationHelper);
+        private DirectoryTabItemViewModel CreateTabVm() =>
+            new(_synchronizationHelper, ChromEr.RootName, ChromEr.RootName);
 
         #endregion
     }

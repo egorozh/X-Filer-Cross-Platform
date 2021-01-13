@@ -113,7 +113,7 @@
     <SolidColorBrush x:Key="LightBorderBrush" Color="#AAA" />
 
     <!-- Miscellaneous Brushes -->
-    <SolidColorBrush x:Key="GlyphBrush" Color="#444" />
+    <SolidColorBrush x:Key="GlyphBrush" Color="#999999" />
 
     <SolidColorBrush x:Key="LightColorBrush" Color="#DDD" />
 

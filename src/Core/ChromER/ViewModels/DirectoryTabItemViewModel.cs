@@ -10,7 +10,7 @@ namespace ChromER
 
         private readonly IDirectoryHistory _history;
 
-        private readonly ISynchronizationHelper _synchronizationHelper;
+
         private string _searchText;
         private bool _isTilePresenter;
         private bool _isGridPresenter;
@@ -18,6 +18,8 @@ namespace ChromER
         #endregion
 
         #region Public Properties
+
+        public ISynchronizationHelper SynchronizationHelper { get; }
 
         public bool IsTilePresenter
         {
@@ -76,22 +78,24 @@ namespace ChromER
         public DelegateCommand MoveBackCommand { get; }
 
         public DelegateCommand MoveForwardCommand { get; }
-
+        
         #endregion
 
         #region Constructor
 
-        public DirectoryTabItemViewModel(ISynchronizationHelper synchronizationHelper)
+        public DirectoryTabItemViewModel(ISynchronizationHelper synchronizationHelper,
+            string directoryPath,
+            string directoryName)
         {
-            _synchronizationHelper = synchronizationHelper;
-
-            _history = new DirectoryHistory(ChromEr.RootName, ChromEr.RootName);
+            SynchronizationHelper = synchronizationHelper;
+           
+            _history = new DirectoryHistory(directoryPath, directoryName);
 
             MoveBackCommand = new DelegateCommand(OnMoveBack, OnCanMoveBack);
             MoveForwardCommand = new DelegateCommand(OnMoveForward, OnCanMoveForward);
 
             Header = _history.Current.DirectoryPathName;
-            SearchText = _history.Current.DirectoryPath;
+            _searchText = _history.Current.DirectoryPath;
 
             IsTilePresenter = true;
 
@@ -180,8 +184,8 @@ namespace ChromER
             }
 
             FilesPresenter = _isGridPresenter
-                ? new GridFilesPresenterViewModel(_synchronizationHelper, CurrentDirectoryFileName)
-                : new TileFilesPresenterViewModel(_synchronizationHelper, CurrentDirectoryFileName);
+                ? new GridFilesPresenterViewModel(this, CurrentDirectoryFileName)
+                : new TileFilesPresenterViewModel(this, CurrentDirectoryFileName);
 
             FilesPresenter.DirectoryOrFileOpened += FilePresenterOnDirectoryOrFileOpened;
         }

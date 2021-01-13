@@ -34,14 +34,18 @@ namespace ChromER
         #region Commands
 
         public DelegateCommand OpenCommand { get; }
+        public DelegateCommand OpenNewTabCommand { get; }
+        public DelegateCommand OpenNewTabWithOpenCommand { get; }
+        public DelegateCommand OpenNewWindowCommand => ChromEr.Instance.OpenNewWindowCommand;
 
         #endregion
 
         #region Constructor
 
-        protected BaseFilesPresenter(ISynchronizationHelper synchronizationHelper, string directoryPathName)
+        protected BaseFilesPresenter(DirectoryTabItemViewModel directoryTabItemView, string directoryPathName)
         {
-            _synchronizationHelper = synchronizationHelper;
+            _synchronizationHelper = directoryTabItemView.SynchronizationHelper;
+
             CurrentDirectoryPathName = directoryPathName;
 
             _backgroundWorker = new BackgroundWorker
@@ -51,6 +55,8 @@ namespace ChromER
             };
 
             OpenCommand = new DelegateCommand(Open);
+            OpenNewTabCommand = new DelegateCommand(OpenNewTab);
+            OpenNewTabWithOpenCommand = new DelegateCommand(OpenNewTabWithNextOpen);
 
             _backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
             _backgroundWorker.DoWork += BackgroundWorker_DoWork;
@@ -85,6 +91,26 @@ namespace ChromER
                 DirectoryOrFileOpened?.Invoke(this, new OpenDirectoryEventArgs(fileEntityViewModel));
         }
 
+        private void OpenNewTab(object parameter)
+        {
+            if (parameter is object[] {Length: 2} parameters &&
+                parameters[0] is MainViewModel mainViewModel &&
+                parameters[1] is FileEntityViewModel fileEntityViewModel)
+            {
+                mainViewModel.OnOpenNewTab(fileEntityViewModel);
+            }
+        }
+
+        private void OpenNewTabWithNextOpen(object parameter)
+        {
+            if (parameter is object[] {Length: 2} parameters &&
+                parameters[0] is MainViewModel mainViewModel &&
+                parameters[1] is FileEntityViewModel fileEntityViewModel)
+            {
+                mainViewModel.OnOpenNewTab(fileEntityViewModel, true);
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -107,7 +133,7 @@ namespace ChromER
             {
                 var group = "Папки";
 
-                var specialFolders = new []
+                var specialFolders = new[]
                 {
                     Environment.GetFolderPath(Environment.SpecialFolder.MyVideos),
                     Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
@@ -126,9 +152,9 @@ namespace ChromER
                         });
                     });
                 }
-                
+
                 group = "Устройства и диски";
-                
+
                 foreach (var logicalDrive in Directory.GetLogicalDrives())
                 {
                     await _synchronizationHelper.InvokeAsync(() =>

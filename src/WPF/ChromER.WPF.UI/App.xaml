@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="Themes/App/Menu.xaml" />
                 <ResourceDictionary Source="Themes/App/Icons.xaml" />
                 <ResourceDictionary Source="Themes/App/Scroll.xaml" />
+                <ResourceDictionary Source="Themes/App/Expanders.xaml" />
 
                 <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml" />
 
@@ -22,7 +23,43 @@
                     <DataTemplate DataType="{x:Type chromEr:DirectoryTabItemViewModel}">
                         <ui:DirectoryTabItem />
                     </DataTemplate>
+
+                    <Style TargetType="{x:Type GroupItem}"
+                           x:Key="ExpanderGroupItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type GroupItem}">
+                                    <Grid>
+                                        <Expander IsExpanded="True"
+                                                  Foreground="White"
+                                                  x:Name="Expander">
+                                            <Expander.Header>
+                                                <TextBlock Text="{Binding Name}"
+                                                           FontSize="16" />
+                                            </Expander.Header>
+
+                                            <ItemsPresenter />
+                                        </Expander>
+
+                                        <ItemsPresenter x:Name="Presenter"
+                                                        Visibility="Collapsed" />
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding Name}"
+                                                     Value="{x:Null}">
+                                            <Setter TargetName="Presenter" Property="Visibility"
+                                                    Value="Visible" />
+                                            <Setter TargetName="Expander" Property="Visibility"
+                                                    Value="Collapsed" />
+                                        </DataTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
                 </ResourceDictionary>
+
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 

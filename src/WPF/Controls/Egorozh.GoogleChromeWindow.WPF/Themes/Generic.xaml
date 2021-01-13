@@ -16,9 +16,8 @@
             <Border Background="{TemplateBinding Background}"
                     Padding="{TemplateBinding Padding}"
                     BorderBrush="{TemplateBinding BorderBrush}"
-                    Margin="{Binding WindowState, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Converter={wpf:WindowBorderThicknessConverter}, ConverterParameter=10 }"
+                    Margin="{TemplateBinding Margin}"
                     BorderThickness="{Binding WindowState, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Converter={wpf:WindowBorderThicknessConverter}}">
-
 
                 <Grid>
                     <!--#endregion-->

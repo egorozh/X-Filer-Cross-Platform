@@ -6,14 +6,57 @@
              xmlns:ui="clr-namespace:ChromER.WPF.UI"
              xmlns:chromEr="clr-namespace:ChromER;assembly=ChromER"
              xmlns:dd="urn:gong-wpf-dragdrop"
+             xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
+
     <UserControl.Resources>
         <CollectionViewSource x:Key="GroupedCollectionViewSource" Source="{Binding DirectoriesAndFiles}">
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription PropertyName="Group" />
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
+
+        <ui:CommandReference x:Key="OpenCommand"
+                             Command="{Binding DataContext.OpenCommand, 
+                                                RelativeSource={RelativeSource AncestorType={x:Type ui:TileFilePresenter}}}"
+                             CommandParameter="{Binding DataContext.SelectedFileEntity, 
+                                                        RelativeSource={RelativeSource AncestorType={x:Type ui:TileFilePresenter}}}" />
+
+        <ui:CommandReference x:Key="OpenNewTabCommand"
+                             Command="{Binding DataContext.OpenNewTabCommand, 
+                                                RelativeSource={RelativeSource AncestorType={x:Type ui:TileFilePresenter}}}">
+            <ui:CommandReference.CommandParameter>
+                <MultiBinding Converter="{ui:CloneParamsConverter}">
+                    <Binding Path="DataContext"
+                             RelativeSource="{RelativeSource AncestorType={x:Type dragablz:TabablzControl}}" />
+                    <Binding Path="DataContext.SelectedFileEntity"
+                             RelativeSource="{RelativeSource AncestorType={x:Type ui:TileFilePresenter}}" />
+                </MultiBinding>
+            </ui:CommandReference.CommandParameter>
+        </ui:CommandReference>
+
+        <ui:CommandReference x:Key="OpenNewTabWithOpenCommand"
+                             Command="{Binding DataContext.OpenNewTabWithOpenCommand, 
+                                                RelativeSource={RelativeSource AncestorType={x:Type ui:TileFilePresenter}}}">
+            <ui:CommandReference.CommandParameter>
+                <MultiBinding Converter="{ui:CloneParamsConverter}">
+                    <Binding Path="DataContext"
+                             RelativeSource="{RelativeSource AncestorType={x:Type dragablz:TabablzControl}}" />
+                    <Binding Path="DataContext.SelectedFileEntity"
+                             RelativeSource="{RelativeSource AncestorType={x:Type ui:TileFilePresenter}}" />
+                </MultiBinding>
+            </ui:CommandReference.CommandParameter>
+        </ui:CommandReference>
+
+
+        <ui:CommandReference x:Key="OpenNewWindowCommand"
+                             Command="{Binding DataContext.OpenNewWindowCommand, 
+                                                RelativeSource={RelativeSource AncestorType={x:Type ui:TileFilePresenter}}}"
+                             CommandParameter="{Binding DataContext.SelectedFileEntity, 
+                                                        RelativeSource={RelativeSource AncestorType={x:Type ui:TileFilePresenter}}}" />
+
     </UserControl.Resources>
 
     <ui:RectSelectListBox SelectedItem="{Binding SelectedFileEntity, Mode=TwoWay}"
@@ -30,37 +73,8 @@
 
                           dd:DragDrop.DragDirectlySelectedOnly="True">
 
-
         <ui:RectSelectListBox.GroupStyle>
-            <GroupStyle>
-                <GroupStyle.ContainerStyle>
-                    <Style TargetType="{x:Type GroupItem}">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate>
-                                    <Grid>
-                                        <Expander Margin="10"
-                                                  Visibility="{Binding Name, Converter={ui:NotNullToVisibilityConverter}}"
-                                                  Foreground="White"
-                                                  IsExpanded="True">
-                                            <Expander.Header>
-                                                <TextBlock Text="{Binding Name}"
-                                                           FontSize="16" />
-                                            </Expander.Header>
-                                            <Expander.Content>
-                                                <ItemsPresenter />
-                                            </Expander.Content>
-                                        </Expander>
-                                        <Grid Visibility="{Binding Name, Converter={ui:NullToVisibilityConverter}}">
-                                            <ItemsPresenter />
-                                        </Grid>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </GroupStyle.ContainerStyle>
-            </GroupStyle>
+            <GroupStyle ContainerStyle="{StaticResource ExpanderGroupItem}" />
         </ui:RectSelectListBox.GroupStyle>
 
         <ui:RectSelectListBox.ItemContainerStyle>
@@ -91,8 +105,22 @@
                                         BorderThickness="{TemplateBinding BorderThickness}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         SnapsToDevicePixels="true">
+                                    <Border.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Открыть"
+                                                      Command="{StaticResource OpenCommand}" />
+                                            <MenuItem Header="Открыть в новой вкладке"
+                                                      Command="{StaticResource  OpenNewTabCommand}" />
+                                            <MenuItem Header="Открыть в новом окне"
+                                                      Command="{StaticResource  OpenNewWindowCommand}" />
+                                        </ContextMenu>
+                                    </Border.ContextMenu>
+                                    <Border.InputBindings>
+                                        <MouseBinding MouseAction="MiddleClick"
+                                                      Command="{StaticResource OpenNewTabWithOpenCommand}" />
+                                    </Border.InputBindings>
 
-                                    <ContentPresenter Margin="4"
+                                    <ContentPresenter Margin="0"
                                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
@@ -115,6 +143,7 @@
                                         <Condition Property="IsSelected" Value="True" />
                                     </MultiTrigger.Conditions>
 
+                                    <Setter TargetName="Bd" Property="Background" Value="#AAA9A9A9" />
                                 </MultiTrigger>
                                 <MultiTrigger>
                                     <MultiTrigger.Conditions>
@@ -144,25 +173,30 @@
         <ui:RectSelectListBox.ItemTemplate>
             <DataTemplate DataType="{x:Type chromEr:FileEntityViewModel}">
                 <Grid Background="Transparent">
-                    <Grid.InputBindings>
-                        <MouseBinding MouseAction="LeftDoubleClick"
-                                      Command="{Binding  DataContext.OpenCommand, RelativeSource={RelativeSource AncestorType={x:Type ui:TileFilePresenter}}}"
-                                      CommandParameter="{Binding DataContext.SelectedFileEntity, RelativeSource={RelativeSource AncestorType={x:Type ui:TileFilePresenter}}}" />
-                    </Grid.InputBindings>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
+                    <Grid Margin="4">
 
-                    <Image MaxWidth="140"
-                           MaxHeight="140"
-                           Source="{Binding ., Converter={ui:FileEntityToImageConverter}}" />
+                        <Grid.InputBindings>
+                            <MouseBinding MouseAction="LeftDoubleClick"
+                                          Command="{Binding  DataContext.OpenCommand, RelativeSource={RelativeSource AncestorType={x:Type ui:TileFilePresenter}}}"
+                                          CommandParameter="{Binding DataContext.SelectedFileEntity, RelativeSource={RelativeSource AncestorType={x:Type ui:TileFilePresenter}}}" />
+                        </Grid.InputBindings>
 
-                    <TextBlock Grid.Row="1"
-                               HorizontalAlignment="Center"
-                               Foreground="White"
-                               Text="{Binding Name}"
-                               TextTrimming="CharacterEllipsis" />
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Image MaxWidth="140"
+                               MaxHeight="140"
+                               Stretch="Uniform"
+                               Source="{Binding ., Converter={ui:FileEntityToImageConverter}}" />
+
+                        <TextBlock Grid.Row="1"
+                                   TextAlignment="Center"
+                                   Foreground="White"
+                                   Text="{Binding Name}"
+                                   TextTrimming="CharacterEllipsis" />
+                    </Grid>
                 </Grid>
             </DataTemplate>
         </ui:RectSelectListBox.ItemTemplate>

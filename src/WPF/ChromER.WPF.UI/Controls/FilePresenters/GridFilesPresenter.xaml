@@ -34,35 +34,7 @@
                                dd:DragDrop.DragDirectlySelectedOnly="True">
 
             <ui:RectSelectDataGrid.GroupStyle>
-                <GroupStyle>
-                    <GroupStyle.ContainerStyle>
-                        <Style TargetType="{x:Type GroupItem}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate>
-                                        <Grid>
-                                            <Expander Margin="10"
-                                                      Visibility="{Binding Name, Converter={ui:NotNullToVisibilityConverter}}"
-                                                      IsExpanded="True"
-                                                      Foreground="White">
-                                                <Expander.Header>
-                                                    <TextBlock Text="{Binding Name}"
-                                                               FontSize="16" />
-                                                </Expander.Header>
-                                                <Expander.Content>
-                                                    <ItemsPresenter />
-                                                </Expander.Content>
-                                            </Expander>
-                                            <Grid Visibility="{Binding Name, Converter={ui:NullToVisibilityConverter}}">
-                                                <ItemsPresenter />
-                                            </Grid>
-                                        </Grid>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </GroupStyle.ContainerStyle>
-                </GroupStyle>
+                <GroupStyle ContainerStyle="{StaticResource ExpanderGroupItem}"/>
             </ui:RectSelectDataGrid.GroupStyle>
 
             <b:Interaction.Triggers>
@@ -74,7 +46,7 @@
             </b:Interaction.Triggers>
 
             <ui:RectSelectDataGrid.Columns>
-                <DataGridTemplateColumn Header="Имя" 
+                <DataGridTemplateColumn Header="Имя"
                                         CanUserSort="True"
                                         SortMemberPath="Name">
                     <DataGridTemplateColumn.CellTemplate>

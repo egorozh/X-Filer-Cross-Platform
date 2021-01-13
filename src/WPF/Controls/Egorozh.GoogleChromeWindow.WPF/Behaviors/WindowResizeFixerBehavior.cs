@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Microsoft.Xaml.Behaviors;
 
 namespace Egorozh.GoogleChromeWindow.WPF
@@ -16,6 +17,37 @@ namespace Egorozh.GoogleChromeWindow.WPF
             AssociatedObject.StateChanged += (s, e) => UpdatePadding();
 
             AssociatedObject.Loaded += (s, e) => UpdatePadding();
+
+            _fixer.WindowDockChanged += FixerOnWindowDockChanged;
+
+            AssociatedObject.StateChanged += AssociatedObject_StateChanged;
+        }
+
+        private void AssociatedObject_StateChanged(object sender, EventArgs e)
+        {
+            switch (AssociatedObject.WindowState)
+            {
+                case WindowState.Normal:
+                    AssociatedObject.Margin = new Thickness(10);
+                    break;
+                case WindowState.Maximized:
+                    AssociatedObject.Margin = new Thickness(0);
+                    break;
+            }
+        }
+
+        private void FixerOnWindowDockChanged(WindowDockPosition dockPosition)
+        {
+            switch (dockPosition)
+            {
+                case WindowDockPosition.Undocked:
+                    if (AssociatedObject.WindowState != WindowState.Maximized)
+                        AssociatedObject.Margin = new Thickness(10);
+                    break;
+                default:
+                    AssociatedObject.Margin = new Thickness(0);
+                    break;
+            }
         }
 
         private void UpdatePadding()

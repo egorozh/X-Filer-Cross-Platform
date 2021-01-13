@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 
 namespace ChromER
@@ -10,21 +11,23 @@ namespace ChromER
     public sealed class ChromEr
     {
         private readonly ISynchronizationHelper _synchronizationHelper;
-        private readonly Func<ITabClient> _tabClientFactory;
+        private readonly ITabClient _tabClient;
+        private readonly Action<MainViewModel, Point> _windowFactory;
 
         #region Singleton
 
-        public static ChromEr Instance { get; private set; }
+        public static ChromEr? Instance { get; private set; }
 
-        public static void CreateChromer(ISynchronizationHelper helper, Func<ITabClient> tabClientFactory)
+        public static void CreateChromer(ISynchronizationHelper helper, ITabClient tabClient,
+            Action<MainViewModel, Point> windowFactory)
         {
             if (Instance == null)
             {
-                CultureInfo currentCulture = new ("Ru-ru");
+                CultureInfo currentCulture = new("Ru-ru");
                 CultureInfo.CurrentCulture = currentCulture;
                 CultureInfo.CurrentUICulture = currentCulture;
 
-                Instance = new ChromEr(helper, tabClientFactory);
+                Instance = new ChromEr(helper, tabClient, windowFactory);
             }
         }
 
@@ -46,18 +49,23 @@ namespace ChromER
         /// </summary>
         public IBookmarksManager BookmarksManager { get; }
 
+        public DelegateCommand OpenNewWindowCommand { get; }
+
         #endregion
 
         #region Constructor
 
-        private ChromEr(ISynchronizationHelper synchronizationHelper, Func<ITabClient> tabClientFactoryFactory)
+        private ChromEr(ISynchronizationHelper synchronizationHelper,
+            ITabClient tabClient,
+            Action<MainViewModel, Point> windowFactory)
         {
             _synchronizationHelper = synchronizationHelper;
-            _tabClientFactory = tabClientFactoryFactory;
-            //MainViewModel = new MainViewModel(synchronizationHelper, _tabClientFactory.Invoke(),
-            //    new[] {new DirectoryTabItemViewModel(_synchronizationHelper),});
+            _tabClient = tabClient;
+            _windowFactory = windowFactory;
 
             var converter = new ExtensionToImageFileConverter();
+
+            OpenNewWindowCommand = new DelegateCommand(OnOpenNewWindow);
 
             IconsManager = new IconsManager(converter);
             BookmarksManager = new BookmarksManager(converter);
@@ -66,7 +74,27 @@ namespace ChromER
         #endregion
 
         public MainViewModel CreateMainViewModel(IEnumerable<DirectoryTabItemViewModel> initItems)
-            => new (_synchronizationHelper, _tabClientFactory?.Invoke(), initItems);
+            => new(_synchronizationHelper, _tabClient, initItems);
+
+        private void OnOpenNewWindow(object parameter)
+        {
+            if (parameter is FileEntityViewModel fileEntityViewModel)
+            {
+                if (fileEntityViewModel is DirectoryViewModel directoryViewModel)
+                {
+                    var mainViewModel = CreateMainViewModel(new DirectoryTabItemViewModel[0]);
+
+                    var myCompTabVm = new DirectoryTabItemViewModel(
+                        _synchronizationHelper, 
+                        directoryViewModel.FullName,
+                        directoryViewModel.Name);
+
+                    mainViewModel.TabItems.Add(myCompTabVm);
+
+                    _windowFactory.Invoke(mainViewModel, new Point(24, 24));
+                }
+            }
+        }
     }
 
     public interface ITabClient
