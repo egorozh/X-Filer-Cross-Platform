@@ -50,7 +50,6 @@
             </ui:CommandReference.CommandParameter>
         </ui:CommandReference>
 
-
         <ui:CommandReference x:Key="OpenNewWindowCommand"
                              Command="{Binding DataContext.OpenNewWindowCommand, 
                                                 RelativeSource={RelativeSource AncestorType={x:Type ui:TileFilePresenter}}}"

@@ -6,6 +6,7 @@
              xmlns:ui="clr-namespace:ChromER.WPF.UI"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:dd="urn:gong-wpf-dragdrop"
+             xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -16,82 +17,193 @@
                 <PropertyGroupDescription PropertyName="Group" />
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
+
+        <ui:CommandReference x:Key="OpenCommand"
+                             Command="{Binding DataContext.OpenCommand, 
+                                                RelativeSource={RelativeSource AncestorType={x:Type ui:GridFilesPresenter}}}"
+                             CommandParameter="{Binding DataContext.SelectedFileEntity, 
+                                                        RelativeSource={RelativeSource AncestorType={x:Type ui:GridFilesPresenter}}}" />
+
+        <ui:CommandReference x:Key="OpenNewTabCommand"
+                             Command="{Binding DataContext.OpenNewTabCommand, 
+                                                RelativeSource={RelativeSource AncestorType={x:Type ui:GridFilesPresenter}}}">
+            <ui:CommandReference.CommandParameter>
+                <MultiBinding Converter="{ui:CloneParamsConverter}">
+                    <Binding Path="DataContext"
+                             RelativeSource="{RelativeSource AncestorType={x:Type dragablz:TabablzControl}}" />
+                    <Binding Path="DataContext.SelectedFileEntity"
+                             RelativeSource="{RelativeSource AncestorType={x:Type ui:GridFilesPresenter}}" />
+                </MultiBinding>
+            </ui:CommandReference.CommandParameter>
+        </ui:CommandReference>
+
+        <ui:CommandReference x:Key="OpenNewTabWithOpenCommand"
+                             Command="{Binding DataContext.OpenNewTabWithOpenCommand, 
+                                                RelativeSource={RelativeSource AncestorType={x:Type ui:GridFilesPresenter}}}">
+            <ui:CommandReference.CommandParameter>
+                <MultiBinding Converter="{ui:CloneParamsConverter}">
+                    <Binding Path="DataContext"
+                             RelativeSource="{RelativeSource AncestorType={x:Type dragablz:TabablzControl}}" />
+                    <Binding Path="DataContext.SelectedFileEntity"
+                             RelativeSource="{RelativeSource AncestorType={x:Type ui:GridFilesPresenter}}" />
+                </MultiBinding>
+            </ui:CommandReference.CommandParameter>
+        </ui:CommandReference>
+
+        <ui:CommandReference x:Key="OpenNewWindowCommand"
+                             Command="{Binding DataContext.OpenNewWindowCommand, 
+                                                RelativeSource={RelativeSource AncestorType={x:Type ui:GridFilesPresenter}}}"
+                             CommandParameter="{Binding DataContext.SelectedFileEntity, 
+                                                        RelativeSource={RelativeSource AncestorType={x:Type ui:GridFilesPresenter}}}" />
     </UserControl.Resources>
 
-    <Grid>
-        <ui:RectSelectDataGrid SelectedItem="{Binding SelectedFileEntity, Mode=TwoWay}"
-                               ItemsSource="{Binding Source={StaticResource GroupedCollectionViewSource}}"
 
-                               dd:DragDrop.DropScrollingMode="VerticalOnly"
-                               dd:DragDrop.IsDragSource="True"
-                               dd:DragDrop.IsDropTarget="True"
-                               dd:DragDrop.DropHandler="{x:Static ui:ChromerDragDrop.Instance}"
+    <ui:RectSelectDataGrid SelectedItem="{Binding SelectedFileEntity, Mode=TwoWay}"
+                           ItemsSource="{Binding Source={StaticResource GroupedCollectionViewSource}}"
 
-                               dd:DragDrop.UseDefaultEffectDataTemplate="True"
+                           dd:DragDrop.DropScrollingMode="VerticalOnly"
+                           dd:DragDrop.IsDragSource="True"
+                           dd:DragDrop.IsDropTarget="True"
+                           dd:DragDrop.DropHandler="{x:Static ui:ChromerDragDrop.Instance}"
 
-                               dd:DragDrop.DragHandler="{x:Static ui:ChromerDragHandler.Instance}"
+                           dd:DragDrop.UseDefaultEffectDataTemplate="True"
 
-                               dd:DragDrop.DragDirectlySelectedOnly="True">
+                           dd:DragDrop.DragHandler="{x:Static ui:ChromerDragHandler.Instance}"
 
-            <ui:RectSelectDataGrid.GroupStyle>
-                <GroupStyle ContainerStyle="{StaticResource ExpanderGroupItem}"/>
-            </ui:RectSelectDataGrid.GroupStyle>
+                           dd:DragDrop.DragDirectlySelectedOnly="True">
 
-            <b:Interaction.Triggers>
-                <b:EventTrigger EventName="MouseDoubleClick">
-                    <b:InvokeCommandAction
-                        Command="{Binding OpenCommand}"
-                        CommandParameter="{Binding SelectedFileEntity}" />
-                </b:EventTrigger>
-            </b:Interaction.Triggers>
+        <ui:RectSelectDataGrid.RowStyle>
+            <Style TargetType="{x:Type DataGridRow}">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0 1" />
+                <Setter Property="SnapsToDevicePixels" Value="true" />
+                <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
+                <Setter Property="ContextMenu">
+                    <Setter.Value>
+                        <ContextMenu>
+                            <MenuItem Header="Открыть"
+                                      Command="{StaticResource OpenCommand}" />
+                            <MenuItem Header="Открыть в новой вкладке"
+                                      Command="{StaticResource  OpenNewTabCommand}" />
+                            <MenuItem Header="Открыть в новом окне"
+                                      Command="{StaticResource  OpenNewWindowCommand}" />
+                        </ContextMenu>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ValidationErrorTemplate">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <TextBlock Foreground="Red" Margin="2,0,0,0" Text="!" VerticalAlignment="Center" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridRow}">
 
-            <ui:RectSelectDataGrid.Columns>
-                <DataGridTemplateColumn Header="Имя"
-                                        CanUserSort="True"
-                                        SortMemberPath="Name">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
+                            <Border x:Name="DGR_Border"
+                                    HorizontalAlignment="Left"
+                                    Background="{TemplateBinding Background}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    SnapsToDevicePixels="True">
+                                <Border.InputBindings>
+                                    <MouseBinding MouseAction="MiddleClick"
+                                                  Command="{StaticResource OpenNewTabWithOpenCommand}" />
+                                </Border.InputBindings>
+                                <SelectiveScrollingGrid>
 
-                                <Image MaxWidth="18"
-                                       MaxHeight="18"
-                                       Margin="10 0 5 0"
-                                       Source="{Binding ., Converter={ui:FileEntityToImageConverter}}" />
+                                    <SelectiveScrollingGrid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </SelectiveScrollingGrid.ColumnDefinitions>
+                                    <SelectiveScrollingGrid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </SelectiveScrollingGrid.RowDefinitions>
 
-                                <TextBlock HorizontalAlignment="Center"
-                                           Foreground="White"
-                                           Background="Transparent"
-                                           Text="{Binding Name}"
-                                           TextTrimming="CharacterEllipsis" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.CellEditingTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
+                                    <DataGridCellsPresenter Grid.Column="1"
+                                                            ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                    <DataGridDetailsPresenter Grid.Column="1" Grid.Row="1"
+                                                              SelectiveScrollingGrid.SelectiveScrollingOrientation="{Binding AreRowDetailsFrozen, Converter={x:Static DataGrid.RowDetailsScrollingConverter}, ConverterParameter={x:Static SelectiveScrollingOrientation.Vertical}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                              Visibility="{TemplateBinding DetailsVisibility}" />
+                                    <DataGridRowHeader Grid.RowSpan="2"
+                                                       SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
+                                                       Visibility="{Binding HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Row}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                </SelectiveScrollingGrid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsNewItem" Value="True">
+                        <Setter Property="Margin"
+                                Value="{Binding NewItemMargin, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ui:RectSelectDataGrid.RowStyle>
 
-                                <Image MaxWidth="18"
-                                       MaxHeight="18"
-                                       Margin="10 0 5 0"
-                                       Source="{Binding ., Converter={ui:FileEntityToImageConverter}}" />
+        <ui:RectSelectDataGrid.GroupStyle>
+            <GroupStyle ContainerStyle="{StaticResource ExpanderGroupItem}" />
+        </ui:RectSelectDataGrid.GroupStyle>
 
-                                <TextBox HorizontalAlignment="Center"
-                                         Foreground="White"
-                                         Background="Transparent"
-                                         Text="{Binding Name}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellEditingTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Дата изменения"
-                                    IsReadOnly="True"
-                                    Binding="{Binding ChangeDateTime, StringFormat=g}" />
-                <DataGridTextColumn Header="Размер"
-                                    IsReadOnly="True"
-                                    Binding="{Binding Size, StringFormat={}{0:0} КБ}" />
-            </ui:RectSelectDataGrid.Columns>
+        <b:Interaction.Triggers>
+            <b:EventTrigger EventName="MouseDoubleClick">
+                <b:InvokeCommandAction
+                    Command="{Binding OpenCommand}"
+                    CommandParameter="{Binding SelectedFileEntity}" />
+            </b:EventTrigger>
+        </b:Interaction.Triggers>
 
-        </ui:RectSelectDataGrid>
-    </Grid>
+        <ui:RectSelectDataGrid.Columns>
+            <DataGridTemplateColumn Header="Имя"
+                                    CanUserSort="True"
+                                    SortMemberPath="Name">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+
+                            <Image MaxWidth="18"
+                                   MaxHeight="18"
+                                   Margin="10 0 5 0"
+                                   Source="{Binding ., Converter={ui:FileEntityToImageConverter}}" />
+
+                            <TextBlock HorizontalAlignment="Center"
+                                       Foreground="White"
+                                       Background="Transparent"
+                                       Text="{Binding Name}"
+                                       TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+                <DataGridTemplateColumn.CellEditingTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+
+                            <Image MaxWidth="18"
+                                   MaxHeight="18"
+                                   Margin="10 0 5 0"
+                                   Source="{Binding ., Converter={ui:FileEntityToImageConverter}}" />
+
+                            <TextBox HorizontalAlignment="Center"
+                                     Foreground="White"
+                                     Background="Transparent"
+                                     Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellEditingTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTextColumn Header="Дата изменения"
+                                IsReadOnly="True"
+                                Binding="{Binding ChangeDateTime, StringFormat=g}" />
+            <DataGridTextColumn Header="Размер"
+                                IsReadOnly="True"
+                                Binding="{Binding Size, StringFormat={}{0:0} КБ}" />
+        </ui:RectSelectDataGrid.Columns>
+
+    </ui:RectSelectDataGrid>
+
 
 </UserControl>
