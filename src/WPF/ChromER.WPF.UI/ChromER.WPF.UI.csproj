@@ -9,6 +9,8 @@
     <Version>0.1.0</Version>
 
     <Nullable>Enable</Nullable>
+
+    <ApplicationIcon>chromer-icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,8 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference
-      Include="..\..\..\..\..\gong-wpf-dragdrop\src\GongSolutions.WPF.DragDrop\GongSolutions.WPF.DragDrop.csproj" />
+    <ProjectReference Include="..\..\..\..\..\gong-wpf-dragdrop\src\GongSolutions.WPF.DragDrop\GongSolutions.WPF.DragDrop.csproj" />
     <ProjectReference Include="..\..\Core\ChromER\ChromER.csproj" />
     <ProjectReference Include="..\Controls\Egorozh.GoogleChromeWindow.WPF\Egorozh.GoogleChromeWindow.WPF.csproj" />
   </ItemGroup>
