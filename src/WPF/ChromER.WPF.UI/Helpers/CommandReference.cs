@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 
@@ -48,16 +49,39 @@ namespace ChromER.WPF.UI
         #region ICommand Members
 
         public bool CanExecute(object? parameter)
-            => Command != null && Command.CanExecute(CommandParameter ?? parameter);
+            => Command != null && Command.CanExecute(GetParameter(parameter, CommandParameter));
 
         public void Execute(object? parameter)
-            => Command?.Execute(CommandParameter ?? parameter);
+            => Command?.Execute(GetParameter(parameter, CommandParameter));
 
         public event EventHandler? CanExecuteChanged;
 
         #endregion
 
         #region Private Methods
+
+        private static object? GetParameter(object? mainParameter, object? referenceParameter)
+        {
+            if (mainParameter == null)
+                return referenceParameter;
+
+            if (referenceParameter == null)
+                return mainParameter;
+
+            List<object> mergesParameters = new();
+
+            if (referenceParameter is object[] arrayParams2)
+                mergesParameters.AddRange(arrayParams2);
+            else
+                mergesParameters.Add(referenceParameter);
+
+            if (mainParameter is object[] arrayParams)
+                mergesParameters.AddRange(arrayParams);
+            else
+                mergesParameters.Add(mainParameter);
+            
+            return mergesParameters.ToArray();
+        }
 
         private void OnCommandChanged(ICommand? oldCommand, ICommand? newCommand)
         {
@@ -73,7 +97,7 @@ namespace ChromER.WPF.UI
         private void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 
         #endregion
-        
+
         #region Freezable
 
         protected override Freezable CreateInstanceCore() => throw new NotImplementedException();

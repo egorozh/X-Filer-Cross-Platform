@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace ChromER.WPF.UI
 {
@@ -57,19 +56,6 @@ namespace ChromER.WPF.UI
             base.OnMouseLeftButtonUp(e);
 
             _selectLogic.OnMouseLeftButtonUp(e);
-        }
-
-        protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
-        {
-            base.OnPreviewMouseDown(e);
-
-            if (e.ChangedButton == MouseButton.Middle)
-            {
-                HitTestResult result = VisualTreeHelper.HitTest(this, e.GetPosition(this));
-                var obj = result.VisualHit as FrameworkElement;
-
-                SelectedItem = obj.DataContext;
-            }
         }
 
         #endregion

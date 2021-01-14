@@ -6,14 +6,14 @@ using System.Linq;
 
 namespace ChromER
 {
-    public class MainViewModel : BaseViewModel
+    public class TabsViewModel : BaseViewModel
     {
         #region Private Fields
 
         private readonly ISynchronizationHelper _synchronizationHelper;
 
         #endregion
-
+            
         #region Public Properties
 
         public ITabClient InterTabClient { get; }
@@ -28,14 +28,18 @@ namespace ChromER
 
         #endregion
 
+        #region Commands
+
         public DelegateCommand CreateNewTabItemCommand { get; }
         public DelegateCommand OpenTabItemInNewWindowCommand { get; }
         public DelegateCommand DuplicateTabCommand { get; }
         public DelegateCommand CloseAllTabsCommand { get; }
 
+        #endregion
+        
         #region Constructor
 
-        public MainViewModel(ISynchronizationHelper synchronizationHelper, ITabClient tabClient,
+        public TabsViewModel(ISynchronizationHelper synchronizationHelper, ITabClient tabClient,
             IEnumerable<DirectoryTabItemViewModel> init)
         {
             _synchronizationHelper = synchronizationHelper;
@@ -70,7 +74,7 @@ namespace ChromER
             }
         }
 
-        private void OnCreateNewTabItem(object obj)
+        private void OnCreateNewTabItem(object? obj)
         {
             if (obj is not DirectoryTabItemViewModel directoryTabItem)
                 return;
@@ -80,9 +84,9 @@ namespace ChromER
             TabItems.Add(tab);
         }
 
-        private bool OnCanOpenTabItemInNewWindow(object obj) => TabItems.Count > 1;
+        private bool OnCanOpenTabItemInNewWindow(object? obj) => TabItems.Count > 1;
 
-        private void OnOpenTabItemInNewWindow(object obj)
+        private void OnOpenTabItemInNewWindow(object? obj)
         {
             if (obj is not DirectoryTabItemViewModel directoryTabItem)
                 return;
@@ -110,7 +114,7 @@ namespace ChromER
 
             var removedItems = TabItems.Where(i => i != directoryTabItem).ToList();
 
-            foreach (var item in removedItems) 
+            foreach (var item in removedItems)
                 TabItems.Remove(item);
         }
 

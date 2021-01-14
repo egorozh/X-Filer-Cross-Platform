@@ -92,7 +92,7 @@ namespace ChromER
         private void OpenNewTab(object parameter)
         {
             if (parameter is object[] {Length: 2} parameters &&
-                parameters[0] is MainViewModel mainViewModel &&
+                parameters[0] is TabsViewModel mainViewModel &&
                 parameters[1] is FileEntityViewModel fileEntityViewModel)
             {
                 mainViewModel.OnOpenNewTab(fileEntityViewModel);

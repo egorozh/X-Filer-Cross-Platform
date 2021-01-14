@@ -20,33 +20,21 @@
 
         <ui:CommandReference x:Key="OpenCommand"
                              Command="{Binding DataContext.OpenCommand, 
-                                                RelativeSource={RelativeSource AncestorType={x:Type ui:GridFilesPresenter}}}"
-                             CommandParameter="{Binding DataContext.SelectedFileEntity, 
-                                                        RelativeSource={RelativeSource AncestorType={x:Type ui:GridFilesPresenter}}}" />
+                                                RelativeSource={RelativeSource AncestorType={x:Type ui:GridFilesPresenter}}}" />
 
         <ui:CommandReference x:Key="OpenNewTabCommand"
                              Command="{Binding DataContext.OpenNewTabCommand, 
-                                                RelativeSource={RelativeSource AncestorType={x:Type ui:GridFilesPresenter}}}">
-            <ui:CommandReference.CommandParameter>
-                <MultiBinding Converter="{ui:CloneParamsConverter}">
-                    <Binding Path="DataContext"
-                             RelativeSource="{RelativeSource AncestorType={x:Type dragablz:TabablzControl}}" />
-                    <Binding Path="DataContext.SelectedFileEntity"
-                             RelativeSource="{RelativeSource AncestorType={x:Type ui:GridFilesPresenter}}" />
-                </MultiBinding>
-            </ui:CommandReference.CommandParameter>
-        </ui:CommandReference>
+                                                RelativeSource={RelativeSource AncestorType={x:Type ui:GridFilesPresenter}}}"
+                             CommandParameter="{Binding DataContext,
+                                                        RelativeSource={RelativeSource AncestorType={x:Type dragablz:TabablzControl}}}" />
 
         <ui:CommandReference x:Key="OpenNewWindowCommand"
                              Command="{Binding DataContext.OpenNewWindowCommand, 
-                                                RelativeSource={RelativeSource AncestorType={x:Type ui:GridFilesPresenter}}}"
-                             CommandParameter="{Binding DataContext.SelectedFileEntity, 
-                                                        RelativeSource={RelativeSource AncestorType={x:Type ui:GridFilesPresenter}}}" />
+                                                RelativeSource={RelativeSource AncestorType={x:Type ui:GridFilesPresenter}}}" />
     </UserControl.Resources>
 
 
-    <ui:RectSelectDataGrid SelectedItem="{Binding SelectedFileEntity, Mode=TwoWay}"
-                           ItemsSource="{Binding Source={StaticResource GroupedCollectionViewSource}}"
+    <ui:RectSelectDataGrid ItemsSource="{Binding Source={StaticResource GroupedCollectionViewSource}}"
 
                            dd:DragDrop.DropScrollingMode="VerticalOnly"
                            dd:DragDrop.IsDragSource="True"
@@ -69,11 +57,14 @@
                     <Setter.Value>
                         <ContextMenu>
                             <MenuItem Header="Открыть"
-                                      Command="{StaticResource OpenCommand}" />
+                                      Command="{StaticResource OpenCommand}"
+                                      CommandParameter="{Binding}" />
                             <MenuItem Header="Открыть в новой вкладке"
-                                      Command="{StaticResource  OpenNewTabCommand}" />
+                                      Command="{StaticResource  OpenNewTabCommand}"
+                                      CommandParameter="{Binding}" />
                             <MenuItem Header="Открыть в новом окне"
-                                      Command="{StaticResource  OpenNewWindowCommand}" />
+                                      Command="{StaticResource  OpenNewWindowCommand}"
+                                      CommandParameter="{Binding}" />
                         </ContextMenu>
                     </Setter.Value>
                 </Setter>
@@ -94,9 +85,14 @@
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     SnapsToDevicePixels="True">
+
                                 <Border.InputBindings>
                                     <MouseBinding MouseAction="MiddleClick"
-                                                  Command="{StaticResource OpenNewTabCommand}" />
+                                                  Command="{StaticResource OpenNewTabCommand}"
+                                                  CommandParameter="{Binding}" />
+                                    <MouseBinding MouseAction="LeftDoubleClick"
+                                                  Command="{StaticResource  OpenCommand}"
+                                                  CommandParameter="{Binding }" />
                                 </Border.InputBindings>
                                 <SelectiveScrollingGrid>
 
@@ -135,14 +131,6 @@
         <ui:RectSelectDataGrid.GroupStyle>
             <GroupStyle ContainerStyle="{StaticResource ExpanderGroupItem}" />
         </ui:RectSelectDataGrid.GroupStyle>
-
-        <b:Interaction.Triggers>
-            <b:EventTrigger EventName="MouseDoubleClick">
-                <b:InvokeCommandAction
-                    Command="{Binding OpenCommand}"
-                    CommandParameter="{Binding SelectedFileEntity}" />
-            </b:EventTrigger>
-        </b:Interaction.Triggers>
 
         <ui:RectSelectDataGrid.Columns>
             <DataGridTemplateColumn Header="Имя"

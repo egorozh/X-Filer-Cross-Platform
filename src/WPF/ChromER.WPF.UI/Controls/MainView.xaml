@@ -9,6 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
+
         <ui:CommandReference x:Key="CreateNewTabItemCommand"
                              Command="{Binding DataContext.CreateNewTabItemCommand,ElementName=InitialTabablzControl}" />
         <ui:CommandReference x:Key="OpenTabItemInNewWindowCommand"
@@ -19,8 +20,7 @@
 
         <ui:CommandReference x:Key="CloseAllTabsCommand"
                              Command="{Binding DataContext.CloseAllTabsCommand,ElementName=InitialTabablzControl}" />
-        <ui:CommandReference x:Key="CloseAllTabsRightCommand"/>
-
+    
     </UserControl.Resources>
 
     <dragablz:TabablzControl x:Name="InitialTabablzControl"
@@ -57,10 +57,6 @@
 
                             <MenuItem Header="Закрыть другие вкладки"
                                       Command="{StaticResource CloseAllTabsCommand}"
-                                      CommandParameter="{Binding}" />
-
-                            <MenuItem Header="Закрыть вкладки справа"
-                                      Command="{StaticResource CloseAllTabsRightCommand}"
                                       CommandParameter="{Binding}" />
 
                         </ContextMenu>

@@ -37,7 +37,7 @@ namespace ChromER.WPF.UI
             //debugWindow.Show();
         }
 
-        private static void ShowNewWindow(MainViewModel mvm, Point location)
+        private static void ShowNewWindow(TabsViewModel mvm, Point location)
         {
             var activeWindow = Current.Windows.OfType<Window>().FirstOrDefault(w => w.IsActive) ?? Current.MainWindow;
             

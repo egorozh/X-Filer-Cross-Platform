@@ -36,20 +36,7 @@ namespace ChromER.WPF.UI
         #endregion
 
         #region Protected Methods
-
-        protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
-        {
-            base.OnPreviewMouseDown(e);
-
-            if (e.ChangedButton == MouseButton.Middle)
-            {
-                HitTestResult result = VisualTreeHelper.HitTest(this, e.GetPosition(this));
-                var obj = result.VisualHit as FrameworkElement;
-
-                SelectedItem = obj.DataContext;
-            }
-        }
-
+        
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);

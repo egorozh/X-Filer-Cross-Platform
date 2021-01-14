@@ -12,14 +12,14 @@ namespace ChromER
     {
         private readonly ISynchronizationHelper _synchronizationHelper;
         private readonly ITabClient _tabClient;
-        private readonly Action<MainViewModel, Point> _windowFactory;
+        private readonly Action<TabsViewModel, Point> _windowFactory;
 
         #region Singleton
 
         public static ChromEr Instance { get; private set; }
 
         public static void CreateChromer(ISynchronizationHelper helper, ITabClient tabClient,
-            Action<MainViewModel, Point> windowFactory)
+            Action<TabsViewModel, Point> windowFactory)
         {
             if (Instance == null)
             {
@@ -37,7 +37,7 @@ namespace ChromER
 
         #region Public Properties
 
-        //public MainViewModel MainViewModel { get; }
+        //public TabsViewModel TabsViewModel { get; }
 
         /// <summary>
         /// Менеджер иконок
@@ -57,7 +57,7 @@ namespace ChromER
 
         private ChromEr(ISynchronizationHelper synchronizationHelper,
             ITabClient tabClient,
-            Action<MainViewModel, Point> windowFactory)
+            Action<TabsViewModel, Point> windowFactory)
         {
             _synchronizationHelper = synchronizationHelper;
             _tabClient = tabClient;
@@ -73,7 +73,7 @@ namespace ChromER
 
         #endregion
 
-        public MainViewModel CreateMainViewModel(IEnumerable<DirectoryTabItemViewModel> initItems)
+        public TabsViewModel CreateMainViewModel(IEnumerable<DirectoryTabItemViewModel> initItems)
             => new(_synchronizationHelper, _tabClient, initItems);
 
         public void OpenTabInNewWindow(DirectoryTabItemViewModel directoryTabItemView)
