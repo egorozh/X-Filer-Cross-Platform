@@ -64,7 +64,7 @@ namespace ChromER
             get => _searchText;
             set => SetSearchText(value);
         }
-
+        
         public string CurrentDirectoryFileName => _history.Current.DirectoryPath;
 
         public IFilesPresenter? FilesPresenter { get; set; }
@@ -78,7 +78,7 @@ namespace ChromER
         public DelegateCommand MoveBackCommand { get; }
 
         public DelegateCommand MoveForwardCommand { get; }
-        
+
         #endregion
 
         #region Constructor
@@ -88,7 +88,7 @@ namespace ChromER
             string directoryName)
         {
             SynchronizationHelper = synchronizationHelper;
-           
+
             _history = new DirectoryHistory(directoryPath, directoryName);
 
             MoveBackCommand = new DelegateCommand(OnMoveBack, OnCanMoveBack);

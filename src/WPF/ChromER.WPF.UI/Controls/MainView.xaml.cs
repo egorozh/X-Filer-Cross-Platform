@@ -1,8 +1,8 @@
 ﻿namespace ChromER.WPF.UI
 {
-    public partial class MainWindow
+    public partial class MainView
     {
-        public MainWindow()
+        public MainView()
         {
             InitializeComponent();
         }

@@ -8,6 +8,8 @@
 
         public bool IsSelected { get; set; }
 
+        public bool LogicalIndex { get; set; }
+
         public object Content { get; set; }
 
         #endregion

@@ -12,6 +12,17 @@ namespace ChromER.WPF.UI
             nameof(Command), typeof(ICommand), typeof(CommandReference),
             new PropertyMetadata(OnCommandChanged));
 
+        private static void OnCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is not CommandReference commandReference)
+                return;
+
+            var oldCommand = e.OldValue as ICommand;
+            var newCommand = e.NewValue as ICommand;
+
+            commandReference.OnCommandChanged(oldCommand, newCommand);
+        }
+
         public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register(
             nameof(CommandParameter), typeof(object), typeof(CommandReference),
             new PropertyMetadata(default(object)));
@@ -20,13 +31,13 @@ namespace ChromER.WPF.UI
 
         #region Public Properties
 
-        public ICommand Command
+        public ICommand? Command
         {
             get => (ICommand) GetValue(CommandProperty);
             set => SetValue(CommandProperty, value);
         }
 
-        public object CommandParameter
+        public object? CommandParameter
         {
             get => GetValue(CommandParameterProperty);
             set => SetValue(CommandParameterProperty, value);
@@ -36,31 +47,33 @@ namespace ChromER.WPF.UI
 
         #region ICommand Members
 
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
             => Command != null && Command.CanExecute(CommandParameter ?? parameter);
 
-        public void Execute(object parameter)
-            => Command.Execute(CommandParameter ?? parameter);
+        public void Execute(object? parameter)
+            => Command?.Execute(CommandParameter ?? parameter);
 
-        public event EventHandler CanExecuteChanged;
-
-        private static void OnCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is not CommandReference commandReference)
-                return;
-
-            var oldCommand = e.OldValue as ICommand;
-            var newCommand = e.NewValue as ICommand;
-
-            if (oldCommand != null)
-                oldCommand.CanExecuteChanged -= commandReference.CanExecuteChanged;
-
-            if (newCommand != null)
-                newCommand.CanExecuteChanged += commandReference.CanExecuteChanged;
-        }
+        public event EventHandler? CanExecuteChanged;
 
         #endregion
 
+        #region Private Methods
+
+        private void OnCommandChanged(ICommand? oldCommand, ICommand? newCommand)
+        {
+            if (oldCommand != null)
+                oldCommand.CanExecuteChanged -= OldCommandOnCanExecuteChanged;
+
+            if (newCommand != null)
+                newCommand.CanExecuteChanged += OldCommandOnCanExecuteChanged;
+        }
+
+        private void OldCommandOnCanExecuteChanged(object? sender, EventArgs e) => RaiseCanExecuteChanged();
+
+        private void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+
+        #endregion
+        
         #region Freezable
 
         protected override Freezable CreateInstanceCore() => throw new NotImplementedException();

@@ -35,7 +35,6 @@ namespace ChromER
 
         public DelegateCommand OpenCommand { get; }
         public DelegateCommand OpenNewTabCommand { get; }
-        public DelegateCommand OpenNewTabWithOpenCommand { get; }
         public DelegateCommand OpenNewWindowCommand => ChromEr.Instance.OpenNewWindowCommand;
 
         #endregion
@@ -56,8 +55,7 @@ namespace ChromER
 
             OpenCommand = new DelegateCommand(Open);
             OpenNewTabCommand = new DelegateCommand(OpenNewTab);
-            OpenNewTabWithOpenCommand = new DelegateCommand(OpenNewTabWithNextOpen);
-
+       
             _backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
             _backgroundWorker.DoWork += BackgroundWorker_DoWork;
             _backgroundWorker.ProgressChanged += BackgroundWorker_ProgressChanged;
@@ -100,17 +98,7 @@ namespace ChromER
                 mainViewModel.OnOpenNewTab(fileEntityViewModel);
             }
         }
-
-        private void OpenNewTabWithNextOpen(object parameter)
-        {
-            if (parameter is object[] {Length: 2} parameters &&
-                parameters[0] is MainViewModel mainViewModel &&
-                parameters[1] is FileEntityViewModel fileEntityViewModel)
-            {
-                mainViewModel.OnOpenNewTab(fileEntityViewModel, true);
-            }
-        }
-
+        
         #endregion
 
         #region Private Methods

@@ -222,6 +222,7 @@
                 </MultiBinding>
             </Setter.Value>
         </Setter>
+     
         <Setter Property="Padding" Value="10,1" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
@@ -396,7 +397,7 @@
                                 <Setter Property="Foreground" Value="#C4C4C4" />
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
-                        
+
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -420,7 +421,7 @@
         <Setter Property="ShowDefaultCloseButton" Value="True" />
         <Setter Property="AdjacentHeaderItemOffset" Value="-16" />
         <Setter Property="HeaderMemberPath" Value="Header" />
-
+       
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type dragablz:TabablzControl}">

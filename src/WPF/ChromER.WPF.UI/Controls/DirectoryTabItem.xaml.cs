@@ -1,10 +1,24 @@
-﻿namespace ChromER.WPF.UI
+﻿using System;
+using System.ComponentModel;
+using System.Windows.Controls;
+using System.Windows.Input;
+
+namespace ChromER.WPF.UI
 {
-    public partial class DirectoryTabItem 
+    public partial class DirectoryTabItem
     {
         public DirectoryTabItem()
         {
             InitializeComponent();
+
+            var dpd = DependencyPropertyDescriptor.FromProperty(ContentControl.ContentProperty, typeof(ContentControl));
+            
+            dpd?.AddValueChanged(ContentControl, OnContentControlChanged);
+        }
+
+        private void OnContentControlChanged(object? sender, EventArgs e)
+        {
+            Keyboard.Focus(this);
         }
     }
 }

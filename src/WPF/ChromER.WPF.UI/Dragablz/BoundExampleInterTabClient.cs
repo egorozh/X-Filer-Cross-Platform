@@ -11,7 +11,7 @@ namespace ChromER.WPF.UI
             MainWindow view = new();
             var model = ChromEr.Instance.CreateMainViewModel(new List<DirectoryTabItemViewModel>());
             view.DataContext = model;
-            return new NewTabHost<Window>(view, view.InitialTabablzControl);
+            return new NewTabHost<Window>(view, view.InitMainView.InitialTabablzControl);
         }
 
         public TabEmptiedResponse TabEmptiedHandler(TabablzControl tabControl, Window window)

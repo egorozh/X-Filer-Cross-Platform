@@ -8,15 +8,19 @@
              mc:Ignorable="d"
 
              d:DesignHeight="450" d:DesignWidth="800">
- 
+
     <UserControl.InputBindings>
         <ui:ExtendedMouseBinding Gesture="XButton1"
                                  Command="{Binding MoveBackCommand}" />
         <ui:ExtendedMouseBinding Gesture="XButton2"
                                  Command="{Binding MoveForwardCommand}" />
 
+        <KeyBinding Modifiers="Alt" Key="Left"
+                    Command="{Binding MoveBackCommand}" />
+        <KeyBinding Modifiers="Alt" Key="Right"
+                    Command="{Binding MoveForwardCommand}" />
     </UserControl.InputBindings>
-    
+
     <Grid Background="{DynamicResource ToolBarBackground}">
 
         <Grid.RowDefinitions>
@@ -212,9 +216,22 @@
         </Grid>
 
         <ContentControl Grid.Row="2"
+                        x:Name="ContentControl"
                         Content="{Binding FilesPresenter}">
             <ContentControl.ContextMenu>
                 <ContextMenu>
+
+                    <MenuItem Header="Назад"
+                              InputGestureText="Alt + Стрелка влево"
+                              Command="{Binding MoveBackCommand}" />
+
+                    <MenuItem Header="Вперёд"
+                              InputGestureText="Alt + Стрелка вправо"
+                              Command="{Binding MoveForwardCommand}" />
+
+                    <MenuItem Header="Обновить" InputGestureText="Ctrl + R" />
+
+                    <Separator />
 
                     <MenuItem Header="Вид">
                         <MenuItem Header="Значки"
@@ -224,11 +241,11 @@
                                   IsCheckable="True"
                                   IsChecked="{Binding IsGridPresenter, Mode=TwoWay}" />
                     </MenuItem>
-
                     <MenuItem Header="Сортировка" />
                     <MenuItem Header="Группировка" />
-                    <MenuItem Header="Обновить" />
+
                     <Separator />
+
                     <MenuItem Header="Свойства" />
                 </ContextMenu>
             </ContentControl.ContextMenu>

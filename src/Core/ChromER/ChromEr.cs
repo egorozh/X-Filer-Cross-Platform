@@ -16,7 +16,7 @@ namespace ChromER
 
         #region Singleton
 
-        public static ChromEr? Instance { get; private set; }
+        public static ChromEr Instance { get; private set; }
 
         public static void CreateChromer(ISynchronizationHelper helper, ITabClient tabClient,
             Action<MainViewModel, Point> windowFactory)
@@ -76,22 +76,27 @@ namespace ChromER
         public MainViewModel CreateMainViewModel(IEnumerable<DirectoryTabItemViewModel> initItems)
             => new(_synchronizationHelper, _tabClient, initItems);
 
+        public void OpenTabInNewWindow(DirectoryTabItemViewModel directoryTabItemView)
+        {
+            var mainViewModel = CreateMainViewModel(new DirectoryTabItemViewModel[0]);
+
+            mainViewModel.TabItems.Add(directoryTabItemView);
+
+            _windowFactory.Invoke(mainViewModel, new Point(24, 24));
+        }
+
         private void OnOpenNewWindow(object parameter)
         {
             if (parameter is FileEntityViewModel fileEntityViewModel)
             {
                 if (fileEntityViewModel is DirectoryViewModel directoryViewModel)
                 {
-                    var mainViewModel = CreateMainViewModel(new DirectoryTabItemViewModel[0]);
-
                     var myCompTabVm = new DirectoryTabItemViewModel(
-                        _synchronizationHelper, 
+                        _synchronizationHelper,
                         directoryViewModel.FullName,
                         directoryViewModel.Name);
 
-                    mainViewModel.TabItems.Add(myCompTabVm);
-
-                    _windowFactory.Invoke(mainViewModel, new Point(24, 24));
+                    OpenTabInNewWindow(myCompTabVm);
                 }
             }
         }

@@ -475,8 +475,11 @@
                                   RecognizesAccessKey="True" />
                 <TextBlock x:Name="InputGestureText"
                            Grid.Column="2"
+                           Foreground="#888888"
+                           TextAlignment="Right"
+                           VerticalAlignment="Center"
                            Text="{TemplateBinding InputGestureText}"
-                           Margin="5,2,0,2"
+                           Margin="40,2,0,2"
                            DockPanel.Dock="Right" />
             </Grid>
         </Border>
@@ -521,16 +524,22 @@
                     <ContentPresenter ContentSource="Icon"
                                       Name="Icon" />
                 </Viewbox>
+
                 <ContentPresenter Name="HeaderHost"
                                   Grid.Column="1"
                                   VerticalAlignment="Center"
                                   ContentSource="Header"
                                   RecognizesAccessKey="True" />
+
                 <TextBlock x:Name="InputGestureText"
                            Grid.Column="2"
+                           VerticalAlignment="Center"
+                           TextAlignment="Right"
+                           Foreground="#888888"
                            Text="{TemplateBinding InputGestureText}"
-                           Margin="5,2,2,2"
+                           Margin="40,2,2,2"
                            DockPanel.Dock="Right" />
+
                 <Path Grid.Column="3"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"

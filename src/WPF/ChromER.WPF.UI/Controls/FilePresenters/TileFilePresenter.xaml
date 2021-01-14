@@ -37,19 +37,6 @@
             </ui:CommandReference.CommandParameter>
         </ui:CommandReference>
 
-        <ui:CommandReference x:Key="OpenNewTabWithOpenCommand"
-                             Command="{Binding DataContext.OpenNewTabWithOpenCommand, 
-                                                RelativeSource={RelativeSource AncestorType={x:Type ui:TileFilePresenter}}}">
-            <ui:CommandReference.CommandParameter>
-                <MultiBinding Converter="{ui:CloneParamsConverter}">
-                    <Binding Path="DataContext"
-                             RelativeSource="{RelativeSource AncestorType={x:Type dragablz:TabablzControl}}" />
-                    <Binding Path="DataContext.SelectedFileEntity"
-                             RelativeSource="{RelativeSource AncestorType={x:Type ui:TileFilePresenter}}" />
-                </MultiBinding>
-            </ui:CommandReference.CommandParameter>
-        </ui:CommandReference>
-
         <ui:CommandReference x:Key="OpenNewWindowCommand"
                              Command="{Binding DataContext.OpenNewWindowCommand, 
                                                 RelativeSource={RelativeSource AncestorType={x:Type ui:TileFilePresenter}}}"
@@ -116,7 +103,7 @@
                                     </Border.ContextMenu>
                                     <Border.InputBindings>
                                         <MouseBinding MouseAction="MiddleClick"
-                                                      Command="{StaticResource OpenNewTabWithOpenCommand}" />
+                                                      Command="{StaticResource OpenNewTabCommand}" />
                                     </Border.InputBindings>
 
                                     <ContentPresenter Margin="0"
