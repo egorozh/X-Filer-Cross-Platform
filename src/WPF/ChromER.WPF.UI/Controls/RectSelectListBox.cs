@@ -13,6 +13,15 @@ namespace ChromER.WPF.UI
 
         #endregion
 
+        public static readonly DependencyProperty HasSelectItemsProperty = DependencyProperty.Register(
+            "HasSelectItems", typeof(bool), typeof(RectSelectListBox), new PropertyMetadata(default(bool)));
+
+        public bool HasSelectItems
+        {
+            get => (bool) GetValue(HasSelectItemsProperty);
+            set => SetValue(HasSelectItemsProperty, value);
+        }
+
         #region Static Constructor
 
         static RectSelectListBox()
@@ -36,7 +45,14 @@ namespace ChromER.WPF.UI
         #endregion
 
         #region Protected Methods
-        
+
+        protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+        {
+            base.OnSelectionChanged(e);
+
+            HasSelectItems = SelectedItems.Count > 0;
+        }
+
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);

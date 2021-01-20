@@ -7,6 +7,7 @@
              xmlns:ui="clr-namespace:ChromER.WPF.UI"
              xmlns:chromEr="clr-namespace:ChromER;assembly=ChromER"
              xmlns:dd="urn:gong-wpf-dragdrop"
+             xmlns:squircle="clr-namespace:Squircle;assembly=Squircle"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -44,7 +45,9 @@
 
                           dd:DragDrop.DragHandler="{x:Static ui:ChromerDragHandler.Instance}"
 
-                          dd:DragDrop.DragDirectlySelectedOnly="True">
+                          dd:DragDrop.DragDirectlySelectedOnly="True"
+
+                          dd:DragDrop.ItemsPanelOrientation="Horizontal">
 
         <ui:RectSelectListBox.GroupStyle>
             <GroupStyle ContainerStyle="{StaticResource ExpanderGroupItem}" />
@@ -54,15 +57,16 @@
 
             <Style TargetType="{x:Type ListBoxItem}">
                 <Setter Property="SnapsToDevicePixels" Value="True" />
-                <Setter Property="Padding" Value="10" />
+                <Setter Property="Padding" Value="6" />
 
                 <Setter Property="HorizontalContentAlignment"
                         Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
                 <Setter Property="VerticalContentAlignment"
                         Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+                <!--<Setter Property="Background" Value="#33A9A9A9" />-->
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="BorderBrush" Value="Transparent" />
-                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderThickness" Value="2" />
                 <Setter Property="Width" Value="140" />
                 <Setter Property="Height" Value="140" />
 
@@ -88,61 +92,30 @@
 
                             <Grid>
 
-                                <Border x:Name="Bd"
-                                        Margin="{TemplateBinding Padding}"
-                                        CornerRadius="5"
-                                        Background="{TemplateBinding Background}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        SnapsToDevicePixels="true">
+                                <squircle:Squircle x:Name="Bd"
+                                                   Margin="{TemplateBinding Padding}"
+                                                   Background="{TemplateBinding Background}"
+                                                   BorderThickness="2"
+                                                   BorderBrush="{TemplateBinding BorderBrush}"
+                                                   SnapsToDevicePixels="true">
 
-                                    <Border.InputBindings>
+                                    <squircle:Squircle.InputBindings>
                                         <MouseBinding MouseAction="MiddleClick"
                                                       Command="{StaticResource OpenNewTabCommand}"
                                                       CommandParameter="{Binding}" />
                                         <MouseBinding MouseAction="LeftDoubleClick"
                                                       Command="{StaticResource  OpenCommand}"
                                                       CommandParameter="{Binding }" />
-                                    </Border.InputBindings>
+                                    </squircle:Squircle.InputBindings>
 
-                                    <ContentPresenter Margin="0"
-                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                    <ContentPresenter
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 
-                                </Border>
+                                </squircle:Squircle>
 
                             </Grid>
-
-                            <ControlTemplate.Triggers>
-                                <MultiTrigger>
-                                    <MultiTrigger.Conditions>
-                                        <Condition Property="IsMouseOver" Value="True" />
-                                    </MultiTrigger.Conditions>
-
-                                    <Setter TargetName="Bd" Property="Background" Value="#55A9A9A9" />
-                                </MultiTrigger>
-                                <MultiTrigger>
-                                    <MultiTrigger.Conditions>
-                                        <Condition Property="Selector.IsSelectionActive" Value="False" />
-                                        <Condition Property="IsSelected" Value="True" />
-                                    </MultiTrigger.Conditions>
-
-                                    <Setter TargetName="Bd" Property="Background" Value="#AAA9A9A9" />
-                                </MultiTrigger>
-                                <MultiTrigger>
-                                    <MultiTrigger.Conditions>
-                                        <Condition Property="Selector.IsSelectionActive" Value="True" />
-                                        <Condition Property="IsSelected" Value="True" />
-                                    </MultiTrigger.Conditions>
-
-                                    <Setter TargetName="Bd" Property="Background" Value="#AAA9A9A9" />
-                                </MultiTrigger>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="TextElement.Foreground" TargetName="Bd"
-                                            Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-                                </Trigger>
-                            </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
@@ -159,25 +132,71 @@
         <ui:RectSelectListBox.ItemTemplate>
             <DataTemplate DataType="{x:Type chromEr:FileEntityViewModel}">
                 <Grid Background="Transparent">
-                    <Grid Margin="4">
+                    <Grid>
 
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Image MaxWidth="140"
-                               MaxHeight="140"
-                               Stretch="Uniform"
-                               Source="{Binding ., Converter={ui:FileEntityToImageConverter}}" />
+                        <squircle:Squircle x:Name="Bd"
+                                           BorderThickness="2"
+                                           Width="{Binding ActualHeight,RelativeSource={RelativeSource Self}}"
+                                           Margin="4"
+                                           Padding="8"
+                                           SnapsToDevicePixels="true">
+
+                            <Image Stretch="Uniform"
+                                   Source="{Binding ., Converter={ui:FileEntityToImageConverter}}" />
+
+                        </squircle:Squircle>
+
 
                         <TextBlock Grid.Row="1"
+                                   x:Name="TextBlock"
+                                   Margin="0 4 0 0"
                                    TextAlignment="Center"
-                                   Foreground="White"
+                                   Foreground="#CCCCCC"
                                    Text="{Binding Name}"
                                    TextTrimming="CharacterEllipsis" />
                     </Grid>
                 </Grid>
+                <DataTemplate.Triggers>
+                    <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                            <Condition Property="IsMouseOver" Value="True" />
+                        </MultiTrigger.Conditions>
+
+                        <Setter TargetName="Bd" Property="BorderBrush" Value="#A9A9A9" />
+                    </MultiTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Value="False"
+                                       Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" />
+                            <Condition Value="False"
+                                       Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" />
+                            <Condition Value="True"
+                                       Binding="{Binding  HasSelectItems, RelativeSource={RelativeSource AncestorType={x:Type ui:RectSelectListBox}}}" />
+                        </MultiDataTrigger.Conditions>
+
+                        <Setter TargetName="TextBlock" Property="Foreground" Value="#888888" />
+                        <Setter TargetName="Bd" Property="Effect">
+                            <Setter.Value>
+                                <BlurEffect Radius="8" />
+                            </Setter.Value>
+                        </Setter>
+                    </MultiDataTrigger>
+
+
+                    <DataTrigger Value="True"
+                                 Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}">
+
+                        <Setter TargetName="Bd" Property="BorderBrush" Value="#cFcFcF" />
+                        <Setter TargetName="TextBlock" Property="Foreground" Value="White" />
+                    </DataTrigger>
+
+
+                </DataTemplate.Triggers>
             </DataTemplate>
         </ui:RectSelectListBox.ItemTemplate>
 

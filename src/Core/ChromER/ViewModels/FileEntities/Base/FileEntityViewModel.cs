@@ -17,6 +17,8 @@ namespace ChromER
             Name = name;
         }
 
-        public abstract string GetRootName();    
-    }
+        public abstract string? GetRootName();
+
+        public abstract FileEntityViewModel Clone();
+    }   
 }

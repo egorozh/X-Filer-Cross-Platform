@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 
@@ -12,8 +13,6 @@ namespace ChromER
 
 
         private string _searchText;
-        private bool _isTilePresenter;
-        private bool _isGridPresenter;
 
         #endregion
 
@@ -21,50 +20,16 @@ namespace ChromER
 
         public ISynchronizationHelper SynchronizationHelper { get; }
 
-        public bool IsTilePresenter
-        {
-            get => _isTilePresenter;
-            set
-            {
-                _isTilePresenter = value;
+        public bool IsTilePresenter { get; set; }
 
-                if (value)
-                {
-                    IsGridPresenter = false;
-                    OpenDirectory();
-                }
-                else if (!_isGridPresenter)
-                {
-                    IsTilePresenter = true;
-                }
-            }
-        }
-
-        public bool IsGridPresenter
-        {
-            get => _isGridPresenter;
-            set
-            {
-                _isGridPresenter = value;
-
-                if (value)
-                {
-                    IsTilePresenter = false;
-                    OpenDirectory();
-                }
-                else if (!_isTilePresenter)
-                {
-                    IsGridPresenter = true;
-                }
-            }
-        }
+        public bool IsGridPresenter { get; set; }
 
         public string SearchText
         {
             get => _searchText;
             set => SetSearchText(value);
         }
-        
+
         public string CurrentDirectoryFileName => _history.Current.DirectoryPath;
 
         public IFilesPresenter? FilesPresenter { get; set; }
@@ -96,10 +61,49 @@ namespace ChromER
 
             Header = _history.Current.DirectoryPathName;
             _searchText = _history.Current.DirectoryPath;
+            
+            _history.HistoryChanged += History_HistoryChanged;
+
+            PropertyChanged += DirectoryTabItemViewModelOnPropertyChanged;
 
             IsTilePresenter = true;
+        }
 
-            _history.HistoryChanged += History_HistoryChanged;
+        private void DirectoryTabItemViewModelOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            PropertyChanged -= DirectoryTabItemViewModelOnPropertyChanged;
+
+            switch (e.PropertyName)
+            {
+                case nameof(IsTilePresenter):
+
+                    if (IsTilePresenter)
+                    {
+                        IsGridPresenter = false;
+                        OpenDirectory();
+                    }
+                    else if (!IsGridPresenter)
+                    {
+                        IsTilePresenter = true;
+                    }
+
+                    break;
+                case nameof(IsGridPresenter):
+
+                    if (IsGridPresenter)
+                    {
+                        IsTilePresenter = false;
+                        OpenDirectory();
+                    }
+                    else if (!IsTilePresenter)
+                    {
+                        IsGridPresenter = true;
+                    }
+
+                    break;
+            }
+
+            PropertyChanged += DirectoryTabItemViewModelOnPropertyChanged;
         }
 
         #endregion
@@ -183,7 +187,7 @@ namespace ChromER
                 FilesPresenter.Dispose();
             }
 
-            FilesPresenter = _isGridPresenter
+            FilesPresenter = IsGridPresenter
                 ? new GridFilesPresenterViewModel(this, CurrentDirectoryFileName)
                 : new TileFilesPresenterViewModel(this, CurrentDirectoryFileName);
 

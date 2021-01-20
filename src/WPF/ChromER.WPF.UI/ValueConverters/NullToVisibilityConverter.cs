@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
@@ -27,6 +28,17 @@ namespace ChromER.WPF.UI
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    internal class SelectedContainsConverter : BaseValueConverter
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is ICollection collection)
+                return collection.Count > 0;
+
+            return false;
         }
     }
 }

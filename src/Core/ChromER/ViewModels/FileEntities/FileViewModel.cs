@@ -17,7 +17,10 @@ namespace ChromER
 
         public override DateTime ChangeDateTime => _fileInfo.LastWriteTime;
 
-        public override string GetRootName()
+        public override string? GetRootName()
             => new FileInfo(FullName).Directory?.Root.Name;
+
+        public override FileEntityViewModel Clone()
+            => new FileViewModel(new FileInfo(_fileInfo.FullName));
     }
 }

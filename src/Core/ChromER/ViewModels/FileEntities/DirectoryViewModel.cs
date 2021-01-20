@@ -17,5 +17,8 @@ namespace ChromER
 
         public override string GetRootName()
             => new DirectoryInfo(FullName).Root.Name;
+
+        public override FileEntityViewModel Clone() 
+            => new DirectoryViewModel(new DirectoryInfo(_directoryName.FullName));
     }
 }

@@ -15,15 +15,13 @@
     <dockablz:Layout Partition="2AE89D18-F236-4D20-9605-6C03319038E6"
                      IsFloatDropZoneEnabled="False"
                      x:Name="Layout">
-
-        <!-- branch template lets dragablz create a new tab control after a window is split via docking -->
+      
         <dockablz:Layout.BranchTemplate>
             <DataTemplate>
                 <ui:MainView />
             </DataTemplate>
         </dockablz:Layout.BranchTemplate>
-
-        <!-- a root, named tab control is needed, so when a tab is torn and a new window is created, the new target tab control can be identified -->
+       
         <ui:MainView x:Name="InitMainView" />
 
     </dockablz:Layout>

@@ -34,8 +34,9 @@ namespace ChromER.WPF.UI
 
             _rectangleShape = new Rectangle()
             {
-                Fill = new SolidColorBrush(Color.FromArgb(80, 0, 128, 255)),
-                Stroke = new SolidColorBrush(Color.FromArgb(255, 0, 128, 255)),
+                Fill = new SolidColorBrush(Color.FromArgb(80, 0, 220, 255)),
+                Stroke = new SolidColorBrush(Color.FromArgb(255, 0, 220, 255)),
+                StrokeThickness = 2,
                 Visibility = Visibility.Collapsed
             };
 
