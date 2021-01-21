@@ -148,7 +148,7 @@ namespace ChromER.WPF.UI
 
                 var targetRoot = targetDirectory.Root.Name;
 
-                dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
+                dropInfo.DropTargetAdorner = typeof(ChromerDropTargetInsertAdorner);
 
                 if (sourceItem is LogicalDriveViewModel logicalDrive)
                 {
@@ -190,7 +190,7 @@ namespace ChromER.WPF.UI
 
                 var targetRoot = targetDirectory.Root.Name;
 
-                dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
+                dropInfo.DropTargetAdorner = typeof(ChromerDropTargetInsertAdorner);
 
                 if (sourceItem is LogicalDriveViewModel logicalDrive)
                 {

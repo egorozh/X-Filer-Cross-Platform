@@ -10,8 +10,7 @@ namespace ChromER
         #region Private Fields
 
         private readonly IDirectoryHistory _history;
-
-
+        
         private string _searchText;
 
         #endregion
@@ -61,7 +60,7 @@ namespace ChromER
 
             Header = _history.Current.DirectoryPathName;
             _searchText = _history.Current.DirectoryPath;
-            
+
             _history.HistoryChanged += History_HistoryChanged;
 
             PropertyChanged += DirectoryTabItemViewModelOnPropertyChanged;

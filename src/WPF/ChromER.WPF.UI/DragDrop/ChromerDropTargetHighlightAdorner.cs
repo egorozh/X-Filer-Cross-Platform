@@ -10,7 +10,7 @@ namespace ChromER.WPF.UI
         public ChromerDropTargetHighlightAdorner(UIElement adornedElement, DropInfo dropInfo)
             : base(adornedElement, dropInfo)
         {
-            Pen = new Pen(Brushes.DeepSkyBlue, 1);
+            Pen = new Pen(new SolidColorBrush(Color.FromArgb(255, 0, 220, 255)), 2);
         }
 
         protected override void OnRender(DrawingContext drawingContext)
@@ -36,6 +36,15 @@ namespace ChromER.WPF.UI
                 {
                     rect = new Rect(visualTargetItem.TranslatePoint(new Point(), this.AdornedElement),
                         new Size(listBoxItem.ActualWidth, listBoxItem.ActualHeight));
+
+                    var geometry = Squircle.Helpers.SquirclePathGenerator
+                        .GetGeometry(rect.Width, rect.Height);
+
+                    geometry.Transform = new TranslateTransform(rect.Left, rect.Top);
+
+                    drawingContext.DrawGeometry(null, Pen, geometry);
+
+                    return;
                 }
 
                 if (rect.IsEmpty)
