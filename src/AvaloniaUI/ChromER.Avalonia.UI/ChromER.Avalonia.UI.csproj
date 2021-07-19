@@ -18,9 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0-preview6" />
-    <PackageReference Include="Avalonia.Skia" Version="0.10.0-preview6" />
-    <PackageReference Include="Svg" Version="3.1.1" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.6" />
+    <PackageReference Include="Avalonia.Skia" Version="0.10.6" />
+    <PackageReference Include="Svg" Version="3.2.3" />
   </ItemGroup>
 
   <ItemGroup>

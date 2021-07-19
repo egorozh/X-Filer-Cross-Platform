@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Markup;
@@ -20,7 +21,7 @@ namespace ChromER.WPF.UI
             ChromEr.CreateChromer(synchronizationHelper, new BoundExampleInterTabClient(),
                 ShowNewWindow);
 
-            var mainViewModel = ChromEr.Instance.CreateMainViewModel(new DirectoryTabItemViewModel[0]);
+            var mainViewModel = ChromEr.Instance.CreateMainViewModel(Array.Empty<DirectoryTabItemViewModel>());
 
             var myCompTabVm = new DirectoryTabItemViewModel(synchronizationHelper, ChromEr.RootName, ChromEr.RootName);
 

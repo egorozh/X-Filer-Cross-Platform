@@ -14,8 +14,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FileTransferManager" Version="1.0.5" />
-    <PackageReference Include="SharpVectors.Reloaded" Version="1.7.1" />
+    <PackageReference Include="FileTransferManager" Version="1.0.6" />
+    <PackageReference Include="SharpVectors.Reloaded" Version="1.7.5" />
   </ItemGroup>
 
   <ItemGroup>

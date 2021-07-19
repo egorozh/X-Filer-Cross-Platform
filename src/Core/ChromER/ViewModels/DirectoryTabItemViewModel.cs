@@ -71,7 +71,7 @@ namespace ChromER
         private void DirectoryTabItemViewModelOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             PropertyChanged -= DirectoryTabItemViewModelOnPropertyChanged;
-
+            
             switch (e.PropertyName)
             {
                 case nameof(IsTilePresenter):

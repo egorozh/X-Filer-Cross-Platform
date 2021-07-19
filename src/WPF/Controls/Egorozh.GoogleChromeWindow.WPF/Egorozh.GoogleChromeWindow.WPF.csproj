@@ -9,7 +9,8 @@
  
     <PackageReference Include="Dragablz" Version="0.0.3.223" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
-    <PackageReference Include="Squircle" Version="1.0.1" />
+   
+    <PackageReference Include="Squircle.WPF" Version="5.0.0" />
   </ItemGroup>
 
 </Project>

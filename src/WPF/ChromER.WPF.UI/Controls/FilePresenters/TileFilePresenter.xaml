@@ -8,6 +8,7 @@
              xmlns:chromEr="clr-namespace:ChromER;assembly=ChromER"
              xmlns:dd="urn:gong-wpf-dragdrop"
              xmlns:squircle="clr-namespace:Squircle;assembly=Squircle"
+             xmlns:wpf="clr-namespace:Squircle.WPF;assembly=Squircle.WPF"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -92,28 +93,28 @@
 
                             <Grid>
 
-                                <squircle:Squircle x:Name="Bd"
+                                <wpf:Squircle x:Name="Bd"
                                                    Margin="{TemplateBinding Padding}"
                                                    Background="{TemplateBinding Background}"
                                                    BorderThickness="2"
                                                    BorderBrush="{TemplateBinding BorderBrush}"
                                                    SnapsToDevicePixels="true">
 
-                                    <squircle:Squircle.InputBindings>
+                                    <wpf:Squircle.InputBindings>
                                         <MouseBinding MouseAction="MiddleClick"
                                                       Command="{StaticResource OpenNewTabCommand}"
                                                       CommandParameter="{Binding}" />
                                         <MouseBinding MouseAction="LeftDoubleClick"
                                                       Command="{StaticResource  OpenCommand}"
                                                       CommandParameter="{Binding }" />
-                                    </squircle:Squircle.InputBindings>
+                                    </wpf:Squircle.InputBindings>
 
                                     <ContentPresenter
                                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 
-                                </squircle:Squircle>
+                                </wpf:Squircle>
 
                             </Grid>
                         </ControlTemplate>
@@ -139,7 +140,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <squircle:Squircle x:Name="Bd"
+                        <wpf:Squircle x:Name="Bd"
                                            BorderThickness="2"
                                            Width="{Binding ActualHeight,RelativeSource={RelativeSource Self}}"
                                            Margin="4"
@@ -149,7 +150,7 @@
                             <Image Stretch="Uniform"
                                    Source="{Binding ., Converter={ui:FileEntityToImageConverter}}" />
 
-                        </squircle:Squircle>
+                        </wpf:Squircle>
 
 
                         <TextBlock Grid.Row="1"

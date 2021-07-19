@@ -1,4 +1,5 @@
-﻿using Avalonia;
+﻿using System;
+using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
@@ -15,16 +16,19 @@ namespace ChromER.Avalonia.UI
         {
             AvaloniaSynchronizationHelper shelper = new();
 
-            ChromEr.CreateChromer(shelper, null);
+            ChromEr.CreateChromer(shelper, null, null);
+            AvaloniaSynchronizationHelper synchronizationHelper = new();
+            var mainViewModel = ChromEr.Instance.CreateMainViewModel(Array.Empty<DirectoryTabItemViewModel>());
+
+            var myCompTabVm = new DirectoryTabItemViewModel(synchronizationHelper, ChromEr.RootName, ChromEr.RootName);
+
+            mainViewModel.TabItems.Add(myCompTabVm);
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = ChromEr.Instance.CreateMainViewModel(new []
-                    {
-                        new DirectoryTabItemViewModel(shelper)
-                    })
+                    DataContext = mainViewModel
                 };
             }
 

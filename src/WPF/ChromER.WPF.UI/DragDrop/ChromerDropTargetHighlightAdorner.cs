@@ -37,8 +37,9 @@ namespace ChromER.WPF.UI
                     rect = new Rect(visualTargetItem.TranslatePoint(new Point(), this.AdornedElement),
                         new Size(listBoxItem.ActualWidth, listBoxItem.ActualHeight));
 
-                    var geometry = Squircle.Helpers.SquirclePathGenerator
-                        .GetGeometry(rect.Width, rect.Height);
+                    var geometry = PathGeometry.CreateFromGeometry(
+                        Geometry.Parse(
+                            Squircle.SquircleGenerator.GetGeometry(rect.Width, rect.Height)));
 
                     geometry.Transform = new TranslateTransform(rect.Left, rect.Top);
 

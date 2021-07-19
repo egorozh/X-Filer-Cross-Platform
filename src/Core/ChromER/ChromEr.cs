@@ -78,7 +78,7 @@ namespace ChromER
 
         public void OpenTabInNewWindow(DirectoryTabItemViewModel directoryTabItemView)
         {
-            var mainViewModel = CreateMainViewModel(new DirectoryTabItemViewModel[0]);
+            var mainViewModel = CreateMainViewModel(Array.Empty<DirectoryTabItemViewModel>());
 
             mainViewModel.TabItems.Add(directoryTabItemView);
 
