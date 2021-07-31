@@ -1,283 +1,259 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 
-        xmlns:local="clr-namespace:ChromER.GoogleChromeStyle;assembly=ChromER.GoogleChromeStyle"
         xmlns:sdk="clr-namespace:ChromER.SDK;assembly=ChromER.SDK">
 
-  <StyleInclude Source="/Themes/Others/ChromeTabs.xaml"></StyleInclude>
-  
-  <Style Selector="sdk|ChromerWindowBase">
-    <Setter Property="WindowStartupLocation" Value="CenterScreen"/>
-    <Setter Property="HasSystemDecorations" Value="False"/>
-   
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate>
-          <Border Background="#44000000">
+    <StyleInclude Source="/Themes/Others/ChromeTabs.xaml" />
 
-            <Grid>
+    <Styles.Resources>
+        <DataTemplate x:Key="TabHeaderTemplate">
+            <Grid ColumnDefinitions="*, Auto">
 
-              <Grid.RowDefinitions>
+                <TextBlock Text="{Binding Header}"
+                           Foreground="White"
+                           VerticalAlignment="Center" />
 
-                <!--Title Bar-->
-                <RowDefinition Height="40" />
+                <Button Width="16"
+                        Grid.Column="1"
+                        Command="{Binding $parent[sdk:ChromerWindowBase].DataContext.CloseTabCommand}"
+                        CommandParameter="{Binding}"
+                        Height="16">
 
-                <!--Search ToolBarContent-->
-                <RowDefinition Height="Auto" />
+                    <Button.Styles>
 
-                <!--TabItemContent-->
-                <RowDefinition Height="*" />
+                        <Style Selector="Button:pointerover">
+                            <Setter Property="Foreground" Value="#1A1A1A" />
+                        </Style>
 
-              </Grid.RowDefinitions>
+                        <Style Selector="sdk|ChromerWindowBase[IsActive=false] Button">
+                            <Setter Property="Foreground" Value="#666666" />
+                        </Style>
 
-              <!--#region Title Bar-->
+                        <Style
+                            Selector="sdk|ChromerWindowBase[IsActive=false] Button:pointerover">
+                            <Setter Property="Foreground" Value="#b8b8b8" />
+                        </Style>
 
-              <Grid Name="PART_TitleBar"
-                    Background="Transparent">
+                        <Style Selector="Button:pressed /template/ ContentPresenter">
+                            <Setter Property="Background" Value="#333333" />
+                        </Style>
 
-                <Grid.Styles>
-                  <Style Selector="Button">
-                    <Setter Property="Background" Value="Transparent"></Setter>
-                    <Setter Property="BorderBrush" Value="Transparent"/>
-                    <Setter Property="BorderThickness" Value="0"/>
-                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                  </Style>
+                        <Style Selector="Button /template/ ContentPresenter">
+                            <Setter Property="CornerRadius" Value="8" />
+                        </Style>
 
-                </Grid.Styles>
-                
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+                    </Button.Styles>
 
-                <sdk:ChromeTabsControl Items="{Binding DirectoryTabItems}"
-                                          SelectedItem="{Binding CurrentDirectoryTabItem}">
-                  <sdk:ChromeTabsControl.ItemTemplate>
-                    <DataTemplate>
-                      <Grid ColumnDefinitions="*, Auto">
-                        
-                        <TextBlock Text="{Binding Name}" 
-                                   Foreground="White"
-                                   VerticalAlignment="Center"/>
-                        
-                        <Button Width="16"
-                                Grid.Column="1"
-                                Command="{Binding $parent[sdk:ChromerWindowBase].DataContext.CloseCommand}"
-                                CommandParameter="{Binding}"
-                                Height="16">
-
-                          <Button.Styles>
-
-                            <Style Selector="Button:pointerover">
-                              <Setter Property="Foreground" Value="#1A1A1A"></Setter>                                    
-                            </Style>
-
-                            <Style Selector="sdk|ChromerWindowBase[IsActive=false] Button">
-                              <Setter Property="Foreground" Value="#666666"></Setter>
-                            </Style>
-
-                            <Style Selector="sdk|ChromerWindowBase[IsActive=false] Button:pointerover">
-                              <Setter Property="Foreground" Value="#b8b8b8"></Setter>
-                            </Style>
-
-                            <Style Selector="Button:pressed /template/ ContentPresenter">
-                              <Setter Property="Background" Value="#333333"/>
-                            </Style>
-
-                            <Style Selector="Button /template/ ContentPresenter">
-                              <Setter Property="CornerRadius" Value="8"/>
-                            </Style>
-
-                          </Button.Styles>
-                          
-                          <Viewbox Width="8" Height="8"
-                                   Stretch="Uniform"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Center">
-                            <Path Stretch="Uniform"
-                                 Fill="{Binding  $parent[Button].Foreground}"
-                                Data="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
-                          </Viewbox>
-                        </Button>
-                        </Grid>
-                    </DataTemplate>
-                  </sdk:ChromeTabsControl.ItemTemplate>
-                </sdk:ChromeTabsControl>
-
-                <Button Grid.Column="1"
-                        Margin="3"
-                        ToolTip.Tip="Новая вкладка"
-                        VerticalAlignment="Bottom"
-                        Command="{Binding AddTabItemCommand}"                        
-                        Width="28"
-                        Height="28">
-                  <Button.Styles>
-                    <Style Selector="Button">
-                      <Setter Property="Width" Value="44"></Setter>
-                      <Setter Property="Height" Value="28"/>
-                    </Style>
-                    <Style Selector="Button:pointerover">
-                      <Setter Property="Background" Value="#1A1A1A"></Setter>
-                    </Style>
-
-                    <Style Selector="Button:pressed /template/ ContentPresenter">
-                      <Setter Property="Background" Value="#333333"/>
-                    </Style>
-
-                    <Style Selector="sdk|ChromerWindowBase[IsActive=false] Button">
-                      <Setter Property="Foreground" Value="#666666"></Setter>
-                    </Style>
-
-                    <Style Selector="sdk|ChromerWindowBase[IsActive=false] Button:pointerover">
-                      <Setter Property="Foreground" Value="#b8b8b8"></Setter>
-                    </Style>
-
-                    <Style Selector="Button /template/ ContentPresenter">
-                      <Setter Property="CornerRadius" Value="14"/>
-                    </Style>
-                  </Button.Styles>
-
-                  <Viewbox Width="10" Height="10"
-                            Stretch="Uniform"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center">
-                    <Path Stretch="Uniform"
-                        Fill="{Binding  $parent[Button].Foreground}"
-                        Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
-                  </Viewbox>
-                </Button>
-                      
-
-                <StackPanel Grid.Column="2"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            Orientation="Horizontal">
-                  <StackPanel.Styles>
-                    <Style Selector="Button">
-                      <Setter Property="Width" Value="44"></Setter>
-                      <Setter Property="Height" Value="28"/>
-                    </Style>
-                  
-                    <Style Selector="Button:pointerover">
-                      <Setter Property="Background" Value="#1A1A1A"></Setter>                   
-                    </Style>
-
-                    <Style Selector="Button:pressed /template/ ContentPresenter">
-                      <Setter Property="Background" Value="#333333"/>
-                    </Style>
-                    
-                    <Style Selector="sdk|ChromerWindowBase[IsActive=false] Button">
-                      <Setter Property="Foreground" Value="#666666"></Setter>
-                    </Style>
-
-                    <Style Selector="sdk|ChromerWindowBase[IsActive=false] Button:pointerover">
-                      <Setter Property="Foreground" Value="#b8b8b8"></Setter>
-                    </Style>
-                    
-                  </StackPanel.Styles>
-                  
-                  <Button  Command="{TemplateBinding CollapseCommand}"
-                            ToolTip.Tip="Свернуть">
-                    <Viewbox Width="10" Height="10"
+                    <Viewbox Width="8" Height="8"
                              Stretch="Uniform"
                              VerticalAlignment="Center"
                              HorizontalAlignment="Center">
-                      <Path Stretch="Uniform"
-                          Fill="{Binding  $parent[Button].Foreground}"
-                          Data="M20,14H4V10H20" />
+                        <Path Stretch="Uniform"
+                              Fill="{Binding  $parent[Button].Foreground}"
+                              Data="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
                     </Viewbox>
-                  </Button>
-
-                  <Button Command="{TemplateBinding ExpandCommand}">
-                    <Button.Styles>
-
-                      <Style Selector="sdk|ChromerWindowBase[WindowState=Normal] Button">
-                        <Setter Property="Content">
-                          <Template>
-                            <Viewbox Width="10" Height="10"
-                                     Stretch="Uniform"
-                                     VerticalAlignment="Center"
-                                     HorizontalAlignment="Center">
-                              <Path Stretch="Uniform"
-                                  Fill="{Binding  $parent[Button].Foreground}"
-                                  Data="M4,4H20V20H4V4M6,8V18H18V8H6Z" />
-                            </Viewbox>
-                          </Template>                                                
-
-                        </Setter>
-                        
-                        <Setter Property="ToolTip.Tip" Value="Развернуть"></Setter>
-                      </Style>
-
-                      <Style Selector="sdk|ChromerWindowBase[WindowState=Maximized] Button">
-                        <Setter Property="Content">
-                          <Template>
-                            <Viewbox Width="10" Height="10"
-                                     Stretch="Uniform"
-                                     VerticalAlignment="Center"
-                                     HorizontalAlignment="Center">
-                              <Path Stretch="Uniform"
-                                  Fill="{Binding  $parent[Button].Foreground}"
-                                  Data="M4,8H8V4H20V16H16V20H4V8M16,8V14H18V6H10V8H16M6,12V18H14V12H6Z" />
-                            </Viewbox>
-                          </Template>
-
-                        </Setter>
-
-                        <Setter Property="ToolTip.Tip" Value="Восстановить"></Setter>
-                      </Style>
-                      
-                    </Button.Styles>
-                  </Button>
-                  
-                  <Button Command="{TemplateBinding CloseCommand}"
-                          ToolTip.Tip="Закрыть">
-                    <Button.Styles>
-                      <Style Selector="Button:pointerover">
-                        <Setter Property="Background" Value="#E81123"></Setter>
-                      </Style>                                         
-                      <Style Selector="Button:pointerover">
-                        <Setter Property="Background" Value="#E81123"></Setter>
-                      </Style>
-                      <Style Selector="Button:pressed /template/ ContentPresenter">
-                        <Setter Property="Background" Value="#8A0A14"/>
-                      </Style>
-                    </Button.Styles>
-                 
-                    <Viewbox Width="10" Height="10"
-                             Stretch="Uniform"
-                               VerticalAlignment="Center"
-                             HorizontalAlignment="Center">
-                      <Path Stretch="Uniform"
-                           Fill="{Binding  $parent[Button].Foreground}"
-                          Data="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
-                    </Viewbox>
-                  </Button>
-                  
-                </StackPanel>
-
-              
+                </Button>
             </Grid>
+        </DataTemplate>
+    </Styles.Resources>
 
-              <!--#endregion-->
+    <Style Selector="sdk|ChromerWindowBase">
+        <Setter Property="WindowStartupLocation" Value="CenterScreen" />
+        <Setter Property="HasSystemDecorations" Value="False" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Background="#44000000">
+
+                        <Grid RowDefinitions="40,*">
+
+                            <!--#region Title Bar-->
+
+                            <Grid Name="PART_TitleBar"
+                                  Background="Transparent"
+                                  ColumnDefinitions="Auto,Auto,*,Auto">
+
+                                <Grid.Styles>
+                                    <Style Selector="Button">
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                                    </Style>
+
+                                </Grid.Styles>
+
+                                <sdk:ChromeTabsControl Items="{Binding TabItems}"
+                                                       SelectedItem="{Binding CurrentTabItem}"
+                                                       ItemTemplate="{StaticResource TabHeaderTemplate}" />
+
+                                <Button Grid.Column="1"
+                                        Margin="3"
+                                        ToolTip.Tip="Новая вкладка"
+                                        VerticalAlignment="Bottom"
+                                        Command="{Binding CreateNewTabItemCommand}"
+                                        Width="28"
+                                        Height="28">
+                                    <Button.Styles>
+                                        <Style Selector="Button">
+                                            <Setter Property="Width" Value="44" />
+                                            <Setter Property="Height" Value="28" />
+                                        </Style>
+                                        <Style Selector="Button:pointerover">
+                                            <Setter Property="Background" Value="#1A1A1A" />
+                                        </Style>
+
+                                        <Style Selector="Button:pressed /template/ ContentPresenter">
+                                            <Setter Property="Background" Value="#333333" />
+                                        </Style>
+
+                                        <Style Selector="sdk|ChromerWindowBase[IsActive=false] Button">
+                                            <Setter Property="Foreground" Value="#666666" />
+                                        </Style>
+
+                                        <Style Selector="sdk|ChromerWindowBase[IsActive=false] Button:pointerover">
+                                            <Setter Property="Foreground" Value="#b8b8b8" />
+                                        </Style>
+
+                                        <Style Selector="Button /template/ ContentPresenter">
+                                            <Setter Property="CornerRadius" Value="14" />
+                                        </Style>
+                                    </Button.Styles>
+
+                                    <Viewbox Width="10" Height="10"
+                                             Stretch="Uniform"
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Center">
+                                        <Path Stretch="Uniform"
+                                              Fill="{Binding  $parent[Button].Foreground}"
+                                              Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                    </Viewbox>
+                                </Button>
+
+                                <StackPanel Grid.Column="2"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Orientation="Horizontal">
+                                    <StackPanel.Styles>
+                                        <Style Selector="Button">
+                                            <Setter Property="Width" Value="44" />
+                                            <Setter Property="Height" Value="28" />
+                                        </Style>
+
+                                        <Style Selector="Button:pointerover">
+                                            <Setter Property="Background" Value="#1A1A1A" />
+                                        </Style>
+
+                                        <Style Selector="Button:pressed /template/ ContentPresenter">
+                                            <Setter Property="Background" Value="#333333" />
+                                        </Style>
+
+                                        <Style Selector="sdk|ChromerWindowBase[IsActive=false] Button">
+                                            <Setter Property="Foreground" Value="#666666" />
+                                        </Style>
+
+                                        <Style Selector="sdk|ChromerWindowBase[IsActive=false] Button:pointerover">
+                                            <Setter Property="Foreground" Value="#b8b8b8" />
+                                        </Style>
+
+                                    </StackPanel.Styles>
+
+                                    <Button Command="{TemplateBinding CollapseCommand}"
+                                            ToolTip.Tip="Свернуть">
+                                        <Viewbox Width="10" Height="10"
+                                                 Stretch="Uniform"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center">
+                                            <Path Stretch="Uniform"
+                                                  Fill="{Binding  $parent[Button].Foreground}"
+                                                  Data="M20,14H4V10H20" />
+                                        </Viewbox>
+                                    </Button>
+
+                                    <Button Command="{TemplateBinding ExpandCommand}">
+                                        <Button.Styles>
+
+                                            <Style Selector="sdk|ChromerWindowBase[WindowState=Normal] Button">
+                                                <Setter Property="Content">
+                                                    <Template>
+                                                        <Viewbox Width="10" Height="10"
+                                                                 Stretch="Uniform"
+                                                                 VerticalAlignment="Center"
+                                                                 HorizontalAlignment="Center">
+                                                            <Path Stretch="Uniform"
+                                                                  Fill="{Binding  $parent[Button].Foreground}"
+                                                                  Data="M4,4H20V20H4V4M6,8V18H18V8H6Z" />
+                                                        </Viewbox>
+                                                    </Template>
+
+                                                </Setter>
+
+                                                <Setter Property="ToolTip.Tip" Value="Развернуть" />
+                                            </Style>
+
+                                            <Style Selector="sdk|ChromerWindowBase[WindowState=Maximized] Button">
+                                                <Setter Property="Content">
+                                                    <Template>
+                                                        <Viewbox Width="10" Height="10"
+                                                                 Stretch="Uniform"
+                                                                 VerticalAlignment="Center"
+                                                                 HorizontalAlignment="Center">
+                                                            <Path Stretch="Uniform"
+                                                                  Fill="{Binding  $parent[Button].Foreground}"
+                                                                  Data="M4,8H8V4H20V16H16V20H4V8M16,8V14H18V6H10V8H16M6,12V18H14V12H6Z" />
+                                                        </Viewbox>
+                                                    </Template>
+
+                                                </Setter>
+
+                                                <Setter Property="ToolTip.Tip" Value="Восстановить" />
+                                            </Style>
+
+                                        </Button.Styles>
+                                    </Button>
+
+                                    <Button Command="{TemplateBinding CloseCommand}"
+                                            ToolTip.Tip="Закрыть">
+                                        <Button.Styles>
+                                            <Style Selector="Button:pointerover">
+                                                <Setter Property="Background" Value="#E81123" />
+                                            </Style>
+                                            <Style Selector="Button:pointerover">
+                                                <Setter Property="Background" Value="#E81123" />
+                                            </Style>
+                                            <Style Selector="Button:pressed /template/ ContentPresenter">
+                                                <Setter Property="Background" Value="#8A0A14" />
+                                            </Style>
+                                        </Button.Styles>
+
+                                        <Viewbox Width="10" Height="10"
+                                                 Stretch="Uniform"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center">
+                                            <Path Stretch="Uniform"
+                                                  Fill="{Binding  $parent[Button].Foreground}"
+                                                  Data="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" />
+                                        </Viewbox>
+                                    </Button>
+
+                                </StackPanel>
+
+                            </Grid>
+
+                            <!--#endregion-->
                            
-              <ContentControl Grid.Row="1"
-                              Content="{TemplateBinding ToolBarContent}"/>
+                            <ContentPresenter Grid.Row="1"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Content="{TemplateBinding Content}" />
 
-              <ContentPresenter Grid.Row="2"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                Content="{TemplateBinding Content}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
 
-
-            </Grid>
-          </Border>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-    
-  </Style>
+    </Style>
 
 </Styles>

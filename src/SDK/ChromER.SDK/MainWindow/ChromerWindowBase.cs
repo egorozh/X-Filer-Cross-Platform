@@ -26,9 +26,7 @@ namespace ChromER.SDK
         #endregion
 
         #region Dependency Properties
-
-        public static readonly StyledProperty<object> ToolBarContentProperty =
-            AvaloniaProperty.Register<ChromerWindowBase, object>(nameof(ToolBarContent));
+        
 
         public static readonly StyledProperty<ICommand> CloseCommandProperty = AvaloniaProperty.Register
             <ChromerWindowBase, ICommand>(nameof(CloseCommand));
@@ -42,13 +40,7 @@ namespace ChromER.SDK
         #endregion
 
         #region Public Properties
-
-        public object ToolBarContent
-        {
-            get => GetValue(ToolBarContentProperty);
-            set => SetValue(ToolBarContentProperty, value);
-        }
-
+        
         public ICommand CloseCommand
         {
             get => GetValue(CloseCommandProperty);

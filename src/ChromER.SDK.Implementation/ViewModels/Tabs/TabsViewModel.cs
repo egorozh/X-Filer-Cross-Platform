@@ -17,9 +17,9 @@ namespace ChromER.SDK
         #endregion
 
         #region Public Properties
-        
+
         public ObservableCollection<ITabItem> TabItems { get; }
-        
+
         public ITabItem? CurrentTabItem { get; set; }
 
         public IReadOnlyCollection<IMenuItemViewModel> Bookmarks { get; }
@@ -34,6 +34,7 @@ namespace ChromER.SDK
         public DelegateCommand<object> OpenTabItemInNewWindowCommand { get; }
         public DelegateCommand<object> DuplicateTabCommand { get; }
         public DelegateCommand<object> CloseAllTabsCommand { get; }
+        public DelegateCommand<ITabItem> CloseTabCommand { get; }
 
         #endregion
 
@@ -46,16 +47,19 @@ namespace ChromER.SDK
         {
             _explorerTabFactory = explorerTabFactory;
             _windowFactory = windowFactory;
-            
+
             Bookmarks = bookmarksManager.Bookmarks;
-           
+
             CreateNewTabItemCommand = new DelegateCommand<object>(OnCreateNewTabItem);
             OpenTabItemInNewWindowCommand =
                 new DelegateCommand<object>(OnOpenTabItemInNewWindow, OnCanOpenTabItemInNewWindow);
             DuplicateTabCommand = new DelegateCommand<object>(OnDuplicate);
             CloseAllTabsCommand = new DelegateCommand<object>(OnCloseAllTabs, CanCloseAllTabs);
 
+            CloseTabCommand = new DelegateCommand<ITabItem>(OnCloseTab);
+
             TabItems = new ObservableCollection<ITabItem>(init);
+            CurrentTabItem = TabItems.FirstOrDefault();
 
             Factory = CreateTabVm;
 
@@ -119,6 +123,8 @@ namespace ChromER.SDK
                 TabItems.Remove(item);
         }
 
+        private void OnCloseTab(ITabItem tab) => TabItems.Remove(tab);
+
         #endregion
 
         #region Private Methods
@@ -130,7 +136,7 @@ namespace ChromER.SDK
             OpenTabItemInNewWindowCommand.RaiseCanExecuteChanged();
             CloseAllTabsCommand.RaiseCanExecuteChanged();
         }
-        
+
         #endregion
     }
 }

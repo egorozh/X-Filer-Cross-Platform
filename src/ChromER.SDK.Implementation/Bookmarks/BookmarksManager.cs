@@ -142,6 +142,9 @@ namespace ChromER.SDK
 
         private void OnBookmarkClicked(IList<object> parameters)
         {
+            if (parameters == null)
+                return;
+            
             if (parameters.Count == 2 &&
                 parameters[0] is string path &&
                 parameters[1] is ExplorerTabItemViewModel tabItemViewModel)
