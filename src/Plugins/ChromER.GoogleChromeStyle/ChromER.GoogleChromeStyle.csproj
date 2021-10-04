@@ -14,9 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.6.10" />
-    <PackageReference Include="Avalonia.Xaml.Interactions" Version="0.10.6.10" />
-    <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.6.10" />
+    <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.7.1" />
+    <PackageReference Include="Avalonia.Xaml.Interactions" Version="0.10.7.1" />
+    <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.7.1" />
   </ItemGroup>
 
   <ItemGroup>
