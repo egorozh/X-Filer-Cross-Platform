@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.7" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.7" />
     <PackageReference Include="Avalonia.Desktop" Version="0.10.7" />
     <PackageReference Include="Avalonia.Skia" Version="0.10.7" />

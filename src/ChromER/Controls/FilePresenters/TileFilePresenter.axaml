@@ -7,25 +7,27 @@
              x:Class="ChromER.TileFilePresenter">
 
     <ScrollViewer>
-        <ItemsRepeater Items="{Binding DirectoriesAndFiles}">
+        <ItemsRepeater Items="{Binding DirectoriesAndFiles}"
+                       HorizontalAlignment="Stretch">
+
             <ItemsRepeater.Layout>
-                <WrapLayout />
+                <WrapLayout HorizontalSpacing="10"
+                            VerticalSpacing="10"
+                            Orientation="Horizontal" />
             </ItemsRepeater.Layout>
+
             <ItemsRepeater.ItemTemplate>
                 <DataTemplate>
                     <Grid Background="Transparent"
                           Width="120"
-                          Height="120">
+                          Height="120" RowDefinitions="*,Auto">
                         <Interaction.Behaviors>
                             <EventTriggerBehavior EventName="DoubleTapped">
-                                <InvokeCommandAction Command="{Binding $parent[chromEr:TileFilePresenter].DataContext.OpenCommand}"
-                                                     CommandParameter="{Binding }" />
+                                <InvokeCommandAction
+                                    Command="{Binding $parent[chromEr:TileFilePresenter].DataContext.OpenCommand}"
+                                    CommandParameter="{Binding }" />
                             </EventTriggerBehavior>
                         </Interaction.Behaviors>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
 
                         <Image Source="{Binding Icon}"
                                HorizontalAlignment="Center"
@@ -41,9 +43,9 @@
                 </DataTemplate>
             </ItemsRepeater.ItemTemplate>
         </ItemsRepeater>
-	</ScrollViewer>
+    </ScrollViewer>
 
-	<!--<ListBox Items="{Binding DirectoriesAndFiles}"
+    <!--<ListBox Items="{Binding DirectoriesAndFiles}"
              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
              Background="Transparent">
 

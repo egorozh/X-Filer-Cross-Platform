@@ -1,4 +1,5 @@
-﻿using Avalonia.Markup.Xaml;
+﻿using Avalonia;
+using Avalonia.Markup.Xaml;
 using ChromER.SDK;
 
 namespace ChromER
@@ -9,7 +10,7 @@ namespace ChromER
         {
             InitializeComponent();
 #if DEBUG
-            //this.AttachDevTools();
+            this.AttachDevTools();
 #endif
         }
 
