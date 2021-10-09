@@ -1,13 +1,21 @@
-﻿<chromEr:ChromerApp xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:chromEr="clr-namespace:ChromER"
-                    x:Class="ChromER.App">
+﻿<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:sdk="clr-namespace:ChromER.SDK;assembly=ChromER.SDK.Implementation"
+             xmlns:chromEr="clr-namespace:ChromER"
+             x:Class="ChromER.App">
+
+    <Application.DataTemplates>
+        <DataTemplate DataType="{x:Type sdk:ExplorerTabItemViewModel}">
+            <chromEr:DirectoryTabItem />
+        </DataTemplate>
+    </Application.DataTemplates>
 
     <Application.Styles>
-        <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml" />
-        <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseDark.xaml" />
-
         <StyleInclude Source="avares://ChromER.GoogleChromeStyle/Themes/Generic.axaml" />
+
+        <FluentTheme Mode="Dark" />
+
+        <StyleInclude Source="avares://Dock.Avalonia/Themes/DockFluentTheme.axaml" />
 
     </Application.Styles>
 
@@ -16,9 +24,11 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="avares://ChromER/Themes/Icons.xaml" />
+                <ResourceInclude Source="avares://ChromER/Resources/Templates.axaml" />
+
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 
     </Application.Resources>
 
-</chromEr:ChromerApp>
+</Application>

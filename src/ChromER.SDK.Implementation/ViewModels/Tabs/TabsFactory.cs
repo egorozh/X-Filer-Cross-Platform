@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Dock.Model.Controls;
 
 namespace ChromER.SDK
 {
@@ -17,11 +18,11 @@ namespace ChromER.SDK
             _bookmarksManager = bookmarksManager;
         }
     
-        public ITabsViewModel CreateTabsViewModel(IEnumerable<ITabItem> initItems)
+        public ITabsViewModel CreateTabsViewModel(IEnumerable<IDocument> initItems)
             => new TabsViewModel( _explorerTabFactory, _windowFactory, _bookmarksManager, initItems);
 
         public ITabsViewModel CreateTabsViewModel()
             => new TabsViewModel( _explorerTabFactory, _windowFactory, _bookmarksManager,
-                Enumerable.Empty<ExplorerTabItemViewModel>());
+                Enumerable.Empty<IDocument>());
     }
 }

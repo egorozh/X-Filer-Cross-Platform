@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using Dock.Model.Controls;
 
 namespace ChromER.SDK
 {
@@ -18,14 +19,14 @@ namespace ChromER.SDK
 
         #region Public Properties
 
-        public ObservableCollection<ITabItem> TabItems { get; }
+        public ObservableCollection<IDocument> TabItems { get; }
 
-        public ITabItem? CurrentTabItem { get; set; }
+        public IDocument? CurrentTabItem { get; set; }
 
         public IReadOnlyCollection<IMenuItemViewModel> Bookmarks { get; }
 
-        public Func<IExplorerTabItemViewModel> Factory { get; }
-
+        public Func<IDocument> Factory { get; }
+            
         #endregion
 
         #region Commands
@@ -34,7 +35,7 @@ namespace ChromER.SDK
         public DelegateCommand<object> OpenTabItemInNewWindowCommand { get; }
         public DelegateCommand<object> DuplicateTabCommand { get; }
         public DelegateCommand<object> CloseAllTabsCommand { get; }
-        public DelegateCommand<ITabItem> CloseTabCommand { get; }
+        public DelegateCommand<IDocument> CloseTabCommand { get; }
 
         #endregion
 
@@ -43,7 +44,7 @@ namespace ChromER.SDK
         public TabsViewModel(IExplorerTabFactory explorerTabFactory,
             IWindowFactory windowFactory,
             IBookmarksManager bookmarksManager,
-            IEnumerable<ITabItem> init)
+            IEnumerable<IDocument> init)
         {
             _explorerTabFactory = explorerTabFactory;
             _windowFactory = windowFactory;
@@ -56,9 +57,9 @@ namespace ChromER.SDK
             DuplicateTabCommand = new DelegateCommand<object>(OnDuplicate);
             CloseAllTabsCommand = new DelegateCommand<object>(OnCloseAllTabs, CanCloseAllTabs);
 
-            CloseTabCommand = new DelegateCommand<ITabItem>(OnCloseTab);
+            CloseTabCommand = new DelegateCommand<IDocument>(OnCloseTab);
 
-            TabItems = new ObservableCollection<ITabItem>(init);
+            TabItems = new ObservableCollection<IDocument>(init);
             CurrentTabItem = TabItems.FirstOrDefault();
 
             Factory = CreateTabVm;
@@ -94,9 +95,9 @@ namespace ChromER.SDK
             if (obj is not ExplorerTabItemViewModel directoryTabItem)
                 return;
 
-            TabItems.Remove(directoryTabItem);
+            //TabItems.Remove(directoryTabItem);
 
-            _windowFactory.OpenTabInNewWindow(directoryTabItem);
+            //_windowFactory.OpenTabInNewWindow(directoryTabItem);
         }
 
         private void OnDuplicate(object? obj)
@@ -107,7 +108,7 @@ namespace ChromER.SDK
             TabItems.Add(_explorerTabFactory
                 .CreateExplorerTab(
                     directoryTabItem.CurrentDirectoryFileName,
-                    directoryTabItem.Header));
+                    directoryTabItem.Title));
         }
 
         private bool CanCloseAllTabs(object? obj) => TabItems.Count > 1;
@@ -123,13 +124,13 @@ namespace ChromER.SDK
                 TabItems.Remove(item);
         }
 
-        private void OnCloseTab(ITabItem tab) => TabItems.Remove(tab);
+        private void OnCloseTab(IDocument tab) => TabItems.Remove(tab);
 
         #endregion
 
         #region Private Methods
 
-        private IExplorerTabItemViewModel CreateTabVm() => _explorerTabFactory.CreateRootTab();
+        private IDocument CreateTabVm() => _explorerTabFactory.CreateRootTab();
 
         private void TabItemsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {

@@ -1,11 +1,12 @@
 ﻿using System.IO;
+using Dock.Model.Controls;
 
 namespace ChromER.SDK
 {
     public interface IExplorerTabFactory
     {
-        IExplorerTabItemViewModel CreateExplorerTab(DirectoryInfo directoryInfo);
-        IExplorerTabItemViewModel CreateExplorerTab(string dirPath, string name);
-        IExplorerTabItemViewModel CreateRootTab();
+        IDocument CreateExplorerTab(DirectoryInfo directoryInfo);
+        IDocument CreateExplorerTab(string dirPath, string name);
+        IDocument CreateRootTab();
     }
 }

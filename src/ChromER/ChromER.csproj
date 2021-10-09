@@ -1,46 +1,48 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net5.0</TargetFramework>
 
-    <Nullable>Enable</Nullable>
-  </PropertyGroup>
+		<Nullable>Enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Update="**\*.xaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
-    <AvaloniaResource Include="**\*.xaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
+	<ItemGroup>
+		<Compile Update="**\*.xaml.cs">
+			<DependentUpon>%(Filename)</DependentUpon>
+		</Compile>
+		<AvaloniaResource Include="**\*.xaml">
+			<SubType>Designer</SubType>
+		</AvaloniaResource>
 
-    <AvaloniaResource Include="Assets\*" />
-  </ItemGroup>
+		<AvaloniaResource Include="Assets\*" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.7" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.7" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.7" />
-    <PackageReference Include="Avalonia.Skia" Version="0.10.7" />
-    <PackageReference Include="Autofac" Version="6.2.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Dock.Avalonia" Version="0.10.7.4" />
+		<PackageReference Include="Avalonia.Diagnostics" Version="0.10.7" />
+		<PackageReference Include="Avalonia.ReactiveUI" Version="0.10.7" />
+		<PackageReference Include="Avalonia.Desktop" Version="0.10.7" />
+		<PackageReference Include="Avalonia.Skia" Version="0.10.7" />
+		<PackageReference Include="Autofac" Version="6.3.0" />
+		<PackageReference Include="Dock.Serializer" Version="0.10.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ChromER.SDK.Implementation\ChromER.SDK.Implementation.csproj" />
-    <ProjectReference Include="..\Plugins\ChromER.GoogleChromeStyle\ChromER.GoogleChromeStyle.csproj" />
-    <ProjectReference Include="..\SDK\ChromER.SDK\ChromER.SDK.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ChromER.SDK.Implementation\ChromER.SDK.Implementation.csproj" />
+		<ProjectReference Include="..\Plugins\ChromER.GoogleChromeStyle\ChromER.GoogleChromeStyle.csproj" />
+		<ProjectReference Include="..\SDK\ChromER.SDK\ChromER.SDK.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="Resources\Icons\**">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="Resources\Icons\**">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="bookmarks.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="bookmarks.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>

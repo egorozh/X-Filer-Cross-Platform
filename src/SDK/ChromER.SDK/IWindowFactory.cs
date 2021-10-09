@@ -1,3 +1,4 @@
+using Dock.Model.Controls;
 using Prism.Commands;
 
 namespace ChromER.SDK
@@ -6,6 +7,6 @@ namespace ChromER.SDK
     {
         DelegateCommand<FileEntityViewModel> OpenNewWindowCommand { get; }
             
-        void OpenTabInNewWindow(IExplorerTabItemViewModel tabItem);
+        void OpenTabInNewWindow(IDocument tabItem);
     }
 }

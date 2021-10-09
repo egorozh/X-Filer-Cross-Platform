@@ -2,16 +2,17 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using Dock.Model.ReactiveUI.Controls;
 using Prism.Commands;
 
 namespace ChromER.SDK
 {
-    public class ExplorerTabItemViewModel : TabItemViewModel, IExplorerTabItemViewModel
+    public class ExplorerTabItemViewModel : Document
     {
         #region Private Fields
 
-        private readonly IDirectoryHistory _history;
-        private readonly IFilesPresenterFactory _filesPresenterFactory;
+        private IDirectoryHistory _history;
+        private IFilesPresenterFactory _filesPresenterFactory;
         private string _searchText;
 
         #endregion
@@ -36,21 +37,21 @@ namespace ChromER.SDK
 
         #region Commands
 
-        public DelegateCommand<string> AddBookmarkCommand { get; }
+        public DelegateCommand<string> AddBookmarkCommand { get; private set; }
 
-        public DelegateCommand MoveBackCommand { get; }
+        public DelegateCommand MoveBackCommand { get; private set; }
 
-        public DelegateCommand MoveForwardCommand { get; }
+        public DelegateCommand MoveForwardCommand { get; private set; }
 
         #endregion
 
         #region Constructor
 
-        public ExplorerTabItemViewModel(
+        public void Init(
             IFilesPresenterFactory filesPresenterFactory,
             IBookmarksManager bookmarksManager,
             string directoryPath,
-            string directoryName) : base(directoryName)
+            string directoryName) 
         {
             _filesPresenterFactory = filesPresenterFactory;
             AddBookmarkCommand = bookmarksManager.AddBookmarkCommand;
@@ -60,7 +61,7 @@ namespace ChromER.SDK
             MoveBackCommand = new DelegateCommand(OnMoveBack, OnCanMoveBack);
             MoveForwardCommand = new DelegateCommand(OnMoveForward, OnCanMoveForward);
 
-            Header = _history.Current.DirectoryPathName;
+            Title = _history.Current.DirectoryPathName;
             _searchText = _history.Current.DirectoryPath;
 
             _history.HistoryChanged += History_HistoryChanged;
@@ -70,11 +71,11 @@ namespace ChromER.SDK
             IsTilePresenter = true;
         }
 
-        public ExplorerTabItemViewModel(IFilesPresenterFactory filesPresenterFactory,
+        public void Init(IFilesPresenterFactory filesPresenterFactory,
             IBookmarksManager bookmarksManager,
             DirectoryInfo directoryInfo)
-            : this(filesPresenterFactory, bookmarksManager, directoryInfo.FullName, directoryInfo.Name)
         {
+            Init(filesPresenterFactory, bookmarksManager, directoryInfo.FullName, directoryInfo.Name);
         }
 
         private void DirectoryTabItemViewModelOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -155,7 +156,7 @@ namespace ChromER.SDK
             var current = _history.Current;
 
             SearchText = current.DirectoryPath;
-            Header = current.DirectoryPathName;
+            Title = current.DirectoryPathName;
 
             OpenDirectory();
         }
@@ -169,7 +170,7 @@ namespace ChromER.SDK
             var current = _history.Current;
 
             SearchText = current.DirectoryPath;
-            Header = current.DirectoryPathName;
+            Title = current.DirectoryPathName;
 
             OpenDirectory();
         }
@@ -181,9 +182,9 @@ namespace ChromER.SDK
         private void OpenDirectory(DirectoryInfo directoryInfo)
         {
             SearchText = directoryInfo.FullName;
-            Header = directoryInfo.Name;
+            Title = directoryInfo.Name;
 
-            _history.Add(SearchText, Header);
+            _history.Add(SearchText, Title);
 
             OpenDirectory();
         }

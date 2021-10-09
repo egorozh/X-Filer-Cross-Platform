@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Dock.Model.Controls;
 
 namespace ChromER.SDK
 {
@@ -14,14 +15,31 @@ namespace ChromER.SDK
             _bookmarksManager = bookmarksManager;
         }
 
-        public IExplorerTabItemViewModel CreateExplorerTab(DirectoryInfo directoryInfo)
-            => new ExplorerTabItemViewModel(_filesPresenterFactory, _bookmarksManager, directoryInfo);
+        public IDocument CreateExplorerTab(DirectoryInfo directoryInfo)
+            => CreateExplorerTabItemViewModel(directoryInfo);
 
-        public IExplorerTabItemViewModel CreateExplorerTab(string dirPath, string name)
-            => new ExplorerTabItemViewModel(_filesPresenterFactory, _bookmarksManager, dirPath, name);
+        public IDocument CreateExplorerTab(string dirPath, string name)
+            => CreateExplorerTabItemViewModel(dirPath, name);
 
-        public IExplorerTabItemViewModel CreateRootTab()
-            => new ExplorerTabItemViewModel(_filesPresenterFactory, _bookmarksManager, IChromerApp.RootName,
-                IChromerApp.RootName);
+        public IDocument CreateRootTab()
+            => CreateExplorerTabItemViewModel(IChromerApp.RootName, IChromerApp.RootName);
+
+        private ExplorerTabItemViewModel CreateExplorerTabItemViewModel(DirectoryInfo directoryInfo)
+        {
+            var item = new ExplorerTabItemViewModel();
+
+            item.Init(_filesPresenterFactory, _bookmarksManager, directoryInfo);
+
+            return item;
+        }
+
+        private ExplorerTabItemViewModel CreateExplorerTabItemViewModel(string dirPath, string name)
+        {
+            var item = new ExplorerTabItemViewModel();
+
+            item.Init(_filesPresenterFactory, _bookmarksManager, dirPath, name);
+
+            return item;
+        }
     }
 }

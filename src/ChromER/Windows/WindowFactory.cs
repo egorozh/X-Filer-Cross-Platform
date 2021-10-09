@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using ChromER.SDK;
 using Prism.Commands;
 using System;
+using Dock.Model.Controls;
 
 namespace ChromER
 {
@@ -21,7 +22,7 @@ namespace ChromER
             OpenNewWindowCommand = new DelegateCommand<FileEntityViewModel>(OnOpenNewWindow);
         }
 
-        public void OpenTabInNewWindow(IExplorerTabItemViewModel tabItem)
+        public void OpenTabInNewWindow(IDocument tabItem)
         {
             var tabsVm = _tabsFactory.Invoke().CreateTabsViewModel(new[]
             {

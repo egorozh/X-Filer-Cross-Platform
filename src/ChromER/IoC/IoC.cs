@@ -27,6 +27,9 @@ namespace ChromER
             services.RegisterType<FilesPresenterFactory>().As<IFilesPresenterFactory>().SingleInstance();
             services.RegisterType<ExplorerTabFactory>().As<IExplorerTabFactory>().SingleInstance();
             services.RegisterType<TabsFactory>().As<ITabsFactory>().SingleInstance();
+
+            services.RegisterType<MainDockFactory>().AsSelf();
+            services.RegisterType<MainWindowViewModel>().AsSelf();
         }
     }
 }
