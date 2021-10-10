@@ -31,4 +31,30 @@
 
     </Application.Resources>
 
+    <TrayIcon.Icons>
+        <TrayIcons>
+            <TrayIcon Icon="/Assets/avalonia-logo.ico" ToolTipText="Avalonia Tray Icon ToolTip">
+                <TrayIcon.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="Settings">
+                            <NativeMenu>
+                                <NativeMenuItem Header="Option 1" ToggleType="Radio" 
+                                                IsChecked="True"
+                                                Command="{Binding ToggleCommand}" />
+                                <NativeMenuItem Header="Option 2" ToggleType="Radio" 
+                                                IsChecked="True" Command="{Binding ToggleCommand}" />
+                                <NativeMenuItemSeparator />
+                                <NativeMenuItem Header="Option 3" ToggleType="CheckBox" IsChecked="True" Command="{Binding ToggleCommand}" />
+                                <NativeMenuItem Icon="/Assets/avalonia-logo.ico" 
+                                                Header="Restore Defaults" 
+                                                Command="{Binding ToggleCommand}" />
+                            </NativeMenu>
+                        </NativeMenuItem>
+                        <NativeMenuItem Header="Exit" Command="{Binding ExitCommand}" />
+                    </NativeMenu>
+                </TrayIcon.Menu>
+            </TrayIcon>
+        </TrayIcons>
+    </TrayIcon.Icons>
+
 </Application>

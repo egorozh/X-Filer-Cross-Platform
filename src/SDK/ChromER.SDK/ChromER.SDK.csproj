@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.7" />
-    <PackageReference Include="Dock.Model" Version="0.10.7.4" />
+    <PackageReference Include="Avalonia" Version="0.10.8" />
+    <PackageReference Include="Dock.Model" Version="0.10.8" />
     <PackageReference Include="Prism.Core" Version="8.1.97" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
   </ItemGroup>

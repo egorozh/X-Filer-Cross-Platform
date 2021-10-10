@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using Avalonia.Controls;
 
 namespace ChromER.SDK
 {
@@ -111,7 +112,6 @@ namespace ChromER.SDK
                 [nameof(IProportionalDock)] = () => _context,
                 [nameof(IDocumentDock)] = () => _context,
                 [nameof(IToolDock)] = () => _context,
-                [nameof(ISplitterDockable)] = () => _context,
                 [nameof(IDockWindow)] = () => _context,
                 [nameof(IDocument)] = () => _context,
                 [nameof(ITool)] = () => _context,
@@ -140,7 +140,7 @@ namespace ChromER.SDK
                 {
                     var hostWindow = new HostWindow()
                     {
-                        [!HostWindow.TitleProperty] = new Binding("ActiveDockable.Title")
+                        [!Window.TitleProperty] = new Binding("ActiveDockable.Title")
                     };
                     return hostWindow;
                 }

@@ -40,6 +40,8 @@ namespace ChromER
             CultureInfo currentCulture = new("Ru-ru");
             CultureInfo.CurrentCulture = currentCulture;
             CultureInfo.CurrentUICulture = currentCulture;
+
+            this.DataContext = new AppModel();
         }
 
         #endregion
@@ -50,30 +52,26 @@ namespace ChromER
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                var jsonLayout = string.Empty;
-
-                if (File.Exists("layout.json"))
-                    jsonLayout = File.ReadAllText("layout.json");
-
-                var mainWindowViewModel = Host.Resolve<MainWindowViewModel>();
                 var factory = Host.Resolve<MainDockFactory>();
 
+                const bool isLoadJson = false;
+
                 IRootDock layout;
-                if (File.Exists("layout.json"))
+
+                if (isLoadJson && File.Exists("layout.json"))
                 {
+                    var jsonLayout =  File.ReadAllText("layout.json");
+
                     layout = new DockSerializer(typeof(List<>)).Deserialize<RootDock>(jsonLayout);
                     factory.InitLayoutAfterDeserialize(layout);
                 }
-
                 else
                 {
                     layout = factory.CreateLayout();
                     factory.InitLayout(layout);
                 }
-                   
-
-            
-
+                
+                var mainWindowViewModel = Host.Resolve<MainWindowViewModel>();
                 mainWindowViewModel.Factory = factory;
                 mainWindowViewModel.Layout = layout;
 
@@ -90,22 +88,12 @@ namespace ChromER
 
         #region Private Methods
 
-        private void SetTheme(ChromerTheme newTheme)
-        {
-            if (_currentTheme != null)
-            {
-                //var resourceDictionaryToRemove =
-                //    Resources.MergedDictionaries.FirstOrDefault(r => r.Source == _currentTheme.GetResourceUri());
-                //if (resourceDictionaryToRemove != null)
-                //    Resources.MergedDictionaries.Remove(resourceDictionaryToRemove);
-            }
 
-            _currentTheme = newTheme;
-
-            //if (LoadComponent(_currentTheme.GetResourceUri()) is ResourceDictionary resourceDict)
-            //    Resources.MergedDictionaries.Add(resourceDict);
-        }
-
+        
         #endregion
+    }
+
+    public class AppModel : BaseViewModel
+    {
     }
 }
