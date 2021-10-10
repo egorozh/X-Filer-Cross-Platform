@@ -3,7 +3,7 @@
 
         xmlns:sdk="clr-namespace:ChromER.SDK;assembly=ChromER.SDK">
 
-    <StyleInclude Source="/Themes/Others/ChromeTabs.xaml" />
+    <StyleInclude Source="/Themes/Others/ChromeTabs.axaml" />
 
     <Styles.Resources>
         <DataTemplate x:Key="TabHeaderTemplate">

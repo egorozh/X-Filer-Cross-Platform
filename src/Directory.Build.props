@@ -1,0 +1,15 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+ 
+    <Nullable>Enable</Nullable>
+ 
+    <Platforms>x64</Platforms>
+
+    <Version>0.2.6</Version>
+
+    <Company>X-Filer</Company>
+    <Product>X-Filer</Product>
+    <Authors>Egorozh</Authors>
+  </PropertyGroup>
+</Project>

@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using Autofac;
+﻿using Autofac;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using ChromER.SDK;
-using System.Globalization;
-using System.IO;
 using Dock.Model.Controls;
 using Dock.Model.ReactiveUI.Controls;
 using Dock.Serializer;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 
 namespace ChromER
 {
@@ -20,9 +20,7 @@ namespace ChromER
         }
 
         #region Private Fields
-
-        private ChromerTheme? _currentTheme;
-
+        
         #endregion
 
         #region Public Properties

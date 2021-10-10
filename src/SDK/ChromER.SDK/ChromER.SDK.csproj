@@ -1,11 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <Nullable>Enable</Nullable>
-  </PropertyGroup>
-
-  <ItemGroup>
+	<ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.8" />
     <PackageReference Include="Dock.Model" Version="0.10.8" />
     <PackageReference Include="Prism.Core" Version="8.1.97" />
